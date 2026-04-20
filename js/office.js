@@ -26,15 +26,15 @@ try {
   try {
     robotGltfData = await loadUrl(localRobot);
   } catch (e1) {
-    console.warn('[factorAI] Local models/RobotExpressive.glb failed, trying CDN:', e1);
+    console.warn('[theWorker] Local models/RobotExpressive.glb failed, trying CDN:', e1);
     try {
       robotGltfData = await loadUrl(remoteRobot);
     } catch (e2) {
-      console.warn('[factorAI] RobotExpressive GLTF could not be loaded:', e2);
+      console.warn('[theWorker] RobotExpressive GLTF could not be loaded:', e2);
     }
   }
 } catch (e) {
-  console.warn('[factorAI] RobotExpressive GLTF could not be loaded:', e);
+  console.warn('[theWorker] RobotExpressive GLTF could not be loaded:', e);
 }
 
 let abbKinematics = null;
@@ -67,7 +67,7 @@ try {
   abbArm.userData._pendingAdd = true;
   window._abbArm = abbArm;
 } catch (e) {
-  console.warn('[factorAI] ABB Collada could not be loaded:', e);
+  console.warn('[theWorker] ABB Collada could not be loaded:', e);
 }
 
 // --- Escena base ---

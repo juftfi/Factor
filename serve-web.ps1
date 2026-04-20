@@ -2,7 +2,7 @@
 Set-Location $PSScriptRoot
 $port = 8080
 Write-Host ""
-Write-Host "  factorAI — local server" -ForegroundColor Green
+Write-Host "  theWorker — local server" -ForegroundColor Green
 Write-Host "  http://localhost:$port/documentation.html  (docs + 3D carousel)" -ForegroundColor Cyan
 Write-Host "  http://localhost:$port/                    (office)" -ForegroundColor Cyan
 Write-Host ""

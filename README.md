@@ -1,19 +1,19 @@
 <img width="1500" height="500" alt="image" src="https://github.com/user-attachments/assets/7f1e8144-9bbd-4c99-8a1a-f6129c35ac93" />
 
 
-# 🚀 factorAI
+# 🚀 theWorker
 
 **AI workers for your crypto office**
 
-factorAI is an interactive 3D crypto workspace where autonomous AI workers help you operate, research, trade, and build, all in one place.
+theWorker is an interactive 3D crypto workspace where autonomous AI workers help you operate, research, trade, and build, all in one place.
 
-Instead of switching between tools, dashboards, and tabs, factorAI brings everything into a single environment where you can delegate tasks and stay focused on execution.
+Instead of switching between tools, dashboards, and tabs, theWorker brings everything into a single environment where you can delegate tasks and stay focused on execution.
 
 ---
 
 ## 🧠 Overview
 
-factorAI is a browser-based 3D office powered by AI agents that handle:
+theWorker is a browser-based 3D office powered by AI agents that handle:
 
 - 📰 Crypto news aggregation  
 - 🧵 Social content generation  
@@ -177,7 +177,7 @@ Yes, via localStorage
 
 ## 📌 Vision
 
-factorAI turns crypto workflows into a **coordinated AI system**, not a set of disconnected tools.
+theWorker turns crypto workflows into a **coordinated AI system**, not a set of disconnected tools.
 
 You don’t open apps.  
 You **run an office.**
