@@ -1379,7 +1379,7 @@ async function postSelectedTweetToTwitter(tweetText, creds) {
 
 function openTweetIntent(tweetText) {
   const normalized = stripEmojis(tweetText).replace(/\s+/g, ' ').trim().slice(0, 260);
-  const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(normalized)}`;
+  const intentUrl = `https://x.com/0xWorkerLife/intent/tweet?text=${encodeURIComponent(normalized)}`;
   window.open(intentUrl, '_blank', 'noopener,noreferrer');
 }
 
