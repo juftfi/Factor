@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>factorAI · Documentation</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <!-- Import map for the 3D modules; keep keys in sync with index.html -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #050507;
+      --bg-soft: #0b0b11;
+      --panel: #12131a;
+      --panel-soft: rgba(18,19,26,0.78);
+      --line: rgba(255,255,255,0.12);
+      --text: #f3f4f6;
+      --muted: #a0a7b4;
+      --accent: #d6ad2f;
+      --accent-dark: #d6ad2f;
+      --sintra-purple: #7c5cff;
+      --sintra-purple-soft: rgba(124,92,255,0.16);
+      --scoop: #3498DB;
+      --buzz: #F5C518;
+      --forge: #2ECC71;
+      --sage: #E91E63;
+      --quant: #9B59B6;
+      --radius-lg: 24px;
+      --shadow: 0 32px 80px rgba(0,0,0,0.55);
+      --shadow-sm: 0 14px 36px rgba(0,0,0,0.35);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background:
+        radial-gradient(1000px 460px at 50% -8%, rgba(124,92,255,0.20), transparent 65%),
+        radial-gradient(1000px 500px at 50% 120%, rgba(0,0,0,0.85), transparent 60%),
+        linear-gradient(180deg, #090a10 0%, #040405 100%);
+      color: var(--text);
+      font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+    }
+    a { color: #9f8bff; text-decoration: none; font-weight: 600; }
+    a:hover { text-decoration: underline; }
+    strong { color: #ffffff; }
+    em { color: #c1c7d2; font-style: italic; }
+    p { margin-bottom: 10px; }
+    ul { padding-left: 20px; }
+    li { margin: 6px 0; line-height: 1.55; }
+    code {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 6px;
+      padding: 1px 7px;
+      font-size: 12px;
+      color: #cbbcff;
+      font-family: ui-monospace, 'Courier New', Courier, monospace;
+    }
+
+    /* TOP NAV */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6,6,9,0.72);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-brand img {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 0 18px rgba(124,92,255,0.45);
+    }
+    .nav-brand-text {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f9fafb;
+    }
+    .nav-brand-text span { color: var(--accent-dark); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-links a {
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: color 0.15s, background 0.15s;
+      text-decoration: none;
+    }
+    .nav-links a:hover {
+      color: var(--sintra-purple);
+      background: var(--sintra-purple-soft);
+    }
+    .nav-links .sep {
+      color: rgba(17,24,39,0.15);
+      font-size: 11px;
+      pointer-events: none;
+    }
+
+    /* MAIN WRAPPER */
+    .page { max-width: 1240px; margin: 0 auto; padding: 0 28px 96px; }
+
+    /* HERO */
+    #hero {
+      min-height: 520px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+      padding: 64px clamp(22px, 4.2vw, 42px) 48px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      background:
+        linear-gradient(120deg, rgba(0,0,0,0.62) 5%, rgba(0,0,0,0.22) 48%, rgba(0,0,0,0.72) 100%),
+        radial-gradient(1200px 480px at 75% 10%, rgba(255,255,255,0.12), transparent 58%),
+        #0f1015;
+      box-shadow: var(--shadow);
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 420px at -3% 55%, rgba(0,0,0,0.55), transparent 66%),
+        radial-gradient(ellipse 580px 380px at 105% 25%, rgba(124,92,255,0.20), transparent 58%);
+      pointer-events: none;
+    }
+    .hero-left {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #d8ceff;
+      border: 1px solid rgba(255,255,255,0.26);
+      border-radius: 999px;
+      padding: 5px 12px;
+      margin-bottom: 20px;
+      background: rgba(255,255,255,0.07);
+    }
+    .hero-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(42px, 5.5vw, 68px);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .hero-title strong {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--accent-dark);
+    }
+    .hero-ticker {
+      font-size: clamp(15px, 2vw, 18px);
+      font-weight: 600;
+      color: #c5cada;
+      letter-spacing: 0.04em;
+      margin-bottom: 22px;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: #dde1ea;
+      max-width: 520px;
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.22);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 14px;
+      background: rgba(12,14,21,0.72);
+      color: #f0f3f8;
+      letter-spacing: 0.03em;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+    .chip.blue { border-color: rgba(52,152,219,0.25); background: rgba(52,152,219,0.08); color: #2563eb; }
+    .chip.green { border-color: rgba(46,204,113,0.25); background: rgba(46,204,113,0.08); color: #059669; }
+    .chip.purple { border-color: rgba(155,89,182,0.25); background: rgba(155,89,182,0.08); color: #7c3aed; }
+    .chip.amber { border-color: rgba(245, 158, 11, 0.28); background: rgba(245, 158, 11, 0.10); color: #f59e0b; }
+    .chip.cyan { border-color: rgba(34, 211, 238, 0.28); background: rgba(34, 211, 238, 0.10); color: #06b6d4; }
+    .chip.rose { border-color: rgba(244, 63, 94, 0.30); background: rgba(244, 63, 94, 0.10); color: #f43f5e; }
+    .hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      min-height: 420px;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .hero-robot-wrap {
+      width: min(100%, 560px);
+      height: 420px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-robot-wrap::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.05) 70%, transparent 100%);
+      pointer-events: none;
+    }
+    #hero-robot-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: transparent;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* AGENTS CAROUSEL — multi-card strip, side fade, peek of neighbors */
+    #agents-carousel {
+      margin: 72px 0 48px;
+      padding: 12px 0 8px;
+      overflow: visible;
+      scroll-margin-top: 88px;
+      --carousel-gap: 14px;
+      --carousel-card-w: min(280px, 82vw);
+    }
+    .carousel-head {
+      text-align: center;
+      max-width: 880px;
+      margin: 0 auto 44px;
+      padding: 8px 12px 0;
+      overflow: visible;
+    }
+    .carousel-head .eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sintra-purple);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .carousel-head h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(32px, 4.5vw, 46px);
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 1.22;
+      margin-bottom: 14px;
+      padding-top: 2px;
+    }
+    .carousel-head p {
+      font-size: 17px;
+      color: #d0d4de;
+      line-height: 1.65;
+    }
+    .carousel-shell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 12px clamp(8px, 2vw, 20px);
+    }
+    .carousel-viewport-outer {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      position: relative;
+      border-radius: 4px;
+      /* Room for scaled active card + iframe chrome so top/bottom are not clipped */
+      padding: 22px 0 26px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(0, 0, 0, 0.35) 4%,
+        #000 12%,
+        #000 88%,
+        rgba(0, 0, 0, 0.35) 96%,
+        transparent 100%
+      );
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(0, 0, 0, 0.35) 4%,
+        #000 12%,
+        #000 88%,
+        rgba(0, 0, 0, 0.35) 96%,
+        transparent 100%
+      );
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+    }
+    .carousel-viewport-outer.carousel-layout-ready {
+      opacity: 1;
+    }
+    .carousel-track {
+      display: flex;
+      flex-direction: row;
+      gap: var(--carousel-gap);
+      width: max-content;
+      will-change: transform;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      padding: 6px 0 8px;
+      align-items: stretch;
+    }
+    .carousel-card {
+      width: var(--carousel-card-w);
+      flex-shrink: 0;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(180deg, #1a1c28 0%, #12141c 100%);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      opacity: 0.62;
+      transition: opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+      cursor: pointer;
+    }
+    .carousel-card.is-active {
+      opacity: 1;
+      border-color: rgba(255, 255, 255, 0.28);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+      transform: scale(1.01);
+      z-index: 1;
+    }
+    .carousel-card:focus-visible {
+      outline: 2px solid var(--sintra-purple);
+      outline-offset: 2px;
+    }
+    .carousel-card-visual {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      background: #0c0e14;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .carousel-card-visual iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: transparent;
+    }
+    .carousel-card-body {
+      padding: 16px 16px 20px;
+      text-align: left;
+    }
+    .carousel-card-name {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .carousel-card-name span { color: var(--accent-dark); }
+    .carousel-card-role {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .carousel-card-tag {
+      font-size: 14px;
+      color: #c8ced9;
+      line-height: 1.55;
+      margin: 0;
+    }
+    .carousel-nav {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      background: rgba(28, 30, 38, 0.78);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      line-height: 1;
+      color: #f8fafc;
+      transition: background 0.2s, transform 0.15s, border-color 0.2s;
+      z-index: 2;
+    }
+    .carousel-nav:hover {
+      background: rgba(45, 48, 58, 0.92);
+      border-color: rgba(255, 255, 255, 0.55);
+    }
+    .carousel-nav:active { transform: scale(0.96); }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 28px 12px 36px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .carousel-dots button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .carousel-dots button[aria-current="true"] {
+      background: var(--sintra-purple);
+      transform: scale(1.15);
+    }
+
+
+    /* STATS ROW */
+    #stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin: 40px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-block {
+      background: var(--panel);
+      padding: 28px 24px;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .stat-block:hover { background: #1a1b24; }
+    .stat-num {
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .stat-sub {
+      font-size: 13px;
+      color: #c8ceda;
+      margin-top: 4px;
+    }
+
+    /* SECTION TITLES */
+    .section-header {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-header .eyebrow {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sintra-purple);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .section-header h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+    .section-header p {
+      max-width: 640px;
+      font-size: 15px;
+      color: #c3cada;
+      margin-top: 10px;
+    }
+
+    /* WORKERS */
+    #workers { margin: 60px 0; }
+    .worker-card {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--panel);
+      margin-bottom: 24px;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .worker-card:hover {
+      box-shadow: var(--shadow);
+      border-color: rgba(109,40,217,0.15);
+    }
+    .worker-card.reverse { direction: rtl; }
+    .worker-card.reverse > * { direction: ltr; }
+    .worker-canvas-wrap {
+      width: 280px;
+      height: 320px;
+      position: relative;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .worker-canvas-wrap canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .worker-content {
+      padding: 36px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .worker-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+    .worker-badge .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+    .worker-content h2 {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #f8fafc;
+      margin-bottom: 6px;
+    }
+    .worker-content h2 span { color: var(--accent-dark); }
+    .worker-role {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .worker-content p {
+      font-size: 14.5px;
+      color: #d7dce7;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .worker-content h3 {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 16px 0 8px;
+      border-left: 3px solid var(--sintra-purple);
+      padding-left: 10px;
+    }
+    .worker-content ul {
+      font-size: 13.5px;
+      color: #d7dce7;
+    }
+    .worker-content li { margin: 5px 0; }
+
+    /* worker color themes */
+    .wc-scoop .worker-canvas-wrap { background: radial-gradient(ellipse at center, rgba(52,152,219,0.12) 0%, transparent 70%); }
+    .wc-buzz .worker-canvas-wrap { background: radial-gradient(ellipse at center, rgba(245,197,24,0.1) 0%, transparent 70%); }
+    .wc-forge .worker-canvas-wrap { background: radial-gradient(ellipse at center, rgba(46,204,113,0.1) 0%, transparent 70%); }
+    .wc-sage .worker-canvas-wrap { background: radial-gradient(ellipse at center, rgba(233,30,99,0.1) 0%, transparent 70%); }
+    .wc-quant .worker-canvas-wrap { background: radial-gradient(ellipse at center, rgba(155,89,182,0.1) 0%, transparent 70%); }
+    .wc-scout .worker-canvas-wrap { background: radial-gradient(ellipse at center, rgba(255,87,34,0.1) 0%, transparent 70%); }
+    .wc-scoop .worker-badge { background: rgba(52,152,219,0.1); color: #3498DB; border: 1px solid rgba(52,152,219,0.25); }
+    .wc-scoop .worker-badge .dot { background: #3498DB; }
+    .wc-buzz .worker-badge { background: rgba(245,197,24,0.1); color: #F5C518; border: 1px solid rgba(245,197,24,0.25); }
+    .wc-buzz .worker-badge .dot { background: #F5C518; }
+    .wc-forge .worker-badge { background: rgba(46,204,113,0.1); color: #2ECC71; border: 1px solid rgba(46,204,113,0.25); }
+    .wc-forge .worker-badge .dot { background: #2ECC71; }
+    .wc-sage .worker-badge { background: rgba(233,30,99,0.1); color: #E91E63; border: 1px solid rgba(233,30,99,0.25); }
+    .wc-sage .worker-badge .dot { background: #E91E63; }
+    .wc-quant .worker-badge { background: rgba(155,89,182,0.1); color: #9B59B6; border: 1px solid rgba(155,89,182,0.25); }
+    .wc-quant .worker-badge .dot { background: #9B59B6; }
+    .wc-scout .worker-badge { background: rgba(255,87,34,0.1); color: #FF5722; border: 1px solid rgba(255,87,34,0.25); }
+    .wc-scout .worker-badge .dot { background: #FF5722; }
+
+    /* HOW IT WORKS */
+    #how-it-works { margin: 60px 0; }
+    .timeline-scroll {
+      overflow-x: auto;
+      padding-bottom: 12px;
+    }
+    .timeline-scroll::-webkit-scrollbar { height: 4px; }
+    .timeline-scroll::-webkit-scrollbar-track { background: transparent; }
+    .timeline-scroll::-webkit-scrollbar-thumb { background: rgba(248,194,0,0.2); border-radius: 2px; }
+    .timeline-row {
+      display: flex;
+      gap: 0;
+      min-width: max-content;
+      position: relative;
+    }
+    .timeline-row::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 28px;
+      right: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--sintra-purple) 0%, rgba(109,40,217,0.12) 100%);
+      z-index: 0;
+    }
+    .timeline-step {
+      width: 220px;
+      flex-shrink: 0;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .timeline-num {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--sintra-purple);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(109,40,217,0.25);
+      font-family: monospace;
+    }
+    .timeline-step-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 8px;
+    }
+    .timeline-step-desc {
+      font-size: 12.5px;
+      color: #b9c1cf;
+      line-height: 1.6;
+    }
+
+    /* OFFICE CONTROLS */
+    #office-controls { margin: 60px 0; }
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .control-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 24px 28px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .control-item:hover {
+      border-color: rgba(109,40,217,0.2);
+      box-shadow: var(--shadow-sm);
+    }
+    .control-item h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--sintra-purple);
+      margin-bottom: 8px;
+    }
+    .control-item p {
+      font-size: 13.5px;
+      color: #b9c1cf;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .control-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 2px 8px;
+      margin-bottom: 10px;
+    }
+
+    /* FORGE FLOW */
+    #forge-flow { margin: 60px 0; }
+    .forge-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .forge-step {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 0;
+      position: relative;
+    }
+    .forge-step:not(:last-child) .forge-step-line {
+      position: absolute;
+      left: 28px;
+      top: 56px;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(109,40,217,0.35) 0%, rgba(109,40,217,0.06) 100%);
+      z-index: 0;
+    }
+    .forge-step-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .forge-step-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--sintra-purple);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 18px rgba(109,40,217,0.3);
+      font-family: monospace;
+    }
+    .forge-step-right {
+      padding: 8px 0 32px 24px;
+    }
+    .forge-step-right h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 6px;
+    }
+    .forge-step-right p {
+      font-size: 13.5px;
+      color: #b9c1cf;
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    .forge-ref-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .ref-panel {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 22px 24px;
+    }
+    .ref-panel h3 {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      border-left: 3px solid var(--sintra-purple);
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+    .ref-panel ul { font-size: 13px; color: #b9c1cf; }
+    .ref-panel li { margin: 6px 0; }
+    .ref-panel p { font-size: 13px; color: #b9c1cf; }
+
+    /* FAQ */
+    #faq { margin: 60px 0; }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .faq-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 22px 24px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .faq-card:hover {
+      border-color: rgba(109,40,217,0.18);
+      box-shadow: var(--shadow-sm);
+    }
+    .faq-card h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .faq-card h3::before {
+      content: 'Q';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      background: var(--sintra-purple-soft);
+      color: var(--sintra-purple);
+      font-size: 10px;
+      font-family: monospace;
+      font-weight: 900;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .faq-card p {
+      font-size: 13px;
+      color: #b9c1cf;
+      margin: 0;
+      padding-left: 30px;
+    }
+
+    /* ARCADE NOTE */
+    .arcade-banner {
+      border: 1px solid rgba(155,89,182,0.2);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(155,89,182,0.06), transparent);
+      padding: 28px 32px;
+      margin: 40px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .arcade-banner-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .arcade-banner h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 6px;
+    }
+    .arcade-banner p { font-size: 13.5px; color: #b9c1cf; margin: 0; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 32px 0;
+      margin-top: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-left {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .footer-left strong { color: var(--accent-dark); }
+    .footer-right {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footer-right a { color: var(--sintra-purple); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .page { padding: 0 16px 60px; }
+      #hero { grid-template-columns: 1fr; min-height: auto; padding: 48px clamp(20px, 5vw, 32px) 40px; }
+      .hero-right { order: -1; margin-bottom: 8px; }
+      .carousel-shell { flex-wrap: nowrap; gap: 6px; }
+      .carousel-nav { width: 40px; height: 40px; font-size: 18px; }
+      #stats { grid-template-columns: repeat(2, 1fr); }
+      .worker-card { grid-template-columns: 1fr; }
+      .worker-card.reverse { direction: ltr; }
+      .worker-canvas-wrap { width: 100%; height: 220px; }
+      .forge-ref-grid { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .controls-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 0; }
+      .nav-links a { padding: 6px 8px; font-size: 11px; }
+      .nav-links .sep { display: none; }
+    }
+    @media (max-width: 600px) {
+      #stats { grid-template-columns: 1fr 1fr; }
+      .topnav { padding: 0 16px; }
+    }
+
+    .file-tip {
+      background: #fef3c7;
+      border-bottom: 1px solid #f59e0b;
+      padding: 10px 28px;
+      font-size: 13px;
+      color: #92400e;
+      line-height: 1.5;
+    }
+    .file-tip code { font-size: 12px; background: rgba(255,255,255,0.75); padding: 2px 8px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <div id="file-protocol-tip" class="file-tip" hidden>
+    <strong>Para ver el robot 3D:</strong> no abras el HTML con doble clic (<code>file://</code>). En la carpeta del proyecto ejecuta
+    <code>serve-web.ps1</code> o <code>python -m http.server 8080</code> y entra en
+    <code>http://localhost:8080/documentation.html</code>
+  </div>
+  <script>
+    if (location.protocol === 'file:') {
+      var t = document.getElementById('file-protocol-tip');
+      if (t) t.hidden = false;
+    }
+  </script>
+
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <div class="nav-brand">
+      <img src="logo.png" alt="factorAI">
+      <span class="nav-brand-text">factorAI</span>
+    </div>
+    <div class="nav-links">
+      <a href="#hero">Overview</a>
+      <span class="sep">·</span>
+      <a href="#agents-carousel">Team</a>
+      <span class="sep">·</span>
+      <a href="#workers">Workers</a>
+      <span class="sep">·</span>
+      <a href="#forge-flow">Forge Flow</a>
+      <span class="sep">·</span>
+      <a href="#faq">FAQ</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-left">
+        <span class="hero-eyebrow">Documentation · v1</span>
+        <h1 class="hero-title">AI workers for <strong>your crypto office</strong></h1>
+        <div class="hero-ticker">factorAI</div>
+        <p class="hero-desc">
+          A fully interactive 3D office where six AI workers live at their desks with news, socials,
+          markets, four.meme launches, and on-chain tools, so you can delegate the busywork and stay
+          focused on the trade.
+        </p>
+        <div class="hero-chips">
+          <span class="chip">Real-time 3D office</span>
+          <span class="chip blue">BNB Chain · MetaMask</span>
+          <span class="chip green">four.meme Launcher</span>
+          <span class="chip purple">Perpetuals minigame</span>
+          <span class="chip amber">Online research</span>
+          <span class="chip cyan">Crypto news</span>
+          <span class="chip rose">Socials management</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-robot-wrap">
+          <canvas id="hero-robot-canvas" aria-label="Hero worker robot"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div id="stats">
+      <div class="stat-block">
+        <div class="stat-num">6</div>
+        <div class="stat-label">AI Workers</div>
+        <div class="stat-sub">Live in the office</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num" style="font-size:26px; padding-top:8px;">BNB</div>
+        <div class="stat-label">Chain</div>
+        <div class="stat-sub">Live on-chain · Chain ID 56</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num" style="font-size:22px; padding-top:10px;">four.meme</div>
+        <div class="stat-label">Token Launcher</div>
+        <div class="stat-sub">Real on-chain deploys</div>
+      </div>
+    </div>
+
+    <!-- AGENTS CAROUSEL: multi-card strip + side fade (iframes → robot-preview.html) -->
+    <section id="agents-carousel" aria-label="AI workers carousel">
+      <div class="carousel-head">
+        <span class="eyebrow">Find the right worker</span>
+        <h2>Meet your digital team</h2>
+      </div>
+      <div class="carousel-shell">
+        <button type="button" class="carousel-nav prev" id="carousel-prev" aria-label="Previous worker">‹</button>
+        <div class="carousel-viewport-outer" id="carousel-outer">
+          <div class="carousel-track" id="carousel-track"></div>
+        </div>
+        <button type="button" class="carousel-nav next" id="carousel-next" aria-label="Next worker">›</button>
+      </div>
+      <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Worker slides"></div>
+    </section>
+
+    <!-- WORKERS -->
+    <section id="workers">
+      <div class="section-header">
+        <span class="eyebrow">Meet the team</span>
+        <h2>The Workers</h2>
+        <p>
+          Six AI-powered workers live in the 3D office. Each one is clickable and has a dedicated panel
+          with real tools, market data, content generation, token launching, skill discovery, and web research.
+        </p>
+      </div>
+
+      <!-- SCOOP -->
+      <div class="worker-card wc-scoop">
+        <div class="worker-canvas-wrap">
+          <iframe src="robot-preview.html?color=3498DB&amp;emote=Jump" width="280" height="320" frameborder="0" scrolling="no" style="background:transparent;border:none;"></iframe>
+        </div>
+        <div class="worker-content">
+          <div class="worker-badge"><span class="dot"></span>Crypto News</div>
+          <h2><span>Scoop</span></h2>
+          <div class="worker-role">Information Officer</div>
+          <p>
+            Scoop is the office information officer. When you click him, a news panel opens showing
+            a curated set of current crypto headlines fetched through the server and processed by AI
+            into readable summaries.
+          </p>
+          <h3>What Scoop does</h3>
+          <ul>
+            <li>Fetches real-time crypto news via the <code>/api/ethan-news</code> server endpoint.</li>
+            <li>Formats each article with a headline, source, and AI-generated short summary.</li>
+            <li>Stores recent news in the meeting summary for team report contributions.</li>
+            <li>Acts as base container for Quant and Sage's overlay panel system.</li>
+          </ul>
+          <h3>How to use</h3>
+          <ul>
+            <li>Click Scoop in the 3D office. His news panel opens over the scene.</li>
+            <li>Scroll headlines. Each item links to the original source article.</li>
+            <li>Close with the &times; button or by clicking another worker.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- BUZZ -->
+      <div class="worker-card wc-buzz reverse">
+        <div class="worker-canvas-wrap">
+          <iframe src="robot-preview.html?color=F5C518&amp;emote=Yes" width="280" height="320" frameborder="0" scrolling="no" style="background:transparent;border:none;"></iframe>
+        </div>
+        <div class="worker-content">
+          <div class="worker-badge"><span class="dot"></span>Social Content</div>
+          <h2><span>Buzz</span></h2>
+          <div class="worker-role">Content Strategist</div>
+          <p>
+            Buzz generates tweet drafts and social content ideas based on current crypto market context
+            and the factorAI brand narrative. Designed to keep you active on X without spending hours writing.
+          </p>
+          <h3>What Buzz does</h3>
+          <ul>
+            <li>Calls <code>/api/liam-tweets</code> which uses OpenAI to generate tweet ideas.</li>
+            <li>Each tweet considers current market context: price action and trending topics.</li>
+            <li>Posts sound decisive: confident, short, alpha-leaking, not generic.</li>
+            <li>Tracks which content has been used so he never repeats the same angle.</li>
+            <li>Activity log included in meeting summary reports.</li>
+          </ul>
+          <h3>How to use</h3>
+          <ul>
+            <li>Click Buzz to open his content panel.</li>
+            <li>Review generated tweet ideas, pick ones that resonate, copy to post on X.</li>
+            <li>Mark a tweet as used so Buzz moves on to fresh ideas.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- FORGE -->
+      <div class="worker-card wc-forge">
+        <div class="worker-canvas-wrap">
+          <iframe src="robot-preview.html?color=2ECC71&amp;emote=No" width="280" height="320" frameborder="0" scrolling="no" style="background:transparent;border:none;"></iframe>
+        </div>
+        <div class="worker-content">
+          <div class="worker-badge"><span class="dot"></span>Token Launcher</div>
+          <h2><span>Forge</span></h2>
+          <div class="worker-role">On-Chain Operator</div>
+          <p>
+            Forge is the most powerful worker in the office. She connects directly to your MetaMask wallet
+            on BNB Chain, authenticates with four.meme, and executes a full meme token launch, from image
+            upload to on-chain transaction, without you leaving the office.
+          </p>
+          <h3>Requirements</h3>
+          <ul>
+            <li><strong>MetaMask installed</strong> with BNB Chain (chain ID 56) configured.</li>
+            <li><strong>BNB balance:</strong> Dev Buy amount + 1% trading fee, plus gas.</li>
+            <li>A token image URL (PNG/JPG) accessible on the public internet.</li>
+          </ul>
+          <h3>Custom task mode</h3>
+          <p>
+            Forge also has an agent tab: load a documentation URL and run a task through
+            <code>/api/olivia-agent</code>. Useful for prompt-based workflows against any docs.
+          </p>
+        </div>
+      </div>
+
+      <!-- SAGE -->
+      <div class="worker-card wc-sage reverse">
+        <div class="worker-canvas-wrap">
+          <iframe src="robot-preview.html?color=E91E63&amp;emote=Wave" width="280" height="320" frameborder="0" scrolling="no" style="background:transparent;border:none;"></iframe>
+        </div>
+        <div class="worker-content">
+          <div class="worker-badge"><span class="dot"></span>Skill Explorer</div>
+          <h2><span>Sage</span></h2>
+          <div class="worker-role">Product Manager · Web3 AI Skills</div>
+          <p>
+            Sage is the product manager of the office's Web3 AI skill layer. She opens a categorized skill
+            explorer and acts as an AI advisor that recommends the best combination of skills for whatever
+            you want to build.
+          </p>
+          <h3>Skill Explorer features</h3>
+          <ul>
+            <li><strong>Curated skills</strong> across 7 categories in a browsable grid.</li>
+            <li><strong>Category filters:</strong> DeFi, Trading, AI/ML, On-chain, Utility, Social, Dev Tools.</li>
+            <li>Each card shows name, category, description, and price (Free or BNB/call).</li>
+            <li><strong>AI chat:</strong> describe your build idea and Sage recommends the best skill stack.</li>
+          </ul>
+          <h3>Example queries</h3>
+          <ul>
+            <li><em>"Snipe new tokens on four.meme and post profits to Twitter"</em></li>
+            <li><em>"Build a DeFi yield optimizer on BNB Chain"</em></li>
+            <li><em>"Track whale wallets and send Telegram notifications"</em></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- QUANT -->
+      <div class="worker-card wc-quant">
+        <div class="worker-canvas-wrap">
+          <iframe src="robot-preview.html?color=9B59B6&amp;emote=Punch" width="280" height="320" frameborder="0" scrolling="no" style="background:transparent;border:none;"></iframe>
+        </div>
+        <div class="worker-content">
+          <div class="worker-badge"><span class="dot"></span>Market Signals</div>
+          <h2><span>Quant</span></h2>
+          <div class="worker-role">Market Analyst</div>
+          <p>
+            Quant is the office market analyst. Click him for a real-time market panel designed for
+            fast decision-making: only the data you need to decide whether to buy, hold, or wait.
+          </p>
+          <h3>What's in the panel</h3>
+          <ul>
+            <li><strong>Assets:</strong> BTC, ETH, and SOL side-by-side. Price + 24h change at a glance.</li>
+            <li><strong>Trend charts:</strong> Mini momentum charts per asset, instantly spot uptrend or weakness.</li>
+            <li><strong>AI signal:</strong> Actionable directional bias per asset. Considers recent price action.</li>
+            <li><strong>News headlines:</strong> Market-moving headlines to correlate price moves with events.</li>
+            <li>Data via <code>/api/ethan-market</code>: aggregated price feeds, formatted response.</li>
+            <li>Activity logged and included in team meeting reports.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SCOUT -->
+      <div class="worker-card wc-scout reverse">
+        <div class="worker-canvas-wrap">
+          <iframe src="robot-preview.html?color=FF5722&amp;emote=ThumbsUp" width="280" height="320" frameborder="0" scrolling="no" style="background:transparent;border:none;"></iframe>
+        </div>
+        <div class="worker-content">
+          <div class="worker-badge"><span class="dot"></span>Web Research</div>
+          <h2><span>Scout</span></h2>
+          <div class="worker-role">Research Scout</div>
+          <p>
+            Scout is the office research scout: click him for an in-scene web search panel so you can
+            query and skim results without leaving the office scene.
+          </p>
+          <h3>What Scout does</h3>
+          <ul>
+            <li>Opens the browser-style research modal with search box and result rows.</li>
+            <li>Brings web context into the session while you stay in the 3D office.</li>
+            <li>Works like the other workers: hover the label, click to open his tool.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works">
+      <div class="section-header">
+        <span class="eyebrow">Quick tour</span>
+        <h2>How It Works</h2>
+        <p>Five steps from using the office controls to launching a token or calling a team meeting.</p>
+      </div>
+      <div class="timeline-scroll">
+        <div class="timeline-row">
+          <div class="timeline-step">
+            <div class="timeline-num">1</div>
+            <div class="timeline-step-title">Use top buttons</div>
+            <div class="timeline-step-desc">Go Work, Meeting, and Break change the entire office mode and trigger all workers simultaneously.</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">2</div>
+            <div class="timeline-step-title">Click a worker</div>
+            <div class="timeline-step-desc">Hover any worker to see their name, then click to open their role-specific panel with live tools.</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">3</div>
+            <div class="timeline-step-title">Launch a token</div>
+            <div class="timeline-step-desc">Click Forge, connect MetaMask on BNB Chain, fill token details, and fire the on-chain transaction to four.meme.</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">4</div>
+            <div class="timeline-step-title">Research or analyze</div>
+            <div class="timeline-step-desc">Use Scout for web search or Quant for market snapshots—without leaving the office.</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">5</div>
+            <div class="timeline-step-title">Call a meeting</div>
+            <div class="timeline-step-desc">Hit Meeting to gather the team. Summary cards appear for every worker showing what they accomplished.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFICE CONTROLS -->
+    <section id="office-controls">
+      <div class="section-header">
+        <span class="eyebrow">Controls</span>
+        <h2>Office Controls</h2>
+        <p>The button row in the top-left corner controls the entire office simultaneously. All workers respond to these commands in real time.</p>
+      </div>
+      <div class="controls-grid">
+        <div class="control-item">
+          <div class="control-tag">Button</div>
+          <h3>Go Work</h3>
+          <p>All workers walk to their assigned desks and begin work animations. This is the default office mode.</p>
+        </div>
+        <div class="control-item">
+          <div class="control-tag">Button</div>
+          <h3>Meeting</h3>
+          <p>Workers leave desks and gather at the conference table. Summary cards generate per worker: panels opened, content generated, tokens launched.</p>
+        </div>
+        <div class="control-item">
+          <div class="control-tag">Button</div>
+          <h3>Break</h3>
+          <p>Workers move to casual areas, sofas and the arcade zone. Animations switch to idle poses. A good time to review what was generated.</p>
+        </div>
+        <div class="control-item">
+          <div class="control-tag">Button</div>
+          <h3>Documentation</h3>
+          <p>Opens this page in a new browser tab. Always visible regardless of the current office mode.</p>
+        </div>
+      </div>
+
+      <div class="arcade-banner" style="margin-top: 24px;">
+        <div class="arcade-banner-icon">🕹</div>
+        <div>
+          <h3>Arcade: Roach Agents</h3>
+          <p>
+            On the left wall of the office sits a red arcade cabinet. Hover to see <em>Compete against the AI in crypto futures</em>,
+            then click to open <a href="https://ro-ach.vercel.app/" target="_blank" rel="noopener noreferrer">Roach Agents</a>
+            in a new tab: a browser racing game where your roach's speed is tied directly to your
+            live Bitcoin futures PnL using real BTC/USDT 1m candlestick data and 100x leverage.
+            First to complete 2 laps wins. <a href="https://ro-ach.vercel.app/how-to.html" target="_blank" rel="noopener noreferrer">Full guide &rarr;</a>
+          </p>
+        </div>
+      </div>
+
+      <div style="margin-top:24px; border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:22px 26px;">
+        <h3 style="font-size:14px; font-weight:800; color:#111827; margin-bottom:10px;">Meeting Summaries</h3>
+        <p style="font-size:13.5px; color:#6b7280; margin:0; line-height:1.65;">
+          When you trigger Meeting mode, every worker reports what they did. Summaries appear as overlay cards above the 3D scene
+          (one card per worker). Each card shows the worker name, role, and a chronological activity log. If a worker was idle, it
+          clearly says so. The summary is drawn from an in-memory activity log persisted to localStorage so it survives a page reload.
+        </p>
+      </div>
+    </section>
+
+    <!-- FORGE FLOW -->
+    <section id="forge-flow">
+      <div class="section-header">
+        <span class="eyebrow">Technical Reference</span>
+        <h2>Forge Flow</h2>
+        <p>The complete technical flow Forge executes when launching a meme token on four.meme, from wallet auth through on-chain confirmation.</p>
+      </div>
+
+      <div class="forge-steps">
+        <div class="forge-step">
+          <div class="forge-step-line"></div>
+          <div class="forge-step-left">
+            <div class="forge-step-circle">1</div>
+          </div>
+          <div class="forge-step-right">
+            <h3>Connect wallet</h3>
+            <p>Click "Connect Wallet" in Forge's panel. MetaMask prompts you to approve the connection. Your wallet address appears and Forge switches to BNB Chain automatically.</p>
+          </div>
+        </div>
+        <div class="forge-step">
+          <div class="forge-step-line"></div>
+          <div class="forge-step-left">
+            <div class="forge-step-circle">2</div>
+          </div>
+          <div class="forge-step-right">
+            <h3>Authenticate with four.meme</h3>
+            <p>Forge requests a login nonce from <code>four.meme/meme-api/v1/private/user/nonce/generate</code>. MetaMask asks you to sign the message <code>"You are sign in Meme &lt;nonce&gt;"</code>. The signature is sent to the four.meme login endpoint which returns a <code>meme-web-access</code> token used in all subsequent API calls.</p>
+          </div>
+        </div>
+        <div class="forge-step">
+          <div class="forge-step-line"></div>
+          <div class="forge-step-left">
+            <div class="forge-step-circle">3</div>
+          </div>
+          <div class="forge-step-right">
+            <h3>Fill token details</h3>
+            <p>Enter your token Name, Symbol, Description, Image URL, Category, and optional Website, Twitter, and Telegram links. Set <strong>Dev Buy (BNB)</strong>: the amount of BNB the deployer wallet spends to buy the token at the exact moment of launch. Can be 0.</p>
+          </div>
+        </div>
+        <div class="forge-step">
+          <div class="forge-step-line"></div>
+          <div class="forge-step-left">
+            <div class="forge-step-circle">4</div>
+          </div>
+          <div class="forge-step-right">
+            <h3>Image upload to four.meme CDN</h3>
+            <p>Forge's server proxy downloads your image URL and re-uploads it to the four.meme CDN via <code>/private/token/upload</code> as multipart FormData. four.meme rejects external image URLs in the token creation body; only CDN-hosted images are accepted.</p>
+          </div>
+        </div>
+        <div class="forge-step">
+          <div class="forge-step-line"></div>
+          <div class="forge-step-left">
+            <div class="forge-step-circle">5</div>
+          </div>
+          <div class="forge-step-right">
+            <h3>Create token via API</h3>
+            <p>The server posts to <code>/private/token/create</code> with your token metadata. four.meme responds with a <code>createArg</code> struct and a <code>signature</code> (the exact arguments the on-chain smart contract needs to verify the token). Key fields: <code>name</code>, <code>shortName</code>, <code>desc</code>, <code>imgUrl</code> (CDN), <code>preSale</code> (dev buy as string), <code>raisedToken</code>, <code>dexType: "PANCAKE_SWAP"</code>.</p>
+          </div>
+        </div>
+        <div class="forge-step">
+          <div class="forge-step-left">
+            <div class="forge-step-circle">6</div>
+          </div>
+          <div class="forge-step-right">
+            <h3>On-chain transaction</h3>
+            <p>Forge reads <code>_launchFee()</code> (selector <code>0x009523a2</code>) and <code>_tradingFeeRate()</code> (selector <code>0x3472aee7</code>) from the four.meme manager contract using raw <code>provider.call()</code>. ethers.js v6 Contract Proxy silently returns undefined for underscore-prefixed names. Value formula: <code>launchFee + devBuyWei + (devBuyWei × tradingFeeRate / 10000)</code>. Calls <code>createToken(CreateArg, bytes)</code> with <code>gasLimit: 500000n</code> to trigger the MetaMask popup immediately. You confirm and the token is live.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="forge-ref-grid">
+        <div class="ref-panel">
+          <h3>Smart contract details</h3>
+          <ul>
+            <li><strong>Network:</strong> BNB Chain (BSC), chain ID 56</li>
+            <li><strong>Manager:</strong> <code>0x5c952063c7fc8610FFDB798152D69F0B9550762b</code></li>
+            <li><code>_launchFee()</code>: currently returns 0 (free to launch)</li>
+            <li><code>_tradingFeeRate()</code>: currently returns 100 (1%)</li>
+            <li>Built with ethers.js v6</li>
+          </ul>
+        </div>
+        <div class="ref-panel">
+          <h3>Dev Buy explained</h3>
+          <p>
+            The amount of BNB the deploying wallet spends to purchase the new token at the moment of launch.
+            The four.meme contract charges a 1% trading fee on top. If Dev Buy is <code>0.1 BNB</code>,
+            the total transaction value is <code>0.101 BNB</code> plus gas. Setting Dev Buy to 0 launches
+            the token with no initial purchase. Only gas is required.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="section-header">
+        <span class="eyebrow">Questions</span>
+        <h2>FAQ</h2>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-card">
+          <h3>How do I launch a token?</h3>
+          <p>Click Forge. Connect MetaMask on BNB Chain, sign the four.meme login message, fill in your token details, and click Launch. Forge handles image upload, API creation, and the on-chain transaction.</p>
+        </div>
+        <div class="faq-card">
+          <h3>How much BNB do I need to launch?</h3>
+          <p>The four.meme launch fee is currently 0 BNB. You only pay your Dev Buy amount plus 1% trading fee. If Dev Buy is 0.1 BNB you need 0.101 BNB plus a small amount for gas.</p>
+        </div>
+        <div class="faq-card">
+          <h3>Why does MetaMask ask me to sign a message?</h3>
+          <p>four.meme requires wallet authentication before you can create tokens. The signed message proves you own the wallet. This is a gasless off-chain signature. No BNB is spent at this step.</p>
+        </div>
+        <div class="faq-card">
+          <h3>My image URL is rejected. What do I do?</h3>
+          <p>four.meme only accepts images from their own CDN. Forge automatically re-uploads your image to the four.meme CDN before creating the token, so any publicly accessible image URL should work.</p>
+        </div>
+        <div class="faq-card">
+          <h3>What is Dev Buy (BNB)?</h3>
+          <p>The amount of BNB the deploying wallet spends to buy the new token at the exact moment of launch. Setting it to 0 means no initial buy. Setting it to 0.1 means you buy 0.1 BNB worth of your own token at launch.</p>
+        </div>
+        <div class="faq-card">
+          <h3>What does each top button do?</h3>
+          <p><strong>Go Work</strong> sends all workers to their desks. <strong>Meeting</strong> gathers the team and shows activity summaries. <strong>Break</strong> moves workers to casual areas. <strong>Documentation</strong> opens this page.</p>
+        </div>
+        <div class="faq-card">
+          <h3>How do I see what each worker did today?</h3>
+          <p>Click Meeting. Each worker summary card appears showing their activity log (panels opened, content generated, and tokens launched during the session).</p>
+        </div>
+        <div class="faq-card">
+          <h3>What is the arcade machine?</h3>
+          <p>The red cabinet on the left wall opens <a href="https://ro-ach.vercel.app/" target="_blank" rel="noopener noreferrer">Roach Agents</a>, a racing game where your roach's speed depends on your live Bitcoin futures trading performance using real BTC/USDT 1m candles.</p>
+        </div>
+        <div class="faq-card">
+          <h3>Does the office save my state?</h3>
+          <p>Yes. Worker activity logs, your wallet address, and UI preferences are saved to localStorage and restored on every page reload automatically.</p>
+        </div>
+        <div class="faq-card">
+          <h3>What blockchain does the project use?</h3>
+          <p>All on-chain actions run on <strong>BNB Chain (BSC), chain ID 56</strong>. MetaMask must be configured with BSC to use Forge's token launcher.</p>
+        </div>
+        <div class="faq-card">
+          <h3>What is factorAI?</h3>
+          <p>factorAI is the project behind this AI crypto office: interactive 3D workers, on-chain tools on BNB Chain, and the experience documented on this page.</p>
+        </div>
+        <div class="faq-card">
+          <h3>What technology powers the 3D office?</h3>
+          <p>The office runs in your browser with real-time 3D graphics. Workers are animated characters that keep moving: walking, sitting, and standing depending on the current office mode.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-left">
+        <strong>factorAI</strong>
+      </div>
+      <div class="footer-right">
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">factorAI on X</a>
+      </div>
+    </footer>
+
+  </div><!-- /page -->
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    /** RobotExpressive.glb: local under /models; CDN fallback if missing */
+    const ROBOT_GLB_LOCAL = 'models/RobotExpressive.glb';
+    const ROBOT_GLB_CDN = 'https://threejs.org/examples/models/gltf/RobotExpressive/RobotExpressive.glb';
+
+    function loadRobotGltf(loader) {
+      return new Promise((resolve, reject) => {
+        loader.load(
+          ROBOT_GLB_LOCAL,
+          resolve,
+          undefined,
+          () => {
+            loader.load(ROBOT_GLB_CDN, resolve, undefined, reject);
+          }
+        );
+      });
+    }
+
+    (async function heroRobotMain() {
+      const heroCanvas = document.getElementById('hero-robot-canvas');
+      if (!heroCanvas) return;
+      try {
+        const renderer = new THREE.WebGLRenderer({ canvas: heroCanvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.08;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(33, 1, 0.1, 50);
+        camera.position.set(0, 0.38, 3.35);
+        camera.lookAt(0, 0.34, 0);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 1.08));
+        const key = new THREE.DirectionalLight(0xffffff, 1.65);
+        key.position.set(2.8, 5.6, 4.1);
+        scene.add(key);
+        const rim = new THREE.DirectionalLight(0xF5C518, 0.78);
+        rim.position.set(-3, 2, -3);
+        scene.add(rim);
+
+        const gltf = await loadRobotGltf(new GLTFLoader());
+        const model = gltf.scene;
+        model.scale.setScalar(0.42);
+        model.position.set(0, -0.73, 0);
+
+        const yellow = new THREE.Color(0xF5C518);
+        model.traverse((child) => {
+          if (!child.isMesh) return;
+          child.material = child.material.clone();
+          if (child.material.color) {
+            const hsl = {};
+            child.material.color.getHSL(hsl);
+            if (hsl.h >= 0.05 && hsl.h <= 0.22 && hsl.s > 0.45) {
+              child.material.color.copy(yellow);
+              if (child.material.emissive) child.material.emissive.copy(yellow).multiplyScalar(0.12);
+            }
+          }
+        });
+
+        const heroRig = new THREE.Group();
+        heroRig.add(model);
+        heroRig.rotation.y = 0;
+        scene.add(heroRig);
+
+        const mixer = new THREE.AnimationMixer(model);
+        const heroActions = {};
+        const EMOTE_NAMES = ['Jump', 'Yes', 'No', 'Wave', 'Punch', 'ThumbsUp'];
+        for (let a = 0; a < gltf.animations.length; a++) {
+          const clip = gltf.animations[a];
+          const action = mixer.clipAction(clip);
+          heroActions[clip.name] = action;
+          if (EMOTE_NAMES.indexOf(clip.name) >= 0) {
+            action.clampWhenFinished = true;
+            action.loop = THREE.LoopOnce;
+          }
+        }
+        let heroActiveAction = null;
+        function heroFadeTo(name, duration) {
+          const next = heroActions[name];
+          if (!next) return;
+          const prev = heroActiveAction;
+          heroActiveAction = next;
+          if (prev && prev !== next) prev.fadeOut(duration);
+          next.reset().setEffectiveTimeScale(1).setEffectiveWeight(1).fadeIn(duration).play();
+        }
+        function onHeroEmoteFinished() {
+          mixer.removeEventListener('finished', onHeroEmoteFinished);
+          heroFadeTo('Idle', 0.35);
+        }
+        function playHeroWave() {
+          if (!heroActions.Wave || !heroActions.Idle) return;
+          mixer.removeEventListener('finished', onHeroEmoteFinished);
+          heroFadeTo('Wave', 0.22);
+          mixer.addEventListener('finished', onHeroEmoteFinished);
+        }
+        if (heroActions.Idle) {
+          heroActiveAction = heroActions.Idle;
+          heroActiveAction.play();
+        }
+        const waveIntervalMs = 4000;
+        setInterval(playHeroWave, waveIntervalMs);
+
+        function resize() {
+          const r = heroCanvas.getBoundingClientRect();
+          const w = Math.max(2, Math.floor(r.width));
+          const h = Math.max(2, Math.floor(r.height));
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+        resize();
+        if (typeof ResizeObserver !== 'undefined') {
+          const ro = new ResizeObserver(resize);
+          ro.observe(heroCanvas);
+        }
+        window.addEventListener('resize', resize);
+
+        const clock = new THREE.Clock();
+        (function tick() {
+          requestAnimationFrame(tick);
+          const dt = Math.min(clock.getDelta(), 0.1);
+          mixer.update(dt);
+          const t = performance.now() * 0.001;
+          model.position.y = -0.73 + Math.sin(t * 1.6) * 0.05;
+          renderer.render(scene, camera);
+        })();
+      } catch (e) {
+        console.error('[hero-robot] failed:', e);
+      }
+    })();
+
+    const WORKERS = [
+      { name: 'Scoop', emote: 'Jump', color: 0x3498db, role: 'Information Officer · Crypto News', tag: 'Curated crypto headlines and AI summaries through the office news panel.', idle: 'Quietly polls feeds and ranks what matters before you ever open the panel, with the same idle loop as the main office preview.' },
+      { name: 'Buzz', emote: 'Yes', color: 0xf5c518, role: 'Content Strategist · Social', tag: 'Tweet drafts and angles tuned to market context and the factorAI voice.', idle: 'Replays recent narratives and pre-wires punchy hooks so when you click him, ideas are already warm.' },
+      { name: 'Forge', emote: 'No', color: 0x2ecc71, role: 'On-Chain Operator · four.meme', tag: 'MetaMask on BNB Chain: full meme token launch with CDN image upload and on-chain create.', idle: 'Keeps the four.meme auth path ready; idle pose until you deploy.' },
+      { name: 'Sage', emote: 'Wave', color: 0xe91e63, role: 'Product Manager · Skills', tag: 'Browse categorized skills and chat with Sage to plan your stack.', idle: 'Soft-loops through the skill catalog; when you open her, recommendations snap into place.' },
+      { name: 'Quant', emote: 'Punch', color: 0x9b59b6, role: 'Market Analyst · Signals', tag: 'BTC, ETH, SOL at a glance: mini charts, AI bias, and headline context.', idle: 'Maintains a snapshot of tape and news so the market panel opens hot, not cold.' },
+      { name: 'Scout', emote: 'ThumbsUp', color: 0xff5722, role: 'Research Scout · Web Search', tag: 'In-office research panel: query the web and skim results without alt-tabbing out of the office.', idle: 'Keeps the search shell ready so when you click, the Chloe research modal is one tap away.' },
+    ];
+
+    (function teamCarouselMain() {
+      const track = document.getElementById('carousel-track');
+      const outer = document.getElementById('carousel-outer');
+      const dotsWrap = document.getElementById('carousel-dots');
+      const btnPrev = document.getElementById('carousel-prev');
+      const btnNext = document.getElementById('carousel-next');
+      if (!track || !outer || !dotsWrap || !btnPrev || !btnNext) {
+        console.warn('[team carousel] DOM missing');
+        return;
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function colorHex(n) {
+        return (n >>> 0).toString(16).padStart(6, '0');
+      }
+
+      WORKERS.forEach((w, j) => {
+        const card = document.createElement('article');
+        card.className = 'carousel-card';
+        card.dataset.index = String(j);
+        const hex = colorHex(w.color);
+        const src = `robot-preview.html?color=${hex}&emote=${encodeURIComponent(w.emote)}`;
+        const safeName = escapeHtml(w.name);
+        const safeRole = escapeHtml(w.role);
+        const safeTag = escapeHtml(w.tag);
+        card.innerHTML =
+          '<div class="carousel-card-visual">' +
+          '<iframe src="' + src + '" title="' + safeName + ' 3D preview" loading="lazy"></iframe>' +
+          '</div>' +
+          '<div class="carousel-card-body">' +
+          '<div class="carousel-card-name">' + safeName + '</div>' +
+          '<div class="carousel-card-role">' + safeRole + '</div>' +
+          '<p class="carousel-card-tag">' + safeTag + '</p>' +
+          '</div>';
+        track.appendChild(card);
+      });
+
+      /** Start on the middle worker (not the first), matching a centered “hero” card. */
+      const initialIdx = Math.floor((WORKERS.length - 1) / 2);
+      let idx = initialIdx;
+
+      function updateTrackPosition() {
+        const cards = track.children;
+        if (!cards.length) return;
+        const outerW = outer.clientWidth;
+        const cardW = cards[0].offsetWidth;
+        if (outerW < 8 || cardW < 8) return false;
+        const styles = window.getComputedStyle(track);
+        const gap = parseFloat(styles.columnGap || styles.gap) || 14;
+        const step = cardW + gap;
+        const offset = outerW / 2 - (idx * step + cardW / 2);
+        track.style.transform = 'translateX(' + offset + 'px)';
+        outer.classList.add('carousel-layout-ready');
+        return true;
+      }
+
+      function setIndex(i) {
+        idx = Math.max(0, Math.min(WORKERS.length - 1, i));
+        track.querySelectorAll('.carousel-card').forEach((el, j) => {
+          el.classList.toggle('is-active', j === idx);
+        });
+        dotsWrap.querySelectorAll('button').forEach((b, j) => {
+          b.setAttribute('aria-current', j === idx ? 'true' : 'false');
+        });
+        updateTrackPosition();
+      }
+
+      function go(delta) {
+        let n = idx + delta;
+        if (n < 0) n = WORKERS.length - 1;
+        if (n >= WORKERS.length) n = 0;
+        setIndex(n);
+      }
+
+      track.addEventListener('click', (e) => {
+        const card = e.target.closest('.carousel-card');
+        if (!card || !track.contains(card)) return;
+        const j = parseInt(card.dataset.index, 10);
+        if (!Number.isNaN(j)) setIndex(j);
+      });
+
+      WORKERS.forEach((w, j) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', w.name);
+        b.addEventListener('click', () => setIndex(j));
+        dotsWrap.appendChild(b);
+      });
+
+      btnPrev.addEventListener('click', () => go(-1));
+      btnNext.addEventListener('click', () => go(1));
+
+      window.addEventListener('resize', () => updateTrackPosition());
+      if (typeof ResizeObserver !== 'undefined') {
+        const ro = new ResizeObserver(() => updateTrackPosition());
+        ro.observe(outer);
+      }
+
+      setIndex(initialIdx);
+
+      let layoutAttempts = 0;
+      function ensureLayout() {
+        if (updateTrackPosition()) return;
+        layoutAttempts += 1;
+        if (layoutAttempts > 180) {
+          outer.classList.add('carousel-layout-ready');
+          return;
+        }
+        requestAnimationFrame(ensureLayout);
+      }
+      requestAnimationFrame(ensureLayout);
+      window.addEventListener('load', ensureLayout);
+    })();
+  </script>
+
+</body>
+</html>

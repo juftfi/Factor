@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent;
+    }
+    canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    /** RobotExpressive.glb — local models/ or CDN fallback */
+    const ROBOT_GLB_LOCAL = 'models/RobotExpressive.glb';
+    const ROBOT_GLB_CDN = 'https://threejs.org/examples/models/gltf/RobotExpressive/RobotExpressive.glb';
+
+    function loadRobotGltf(loader) {
+      return new Promise((resolve, reject) => {
+        loader.load(
+          ROBOT_GLB_LOCAL,
+          resolve,
+          undefined,
+          () => {
+            loader.load(ROBOT_GLB_CDN, resolve, undefined, reject);
+          }
+        );
+      });
+    }
+
+    const params  = new URLSearchParams(location.search);
+    const hexColor = params.get('color') || 'F5C518';
+    const embed = params.get('embed') === '1';
+    const emoteParam = params.get('emote');
+    const workerColor = new THREE.Color('#' + hexColor);
+    const EMOTE_NAMES = ['Jump', 'Yes', 'No', 'Wave', 'Punch', 'ThumbsUp'];
+    const EMOTE_INTERVAL_MS = 5000;
+
+    const canvas   = document.getElementById('c');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+
+    const scene  = new THREE.Scene();
+    if (embed) {
+      scene.background = new THREE.Color(0xf5f3ff);
+    }
+
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 50);
+    camera.position.set(0, 0.9, 3.8);
+    camera.lookAt(0, 0.7, 0);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.8);
+    sun.position.set(3, 6, 4);
+    scene.add(sun);
+    const rim = new THREE.DirectionalLight(workerColor, 0.7);
+    rim.position.set(-3, 2, -3);
+    scene.add(rim);
+
+    function readSize() {
+      const el = document.documentElement;
+      const r = canvas.getBoundingClientRect();
+      let w = Math.round(r.width);
+      let h = Math.round(r.height);
+      if (w < 32) w = el.clientWidth || 280;
+      if (h < 32) h = el.clientHeight || 320;
+      return { w: Math.max(64, w), h: Math.max(64, h) };
+    }
+
+    function applySize() {
+      const { w, h } = readSize();
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+
+    applySize();
+
+    let gltf;
+    try {
+      gltf = await loadRobotGltf(new GLTFLoader());
+    } catch (e) {
+      console.error('[robot-preview] GLTF load failed:', e);
+      document.body.textContent = '3D preview unavailable (missing models/RobotExpressive.glb or network).';
+      throw e;
+    }
+
+    const model = gltf.scene;
+    model.scale.setScalar(0.35);
+    model.position.set(0, -0.55, 0);
+
+    model.traverse(child => {
+      if (!child.isMesh) return;
+      child.material = child.material.clone();
+      if (child.material.color) {
+        const hsl = {};
+        child.material.color.getHSL(hsl);
+        if (hsl.h >= 0.05 && hsl.h <= 0.22 && hsl.s > 0.45) {
+          child.material.color.copy(workerColor);
+          if (child.material.emissive) child.material.emissive.copy(workerColor).multiplyScalar(0.1);
+        }
+      }
+    });
+
+    const previewRig = new THREE.Group();
+    previewRig.add(model);
+    previewRig.rotation.y = 0;
+    scene.add(previewRig);
+
+    const mixer = new THREE.AnimationMixer(model);
+    const actions = {};
+    let activeAction = null;
+
+    for (let a = 0; a < gltf.animations.length; a++) {
+      const clip = gltf.animations[a];
+      const action = mixer.clipAction(clip);
+      actions[clip.name] = action;
+      if (EMOTE_NAMES.indexOf(clip.name) >= 0) {
+        action.clampWhenFinished = true;
+        action.loop = THREE.LoopOnce;
+      }
+    }
+
+    function fadeToAction(name, duration) {
+      const next = actions[name];
+      if (!next) return;
+      const prev = activeAction;
+      activeAction = next;
+      if (prev && prev !== next) prev.fadeOut(duration);
+      next.reset().setEffectiveTimeScale(1).setEffectiveWeight(1).fadeIn(duration).play();
+    }
+
+    function onEmoteFinished() {
+      mixer.removeEventListener('finished', onEmoteFinished);
+      fadeToAction('Idle', 0.35);
+    }
+
+    const emoteName = emoteParam && EMOTE_NAMES.indexOf(emoteParam) >= 0 ? emoteParam : null;
+    if (actions.Idle) {
+      activeAction = actions.Idle;
+      activeAction.play();
+    }
+
+    function playEmoteCycle() {
+      if (!emoteName || !actions[emoteName] || !actions.Idle) return;
+      mixer.removeEventListener('finished', onEmoteFinished);
+      fadeToAction(emoteName, 0.22);
+      mixer.addEventListener('finished', onEmoteFinished);
+    }
+
+    if (emoteName) {
+      setInterval(playEmoteCycle, EMOTE_INTERVAL_MS);
+    }
+
+    const clock = new THREE.Clock();
+    (function animate() {
+      requestAnimationFrame(animate);
+      const d = Math.min(clock.getDelta(), 0.1);
+      mixer.update(d);
+      renderer.render(scene, camera);
+    })();
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(() => {
+        applySize();
+      });
+      ro.observe(canvas);
+      ro.observe(document.documentElement);
+    }
+    window.addEventListener('resize', applySize);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(applySize);
+    });
+  </script>
+</body>
+</html>

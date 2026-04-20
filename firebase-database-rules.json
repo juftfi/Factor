@@ -1,0 +1,11 @@
+{
+  "rules": {
+    ".read": "now < 1776290480000",
+    ".write": "now < 1776290480000",
+    "globalChat": {
+      "messages": {
+        ".indexOn": ["clientTs"]
+      }
+    }
+  }
+}

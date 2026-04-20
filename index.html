@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>factorAI</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="stylesheet" href="css/retro-terminal-ui.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; background: #1a1510; }
+    #canvas { display: block; width: 100vw; height: 100vh; }
+    #ui {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 12px 20px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, transparent 100%);
+      color: var(--rt-fg, #e8e4d4);
+      font-family: var(--rt-font, monospace);
+      font-size: 18px;
+      pointer-events: none;
+    }
+    #hint {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    #top-buttons {
+      position: fixed;
+      top: 16px;
+      left: 20px;
+      display: flex;
+      z-index: 10;
+      pointer-events: auto;
+    }
+    #twitter-link {
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 15;
+      padding: 10px 14px;
+      text-transform: uppercase;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+  <div id="ui"></div>
+  <div id="top-buttons">
+    <button type="button" id="btn-go-work">Go work</button>
+    <button type="button" id="btn-meeting">Meeting</button>
+    <button type="button" id="btn-break">Break</button>
+    <a id="btn-documentation" href="documentation.html" target="_blank" rel="noopener noreferrer">Documentation</a>
+  </div>
+  <a id="twitter-link" href="https://twitter.com" target="_blank" rel="noopener noreferrer">factorAI · X</a>
+  <canvas id="canvas"></canvas>
+  <script src="js/openai-config.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="js/office.js"></script>
+</body>
+</html>
