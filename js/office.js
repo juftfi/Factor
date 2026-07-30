@@ -2263,7 +2263,7 @@ function showEmmaWalletPanel() {
   // ── Pieverse skill data ───────────────────────────────────────────────────
   const PIEVERSE_SKILLS = [
     { name: 'PancakeSwap Swap', cat: 'DeFi', price: 'Free', desc: 'Execute token swaps on PancakeSwap V3 with best-route calldata generation. Supports ETH, CAKE, and all BEP-20 tokens.' },
-    { name: 'Four.Meme Launch', cat: 'DeFi', price: 'Free', desc: 'Create and launch meme tokens on four.meme launchpad. Handles auth, image upload, token config and on-chain tx via purr-cli.' },
+    { name: 'Ponsfamily Launch', cat: 'DeFi', price: 'Free', desc: 'Create and launch meme tokens on Ponsfamily launchpad. Handles auth, image upload, token config and on-chain tx via purr-cli.' },
     { name: 'Lista DAO Borrow', cat: 'DeFi', price: 'Free', desc: 'Borrow lisUSD against ETH collateral on Lista DAO. Manages CDP positions, collateral ratio checks and liquidation alerts.' },
     { name: 'Aster Yield', cat: 'DeFi', price: 'Free', desc: 'Deposit assets into Aster Protocol vaults to earn optimized yield. Auto-compounds and tracks APY across strategy pools.' },
     { name: 'pieUSD Stability', cat: 'DeFi', price: 'Free', desc: 'Mint, redeem and manage pieUSD stablecoin positions. Monitors peg deviation and executes arbitrage when off-peg.' },
@@ -2279,7 +2279,7 @@ function showEmmaWalletPanel() {
     { name: 'Market Snapshot', cat: 'AI/ML', price: 'Free', desc: 'Summarize current DeFi market conditions: top movers, volume leaders, new launches and fear/greed index for Robinhood Chain.' },
     { name: 'Trade Signal', cat: 'Trading', price: '0.005 ETH/call', desc: 'AI-powered trade signal generator for Robinhood Chain tokens. Uses on-chain flow, momentum and social data to rank opportunities.' },
     { name: 'Copy Trade', cat: 'Trading', price: '0.003 ETH/call', desc: 'Mirror trades of top-performing wallets on Robinhood Chain. Filters by PnL, win rate and max drawdown before copying.' },
-    { name: 'Sniper Bot', cat: 'Trading', price: '0.01 ETH/call', desc: 'Snipe new token launches on PancakeSwap and four.meme within ms of liquidity add. Configurable slippage and gas premium.' },
+    { name: 'Sniper Bot', cat: 'Trading', price: '0.01 ETH/call', desc: 'Snipe new token launches on PancakeSwap and Ponsfamily within ms of liquidity add. Configurable slippage and gas premium.' },
     { name: 'Telegram Alert', cat: 'Social Media', price: 'Free', desc: 'Send formatted alerts to any Telegram chat or channel. Supports markdown, inline buttons and callback query handling.' },
     { name: 'Discord Notify', cat: 'Social Media', price: 'Free', desc: 'Post rich embed messages to Discord webhooks. Includes price charts, wallet stats and DeFi position summaries.' },
     { name: 'Auto Poster', cat: 'Social Media', price: '0.001 ETH/call', desc: 'Generate and post AI-written token updates to Twitter/X, Telegram and Discord simultaneously from a single skill call.' },
@@ -2300,11 +2300,11 @@ function showEmmaWalletPanel() {
   ).join('\n');
   const PIEVERSE_SKILL_STORE_URL = 'https://www.pieverse.io/skill-store';
   const PIEVERSE_SKILL_LINKS = {
-    'four.meme launch': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=24927',
-    'pancakeswap swap': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=24927',
-    'lista dao borrow': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=27477',
-    'copy trade': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=24111',
-    'ETH staking': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=4555',
+    'Ponsfamily launch': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=24927',
+    'pancakeswap swap': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=24927',
+    'lista dao borrow': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=27477',
+    'copy trade': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=24111',
+    'ETH staking': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=4555',
   };
   const getPieverseSkillUrl = (skillName) => {
     const key = String(skillName || '').trim().toLowerCase();
@@ -2583,7 +2583,7 @@ function showEmmaWalletPanel() {
   panel.appendChild(layout);
 }
 
-// ─── Olivia four.meme state ───────────────────────────────────────────────────
+// ─── Olivia Ponsfamily state ───────────────────────────────────────────────────
 let oliviaWalletAddress = '';
 let oliviaAccessToken = '';
 let oliviaConnectInFlight = false;
@@ -2648,7 +2648,7 @@ async function oliviaAuthenticate(signer, address) {
   // New API: data is the nonce string directly
   const nonce = typeof nonceData?.data === 'string' ? nonceData.data
     : nonceData?.data?.nonce || nonceData?.nonce || nonceData;
-  if (!nonce) throw new Error('Could not get nonce from four.meme');
+  if (!nonce) throw new Error('Could not get nonce from Ponsfamily');
   const message = 'You are sign in Meme ' + nonce;
   const signature = await signer.signMessage(message);
   const loginData = await oliviaCallApi({ action: 'auth-login', signature, wallet: address.toLowerCase() });
@@ -2682,7 +2682,7 @@ function showOliviaCustomAgentPanel() {
   const hdrLeft = document.createElement('div');
   const hdrTitle = document.createElement('div');
   hdrTitle.style.cssText = 'font:22px/1 VT323,Consolas,monospace;color:#b8956e;letter-spacing:0.06em;text-transform:uppercase;';
-  hdrTitle.textContent = 'FORGE — Four.meme Agent';
+  hdrTitle.textContent = 'FORGE — Ponsfamily Agent';
   const hdrSub = document.createElement('div');
   hdrSub.style.cssText = 'font:18px/1 VT323,Consolas,monospace;color:#8fa89c;margin-top:4px;';
   hdrSub.textContent = 'Robinhood Chain meme token explorer and launchpad';
@@ -2849,7 +2849,7 @@ function showOliviaCustomAgentPanel() {
     };
 
     const RobinhoodTx = txHash ? `https://Robinhoodscan.com/tx/${txHash}` : '';
-    const fourToken = tokenAddress ? `https://four.meme/token/${tokenAddress}` : (symbol ? `https://four.meme/?search=${encodeURIComponent(symbol)}` : 'https://four.meme/');
+    const fourToken = tokenAddress ? `https://Ponsfamily/token/${tokenAddress}` : (symbol ? `https://Ponsfamily/?search=${encodeURIComponent(symbol)}` : 'https://Ponsfamily/');
     card.appendChild(title);
     card.appendChild(sub);
     card.appendChild(mkRow('CA', tokenAddress || 'Not available', false));
@@ -2877,7 +2877,7 @@ function showOliviaCustomAgentPanel() {
     const img=document.createElement('div');
     img.style.cssText='width:44px;height:44px;border-radius:0;background:rgba(184,149,110,0.15);border:1px solid #3d5260;display:flex;align-items:center;justify-content:center;font:700 20px VT323,Consolas,monospace;color:#b8956e;overflow:hidden;flex-shrink:0;';
     const rawImg=token.img||token.imageUrl||token.image||token.logo||token.logoUrl||token.icon||'';
-    const imgSrc=rawImg?(rawImg.startsWith('http')?rawImg:'https://four.meme'+rawImg):'';
+    const imgSrc=rawImg?(rawImg.startsWith('http')?rawImg:'https://Ponsfamily'+rawImg):'';
     if (imgSrc){ const im=document.createElement('img'); im.src=imgSrc; im.referrerPolicy='no-referrer'; im.crossOrigin='anonymous'; im.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:0;'; im.onerror=()=>{ img.removeChild(im); img.textContent=(token.shortName||token.symbol||token.name||'?')[0].toUpperCase(); }; img.appendChild(im); } else img.textContent=(token.shortName||token.symbol||token.name||'?')[0].toUpperCase();
     const info=document.createElement('div');
     const nm=document.createElement('div'); nm.style.cssText='font:20px/1.2 VT323,Consolas,monospace;color:#e8e4d4;'; nm.textContent=token.name||token.tokenName||'Unknown';
@@ -2891,7 +2891,7 @@ function showOliviaCustomAgentPanel() {
     const mc=document.createElement('div'); mc.style.cssText='font:16px/1 VT323,Consolas,monospace;color:#6b9b7a;margin-top:4px;'; mc.textContent=rm?'LIQ '+Number(rm).toFixed(2)+' ETH':'LIQ --';
     stats.appendChild(pr); stats.appendChild(mc);
     card.appendChild(img); card.appendChild(info); card.appendChild(stats);
-    if (addr) card.onclick=()=>window.open('https://four.meme/token/'+addr,'_blank','noopener,noreferrer');
+    if (addr) card.onclick=()=>window.open('https://Ponsfamily/token/'+addr,'_blank','noopener,noreferrer');
     return card;
   };
 
@@ -2906,7 +2906,7 @@ function showOliviaCustomAgentPanel() {
     connectBtn.disabled=true; connectBtn.textContent='Connecting...';
     try {
       const { signer, address } = await oliviaConnectWallet();
-      setStatus('Signing in with four.meme...','#b8956e');
+      setStatus('Signing in with Ponsfamily...','#b8956e');
       const token = await oliviaAuthenticate(signer, address);
       oliviaWalletAddress=address; oliviaAccessToken=token;
       walletTxt.textContent=address.slice(0,6)+'...'+address.slice(-4);
@@ -3007,13 +3007,13 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
     body.innerHTML='';
     if (!oliviaWalletAddress) {
       const note=document.createElement('div'); note.style.cssText='background:rgba(248,194,0,0.08);border:1px solid rgba(248,194,0,0.18);border-radius:10px;padding:18px;font:14px/1.7 system-ui;color:#c8c8cb;';
-      note.innerHTML='<b style="color:#b8956e;display:block;margin-bottom:6px;">Wallet not connected</b>Click <b>Connect Wallet</b> at the top right to link your MetaMask and sign in to four.meme. Make sure you are on ETH Smart Chain.';
+      note.innerHTML='<b style="color:#b8956e;display:block;margin-bottom:6px;">Wallet not connected</b>Click <b>Connect Wallet</b> at the top right to link your MetaMask and sign in to Ponsfamily. Make sure you are on ETH Smart Chain.';
       body.appendChild(note); return;
     }
     const fields=[['Token Name *','name',''],['Symbol *','symbol',''],['Description *','description',''],['Image URL *','imageUrl','https://...'],['Category','label','Meme, AI, Defi, Games, Infra, Social, Others'],['Website','webUrl','https://...'],['Twitter','twitterUrl','https://x.com/...'],['Telegram','telegramUrl','https://t.me/...'],['Dev Buy (ETH)','devBuyETH','0']];
     const inputs={};
     fields.forEach(([label,key,placeholder])=>{ body.appendChild(mkLabel(label)); const inp=mkInput(placeholder); inputs[key]=inp; body.appendChild(inp); });
-    const launchBtn=mkBtn('Launch Token on four.meme');
+    const launchBtn=mkBtn('Launch Token on Ponsfamily');
     launchBtn.style.cssText+=';width:100%;margin-top:16px;padding:12px 18px;';
     body.appendChild(launchBtn);
     const resultDiv=document.createElement('div'); body.appendChild(resultDiv);
@@ -3022,15 +3022,15 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
       const name=inputs.name.value.trim(), symbol=inputs.symbol.value.trim().toUpperCase(), description=inputs.description.value.trim(), imageUrl=inputs.imageUrl.value.trim();
       if(!name||!symbol||!description||!imageUrl){ resultDiv.innerHTML=''; resultDiv.appendChild(mkError('Name, symbol, description and image URL are required.')); return; }
       if(!oliviaAccessToken){ resultDiv.innerHTML=''; resultDiv.appendChild(mkError('Connect wallet first.')); return; }
-      launchBtn.disabled=true; launchBtn.textContent='Uploading image...'; resultDiv.innerHTML=''; resultDiv.appendChild(mkSpinner()); setStatus('Uploading image to four.meme...','#b8956e');
+      launchBtn.disabled=true; launchBtn.textContent='Uploading image...'; resultDiv.innerHTML=''; resultDiv.appendChild(mkSpinner()); setStatus('Uploading image to Ponsfamily...','#b8956e');
       try{
-        // Step 1: Upload image to four.meme CDN
+        // Step 1: Upload image to Ponsfamily CDN
         const uploadResult=await oliviaCallApi({ action:'upload-image', imageUrl, accessToken:oliviaAccessToken });
         const cdnImgUrl=uploadResult?.data||uploadResult;
         if(!cdnImgUrl||typeof cdnImgUrl!=='string') throw new Error('Image upload failed. Response: '+JSON.stringify(uploadResult));
 
         // Step 2: Create token via API
-        launchBtn.textContent='Creating token...'; setStatus('Creating token via four.meme API...','#b8956e');
+        launchBtn.textContent='Creating token...'; setStatus('Creating token via Ponsfamily API...','#b8956e');
         const devBuyETH=inputs.devBuyETH.value.trim()||'0';
         const apiResult=await oliviaCallApi({ action:'create-token-api', accessToken:oliviaAccessToken, name, symbol, description, imageUrl:cdnImgUrl, label:inputs.label.value.trim()||'Meme', webUrl:inputs.webUrl.value.trim()||undefined, twitterUrl:inputs.twitterUrl.value.trim()||undefined, telegramUrl:inputs.telegramUrl.value.trim()||undefined, devBuyETH });
         const createArg=apiResult?.data?.createArg||apiResult?.createArg;
@@ -3067,7 +3067,7 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
         showLaunchSuccessPopup({ txHash: receipt.hash, tokenAddress, symbol });
         setStatus('Token created successfully!','#9ed9b8');
       }catch(e){ resultDiv.innerHTML=''; resultDiv.appendChild(mkError(e.reason||e.message||String(e))); setStatus('Launch failed','#f28b82'); }
-      launchBtn.disabled=false; launchBtn.textContent='Launch Token on four.meme';
+      launchBtn.disabled=false; launchBtn.textContent='Launch Token on Ponsfamily';
     };
   };
 

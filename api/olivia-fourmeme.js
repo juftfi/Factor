@@ -14,14 +14,14 @@ module.exports = async (req, res) => {
     let method = 'POST';
 
     if (action === 'rankings') {
-      fourMemeUrl = 'https://four.meme/meme-api/v1/public/token/ranking';
+      fourMemeUrl = 'https://Ponsfamily/meme-api/v1/public/token/ranking';
       fourMemeBody = {
         type: String(body.type || 'HOT'),
         pageSize: Number(body.pageSize || 20),
         ...(body.symbol ? { symbol: body.symbol } : {}),
       };
     } else if (action === 'search') {
-      fourMemeUrl = 'https://four.meme/meme-api/v1/public/token/search';
+      fourMemeUrl = 'https://Ponsfamily/meme-api/v1/public/token/search';
       fourMemeBody = {
         type: String(body.type || 'HOT'),
         listType: 'NOR',
@@ -32,14 +32,14 @@ module.exports = async (req, res) => {
         ...(body.keyword ? { keyword: body.keyword } : {}),
       };
     } else if (action === 'auth-nonce') {
-      fourMemeUrl = 'https://four.meme/meme-api/v1/private/user/nonce/generate';
+      fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/user/nonce/generate';
       fourMemeBody = {
         accountAddress: String(body.address || '').trim(),
         verifyType: 'LOGIN',
         networkCode: 'Robinhood',
       };
     } else if (action === 'auth-login') {
-      fourMemeUrl = 'https://four.meme/meme-api/v1/private/user/login/dex';
+      fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/user/login/dex';
       fourMemeBody = {
         region: 'WEB',
         langType: 'EN',
@@ -64,20 +64,20 @@ module.exports = async (req, res) => {
       const ext = ct.includes('png') ? 'image.png' : ct.includes('gif') ? 'image.gif' : ct.includes('webp') ? 'image.webp' : 'image.jpg';
       const form = new FormData();
       form.append('file', new Blob([imgBuf], { type: ct }), ext);
-      const uploadResp = await fetch('https://four.meme/meme-api/v1/private/token/upload', {
+      const uploadResp = await fetch('https://Ponsfamily/meme-api/v1/private/token/upload', {
         method: 'POST',
-        headers: { 'meme-web-access': accessToken0, 'origin': 'https://four.meme', 'referer': 'https://four.meme/' },
+        headers: { 'meme-web-access': accessToken0, 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' },
         body: form,
       });
       const uploadData = await uploadResp.json().catch(() => ({}));
       res.status(200).json({ ok: true, data: uploadData });
       return;
     } else if (action === 'create-token-api') {
-      fourMemeUrl = 'https://four.meme/meme-api/v1/private/token/create';
+      fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/token/create';
       const accessToken = String(body.accessToken || '').trim();
       let raisedToken = { symbol: 'ETH', totalBAmount: '18', totalAmount: '1000000000', saleRate: '0.8', status: 'PUBLISH' };
       try {
-        const cfgRes = await fetch('https://four.meme/meme-api/v1/public/config');
+        const cfgRes = await fetch('https://Ponsfamily/meme-api/v1/public/config');
         const cfgData = await cfgRes.json().catch(() => ({}));
         if (cfgData.code === 0 && Array.isArray(cfgData.data) && cfgData.data.length > 0) {
           const published = cfgData.data.filter(c => c.status === 'PUBLISH');
@@ -115,7 +115,7 @@ module.exports = async (req, res) => {
       };
       const fetchOpts2 = {
         method: 'POST',
-        headers: { 'accept': 'application/json', 'content-type': 'application/json', 'meme-web-access': accessToken, 'origin': 'https://four.meme', 'referer': 'https://four.meme/' },
+        headers: { 'accept': 'application/json', 'content-type': 'application/json', 'meme-web-access': accessToken, 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' },
         body: JSON.stringify(fourMemeBody),
       };
       const resp2 = await fetch(fourMemeUrl, fetchOpts2);
@@ -125,7 +125,7 @@ module.exports = async (req, res) => {
     } else if (action === 'token-info') {
       const addr = String(body.address || '').trim();
       if (!addr) { res.status(400).json({ error: 'address required' }); return; }
-      fourMemeUrl = 'https://four.meme/meme-api/v1/private/token/get/v2?address=' + encodeURIComponent(addr);
+      fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/token/get/v2?address=' + encodeURIComponent(addr);
       method = 'GET';
     } else {
       res.status(400).json({ error: 'Unknown action: ' + action });
@@ -134,12 +134,12 @@ module.exports = async (req, res) => {
 
     const fetchOpts = {
       method,
-      headers: { 'accept': 'application/json', 'content-type': 'application/json', 'origin': 'https://four.meme', 'referer': 'https://four.meme/' },
+      headers: { 'accept': 'application/json', 'content-type': 'application/json', 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' },
     };
     if (method === 'POST' && fourMemeBody) fetchOpts.body = JSON.stringify(fourMemeBody);
     const resp = await fetch(fourMemeUrl, fetchOpts);
     const data = await resp.json().catch(() => ({}));
-    if (!resp.ok) { res.status(resp.status).json({ error: data?.message || data?.msg || 'four.meme error' }); return; }
+    if (!resp.ok) { res.status(resp.status).json({ error: data?.message || data?.msg || 'Ponsfamily error' }); return; }
     res.status(200).json({ ok: true, data });
   } catch (err) {
     res.status(500).json({ error: err.message || 'Internal error' });

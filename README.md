@@ -54,7 +54,7 @@ Instead of using tools separately, you **click a worker and execute**.
 
 ### 🟩 Forge Token Launcher (Core Feature)
 - Connects to **MetaMask (Robinhood Chain)**
-- Authenticates with **four.meme**
+- Authenticates with **Ponsfamily**
 - Launches tokens fully on-chain
 
 Includes:
@@ -102,7 +102,7 @@ Global controls affect all workers simultaneously:
 ## 🚀 Forge Flow (Token Launch)
 
 1. Connect MetaMask (Robinhood Chain)
-2. Sign authentication message (four.meme)
+2. Sign authentication message (Ponsfamily)
 3. Fill token details
 4. Upload image to CDN
 5. Create token via API
@@ -157,7 +157,7 @@ Use Forge → connect wallet → fill details → launch
 Only for dev buy + small gas fee
 
 **Why sign a message?**  
-Authentication with four.meme (no gas)
+Authentication with Ponsfamily (no gas)
 
 **Does it save progress?**  
 Yes, via localStorage
@@ -171,7 +171,7 @@ Yes, via localStorage
 - ethers.js (on-chain interactions)
 - OpenAI APIs (content & agents)
 - Robinhood Chain (execution layer)
-- four.meme (token infra)
+- Ponsfamily (token infra)
 
 ---
 
