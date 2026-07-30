@@ -2262,30 +2262,30 @@ function showEmmaWalletPanel() {
 
   // ── Pieverse skill data ───────────────────────────────────────────────────
   const PIEVERSE_SKILLS = [
-    { name: 'PancakeSwap Swap', cat: 'DeFi', price: 'Free', desc: 'Execute token swaps on PancakeSwap V3 with best-route calldata generation. Supports BNB, CAKE, and all BEP-20 tokens.' },
+    { name: 'PancakeSwap Swap', cat: 'DeFi', price: 'Free', desc: 'Execute token swaps on PancakeSwap V3 with best-route calldata generation. Supports ETH, CAKE, and all BEP-20 tokens.' },
     { name: 'Four.Meme Launch', cat: 'DeFi', price: 'Free', desc: 'Create and launch meme tokens on four.meme launchpad. Handles auth, image upload, token config and on-chain tx via purr-cli.' },
-    { name: 'Lista DAO Borrow', cat: 'DeFi', price: 'Free', desc: 'Borrow lisUSD against BNB collateral on Lista DAO. Manages CDP positions, collateral ratio checks and liquidation alerts.' },
+    { name: 'Lista DAO Borrow', cat: 'DeFi', price: 'Free', desc: 'Borrow lisUSD against ETH collateral on Lista DAO. Manages CDP positions, collateral ratio checks and liquidation alerts.' },
     { name: 'Aster Yield', cat: 'DeFi', price: 'Free', desc: 'Deposit assets into Aster Protocol vaults to earn optimized yield. Auto-compounds and tracks APY across strategy pools.' },
     { name: 'pieUSD Stability', cat: 'DeFi', price: 'Free', desc: 'Mint, redeem and manage pieUSD stablecoin positions. Monitors peg deviation and executes arbitrage when off-peg.' },
-    { name: 'Bitget Bridge', cat: 'DeFi', price: 'Free', desc: 'Cross-chain bridge assets between BNB Chain, Ethereum, Base and Arbitrum via Bitget Bridge aggregator with lowest fee routing.' },
-    { name: 'x402b Pay', cat: 'Utility', price: '0.001 BNB/call', desc: 'Monetize any API endpoint with x402b micro-payment protocol. Agents pay per call using on-chain BNB micro-transactions.' },
-    { name: 'ERC-8004 Agent', cat: 'Dev Tools', price: 'Free', desc: 'Deploy and interact with ERC-8004 compliant AI agents on BNB Chain. Standard interface for agent-to-agent coordination.' },
+    { name: 'Bitget Bridge', cat: 'DeFi', price: 'Free', desc: 'Cross-chain bridge assets between Robinhood Chain, Ethereum, Base and Arbitrum via Bitget Bridge aggregator with lowest fee routing.' },
+    { name: 'x402b Pay', cat: 'Utility', price: '0.001 ETH/call', desc: 'Monetize any API endpoint with x402b micro-payment protocol. Agents pay per call using on-chain ETH micro-transactions.' },
+    { name: 'ERC-8004 Agent', cat: 'Dev Tools', price: 'Free', desc: 'Deploy and interact with ERC-8004 compliant AI agents on Robinhood Chain. Standard interface for agent-to-agent coordination.' },
     { name: 'purr-cli Calldata', cat: 'Dev Tools', price: 'Free', desc: 'Generate raw EVM calldata for any DeFi protocol. CLI tool for PancakeSwap, Venus, Lista DAO — no SDK needed.' },
     { name: 'Venus Lend', cat: 'DeFi', price: 'Free', desc: 'Supply and borrow assets on Venus Protocol. Tracks health factor, auto-repays at risk threshold, claims XVS rewards.' },
-    { name: 'BNB Staking', cat: 'DeFi', price: 'Free', desc: 'Delegate BNB to validators for staking rewards. Monitors APY across active validators and auto-claims + re-stakes.' },
-    { name: 'BSC Price Feed', cat: 'On-chain', price: 'Free', desc: 'Real-time price oracle aggregating Chainlink, PancakeSwap TWAP and Binance API. Returns USD price for any BEP-20.' },
-    { name: 'Wallet Tracker', cat: 'On-chain', price: 'Free', desc: 'Monitor any BNB Chain address for incoming txs, token transfers and NFT activity. Fires webhook/agent callback on events.' },
-    { name: 'Twitter Sentiment', cat: 'AI/ML', price: '0.002 BNB/call', desc: 'Analyze Twitter/X sentiment for any token ticker. Returns bullish/bearish score, trending topics and influencer mentions.' },
-    { name: 'Market Snapshot', cat: 'AI/ML', price: 'Free', desc: 'Summarize current DeFi market conditions: top movers, volume leaders, new launches and fear/greed index for BNB Chain.' },
-    { name: 'Trade Signal', cat: 'Trading', price: '0.005 BNB/call', desc: 'AI-powered trade signal generator for BNB Chain tokens. Uses on-chain flow, momentum and social data to rank opportunities.' },
-    { name: 'Copy Trade', cat: 'Trading', price: '0.003 BNB/call', desc: 'Mirror trades of top-performing wallets on BNB Chain. Filters by PnL, win rate and max drawdown before copying.' },
-    { name: 'Sniper Bot', cat: 'Trading', price: '0.01 BNB/call', desc: 'Snipe new token launches on PancakeSwap and four.meme within ms of liquidity add. Configurable slippage and gas premium.' },
+    { name: 'ETH Staking', cat: 'DeFi', price: 'Free', desc: 'Delegate ETH to validators for staking rewards. Monitors APY across active validators and auto-claims + re-stakes.' },
+    { name: 'Robinhood Price Feed', cat: 'On-chain', price: 'Free', desc: 'Real-time price oracle aggregating Chainlink, PancakeSwap TWAP and Binance API. Returns USD price for any BEP-20.' },
+    { name: 'Wallet Tracker', cat: 'On-chain', price: 'Free', desc: 'Monitor any Robinhood Chain address for incoming txs, token transfers and NFT activity. Fires webhook/agent callback on events.' },
+    { name: 'Twitter Sentiment', cat: 'AI/ML', price: '0.002 ETH/call', desc: 'Analyze Twitter/X sentiment for any token ticker. Returns bullish/bearish score, trending topics and influencer mentions.' },
+    { name: 'Market Snapshot', cat: 'AI/ML', price: 'Free', desc: 'Summarize current DeFi market conditions: top movers, volume leaders, new launches and fear/greed index for Robinhood Chain.' },
+    { name: 'Trade Signal', cat: 'Trading', price: '0.005 ETH/call', desc: 'AI-powered trade signal generator for Robinhood Chain tokens. Uses on-chain flow, momentum and social data to rank opportunities.' },
+    { name: 'Copy Trade', cat: 'Trading', price: '0.003 ETH/call', desc: 'Mirror trades of top-performing wallets on Robinhood Chain. Filters by PnL, win rate and max drawdown before copying.' },
+    { name: 'Sniper Bot', cat: 'Trading', price: '0.01 ETH/call', desc: 'Snipe new token launches on PancakeSwap and four.meme within ms of liquidity add. Configurable slippage and gas premium.' },
     { name: 'Telegram Alert', cat: 'Social Media', price: 'Free', desc: 'Send formatted alerts to any Telegram chat or channel. Supports markdown, inline buttons and callback query handling.' },
     { name: 'Discord Notify', cat: 'Social Media', price: 'Free', desc: 'Post rich embed messages to Discord webhooks. Includes price charts, wallet stats and DeFi position summaries.' },
-    { name: 'Auto Poster', cat: 'Social Media', price: '0.001 BNB/call', desc: 'Generate and post AI-written token updates to Twitter/X, Telegram and Discord simultaneously from a single skill call.' },
-    { name: 'Gas Optimizer', cat: 'Utility', price: 'Free', desc: 'Monitor BSC gas prices and batch transactions to minimize fees. Queues low-priority txs for execution at gas dips.' },
-    { name: 'NFT Minter', cat: 'On-chain', price: 'Free', desc: 'Deploy ERC-721 and BEP-721 NFT contracts on BNB Chain. Supports metadata upload to IPFS, mint gating and royalties.' },
-    { name: 'Portfolio Tracker', cat: 'Utility', price: 'Free', desc: 'Aggregate token balances, LP positions and staking rewards across all BNB Chain protocols into a single P&L dashboard.' },
+    { name: 'Auto Poster', cat: 'Social Media', price: '0.001 ETH/call', desc: 'Generate and post AI-written token updates to Twitter/X, Telegram and Discord simultaneously from a single skill call.' },
+    { name: 'Gas Optimizer', cat: 'Utility', price: 'Free', desc: 'Monitor Robinhood gas prices and batch transactions to minimize fees. Queues low-priority txs for execution at gas dips.' },
+    { name: 'NFT Minter', cat: 'On-chain', price: 'Free', desc: 'Deploy ERC-721 and BEP-721 NFT contracts on Robinhood Chain. Supports metadata upload to IPFS, mint gating and royalties.' },
+    { name: 'Portfolio Tracker', cat: 'Utility', price: 'Free', desc: 'Aggregate token balances, LP positions and staking rewards across all Robinhood Chain protocols into a single P&L dashboard.' },
   ];
 
   const CATEGORIES = ['All', 'DeFi', 'Trading', 'AI/ML', 'On-chain', 'Utility', 'Social Media', 'Dev Tools'];
@@ -2304,7 +2304,7 @@ function showEmmaWalletPanel() {
     'pancakeswap swap': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=24927',
     'lista dao borrow': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=27477',
     'copy trade': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=24111',
-    'bnb staking': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=4555',
+    'ETH staking': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=4555',
   };
   const getPieverseSkillUrl = (skillName) => {
     const key = String(skillName || '').trim().toLowerCase();
@@ -2628,7 +2628,7 @@ async function oliviaConnectWallet() {
       try {
         await injectedProvider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
       } catch(e) {
-        throw new Error('Please switch MetaMask to BNB Smart Chain (BSC).');
+        throw new Error('Please switch MetaMask to ETH Smart Chain (Robinhood).');
       }
     }
     oliviaEvmProvider = injectedProvider;
@@ -2685,7 +2685,7 @@ function showOliviaCustomAgentPanel() {
   hdrTitle.textContent = 'FORGE — Four.meme Agent';
   const hdrSub = document.createElement('div');
   hdrSub.style.cssText = 'font:18px/1 VT323,Consolas,monospace;color:#8fa89c;margin-top:4px;';
-  hdrSub.textContent = 'BNB Chain meme token explorer and launchpad';
+  hdrSub.textContent = 'Robinhood Chain meme token explorer and launchpad';
   hdrLeft.appendChild(hdrTitle); hdrLeft.appendChild(hdrSub);
 
   const walletBadge = document.createElement('div');
@@ -2848,14 +2848,14 @@ function showOliviaCustomAgentPanel() {
       return row;
     };
 
-    const bscTx = txHash ? `https://bscscan.com/tx/${txHash}` : '';
+    const RobinhoodTx = txHash ? `https://Robinhoodscan.com/tx/${txHash}` : '';
     const fourToken = tokenAddress ? `https://four.meme/token/${tokenAddress}` : (symbol ? `https://four.meme/?search=${encodeURIComponent(symbol)}` : 'https://four.meme/');
     card.appendChild(title);
     card.appendChild(sub);
     card.appendChild(mkRow('CA', tokenAddress || 'Not available', false));
     card.appendChild(mkRow('TX', txHash || 'Not available', true));
     card.appendChild(mkRow('Token', fourToken, true));
-    if (bscTx) card.appendChild(mkRow('BscScan', bscTx, true));
+    if (RobinhoodTx) card.appendChild(mkRow('RobinhoodScan', RobinhoodTx, true));
 
     const close = document.createElement('button');
     close.type = 'button';
@@ -2888,7 +2888,7 @@ function showOliviaCustomAgentPanel() {
     const rp=token.price||token.lastPrice||token.priceUsd||0;
     const pr=document.createElement('div'); pr.style.cssText='font:18px/1 VT323,Consolas,monospace;color:#b8956e;'; pr.textContent=rp?'$'+Number(rp).toExponential(2):'--';
     const rm=token.cap||token.marketCap||token.mcap||token.totalUsd||token.marketValue||0;
-    const mc=document.createElement('div'); mc.style.cssText='font:16px/1 VT323,Consolas,monospace;color:#6b9b7a;margin-top:4px;'; mc.textContent=rm?'LIQ '+Number(rm).toFixed(2)+' BNB':'LIQ --';
+    const mc=document.createElement('div'); mc.style.cssText='font:16px/1 VT323,Consolas,monospace;color:#6b9b7a;margin-top:4px;'; mc.textContent=rm?'LIQ '+Number(rm).toFixed(2)+' ETH':'LIQ --';
     stats.appendChild(pr); stats.appendChild(mc);
     card.appendChild(img); card.appendChild(info); card.appendChild(stats);
     if (addr) card.onclick=()=>window.open('https://four.meme/token/'+addr,'_blank','noopener,noreferrer');
@@ -3007,10 +3007,10 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
     body.innerHTML='';
     if (!oliviaWalletAddress) {
       const note=document.createElement('div'); note.style.cssText='background:rgba(248,194,0,0.08);border:1px solid rgba(248,194,0,0.18);border-radius:10px;padding:18px;font:14px/1.7 system-ui;color:#c8c8cb;';
-      note.innerHTML='<b style="color:#b8956e;display:block;margin-bottom:6px;">Wallet not connected</b>Click <b>Connect Wallet</b> at the top right to link your MetaMask and sign in to four.meme. Make sure you are on BNB Smart Chain.';
+      note.innerHTML='<b style="color:#b8956e;display:block;margin-bottom:6px;">Wallet not connected</b>Click <b>Connect Wallet</b> at the top right to link your MetaMask and sign in to four.meme. Make sure you are on ETH Smart Chain.';
       body.appendChild(note); return;
     }
-    const fields=[['Token Name *','name',''],['Symbol *','symbol',''],['Description *','description',''],['Image URL *','imageUrl','https://...'],['Category','label','Meme, AI, Defi, Games, Infra, Social, Others'],['Website','webUrl','https://...'],['Twitter','twitterUrl','https://x.com/...'],['Telegram','telegramUrl','https://t.me/...'],['Dev Buy (BNB)','devBuyBNB','0']];
+    const fields=[['Token Name *','name',''],['Symbol *','symbol',''],['Description *','description',''],['Image URL *','imageUrl','https://...'],['Category','label','Meme, AI, Defi, Games, Infra, Social, Others'],['Website','webUrl','https://...'],['Twitter','twitterUrl','https://x.com/...'],['Telegram','telegramUrl','https://t.me/...'],['Dev Buy (ETH)','devBuyETH','0']];
     const inputs={};
     fields.forEach(([label,key,placeholder])=>{ body.appendChild(mkLabel(label)); const inp=mkInput(placeholder); inputs[key]=inp; body.appendChild(inp); });
     const launchBtn=mkBtn('Launch Token on four.meme');
@@ -3031,8 +3031,8 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
 
         // Step 2: Create token via API
         launchBtn.textContent='Creating token...'; setStatus('Creating token via four.meme API...','#b8956e');
-        const devBuyBNB=inputs.devBuyBNB.value.trim()||'0';
-        const apiResult=await oliviaCallApi({ action:'create-token-api', accessToken:oliviaAccessToken, name, symbol, description, imageUrl:cdnImgUrl, label:inputs.label.value.trim()||'Meme', webUrl:inputs.webUrl.value.trim()||undefined, twitterUrl:inputs.twitterUrl.value.trim()||undefined, telegramUrl:inputs.telegramUrl.value.trim()||undefined, devBuyBNB });
+        const devBuyETH=inputs.devBuyETH.value.trim()||'0';
+        const apiResult=await oliviaCallApi({ action:'create-token-api', accessToken:oliviaAccessToken, name, symbol, description, imageUrl:cdnImgUrl, label:inputs.label.value.trim()||'Meme', webUrl:inputs.webUrl.value.trim()||undefined, twitterUrl:inputs.twitterUrl.value.trim()||undefined, telegramUrl:inputs.telegramUrl.value.trim()||undefined, devBuyETH });
         const createArg=apiResult?.data?.createArg||apiResult?.createArg;
         const sig=apiResult?.data?.signature||apiResult?.signature;
         if(!createArg||!sig) throw new Error('API did not return createArg/signature. Response: '+JSON.stringify(apiResult));
@@ -3048,17 +3048,17 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
           return r && r !== '0x' ? BigInt(r) : 0n;
         };
         const launchFee = await readUint('0x009523a2');       // _launchFee()
-        const devBnb = parseFloat(devBuyBNB) || 0;
+        const devETH = parseFloat(devBuyETH) || 0;
         let requiredValue = launchFee;
-        if (devBnb > 0) {
+        if (devETH > 0) {
           const tradingFeeRate = await readUint('0x3472aee7'); // _tradingFeeRate()
-          const presaleWei = ethLib.parseEther(String(devBnb));
+          const presaleWei = ethLib.parseEther(String(devETH));
           const tradingFee = (presaleWei * tradingFeeRate) / 10000n;
           requiredValue = launchFee + presaleWei + tradingFee;
         }
         const managerAbi=['function createToken(bytes calldata createArg, bytes calldata signature) external payable'];
         const contractWithSigner=new ethLib.Contract(MANAGER2, managerAbi, signer);
-        launchBtn.textContent='Confirm in wallet...'; setStatus('Confirm transaction in MetaMask... (value: '+(Number(requiredValue)/1e18).toFixed(4)+' BNB)','#b8956e');
+        launchBtn.textContent='Confirm in wallet...'; setStatus('Confirm transaction in MetaMask... (value: '+(Number(requiredValue)/1e18).toFixed(4)+' ETH)','#b8956e');
         const tx=await contractWithSigner.createToken(createArg, sig, { value: requiredValue, gasLimit: 500000n });
         launchBtn.textContent='Confirming...'; resultDiv.innerHTML=''; setStatus('Waiting for confirmation...','#b8956e');
         const receipt=await tx.wait();
@@ -3096,23 +3096,23 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
       tradeArea.innerHTML='';
       tradeArea.appendChild(mkLabel('Token Address'));
       const addrInp=mkInput('0x...',true); tradeArea.appendChild(addrInp);
-      tradeArea.appendChild(mkLabel('BNB Amount to spend'));
-      const bnbInp=mkInput('e.g. 0.01'); tradeArea.appendChild(bnbInp);
+      tradeArea.appendChild(mkLabel('ETH Amount to spend'));
+      const ETHInp=mkInput('e.g. 0.01'); tradeArea.appendChild(ETHInp);
       const quoteDiv=document.createElement('div'); quoteDiv.style.marginTop='8px'; tradeArea.appendChild(quoteDiv);
       const row=document.createElement('div'); row.style.cssText='display:flex;gap:8px;margin-top:12px;';
       const quoteBtn=document.createElement('button'); quoteBtn.type='button'; quoteBtn.textContent='Get Quote'; quoteBtn.style.cssText='flex:1;padding:9px;border-radius:8px;border:1px solid rgba(34,197,94,0.3);background:rgba(34,197,94,0.1);color:#22c55e;font:700 13px system-ui;cursor:pointer;';
       const buyBtn=mkBtn('Buy','green'); buyBtn.style.flex='1';
       row.appendChild(quoteBtn); row.appendChild(buyBtn); tradeArea.appendChild(row);
       quoteBtn.onclick=async()=>{
-        const addr=addrInp.value.trim(), bnb=bnbInp.value.trim(); if(!addr||!bnb)return;
+        const addr=addrInp.value.trim(), ETH=ETHInp.value.trim(); if(!addr||!ETH)return;
         quoteBtn.disabled=true; quoteDiv.innerHTML=''; setStatus('Getting quote...');
-        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const helper=new ethLib.Contract(HELPER3,helperAbi,provider); const fundsWei=ethLib.parseEther(bnb); const amount=await helper.tryBuy(addr,0n,fundsWei); quoteDiv.appendChild(mkSuccess('Expected: '+ethLib.formatUnits(amount,18)+' tokens')); setStatus('Quote ready'); }catch(e){ quoteDiv.appendChild(mkError(e.message)); setStatus('Error','#f28b82'); }
+        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const helper=new ethLib.Contract(HELPER3,helperAbi,provider); const fundsWei=ethLib.parseEther(ETH); const amount=await helper.tryBuy(addr,0n,fundsWei); quoteDiv.appendChild(mkSuccess('Expected: '+ethLib.formatUnits(amount,18)+' tokens')); setStatus('Quote ready'); }catch(e){ quoteDiv.appendChild(mkError(e.message)); setStatus('Error','#f28b82'); }
         quoteBtn.disabled=false;
       };
       buyBtn.onclick=async()=>{
-        const addr=addrInp.value.trim(), bnb=bnbInp.value.trim(); if(!addr||!bnb){setStatus('Fill token address and BNB amount','#f28b82');return;}
+        const addr=addrInp.value.trim(), ETH=ETHInp.value.trim(); if(!addr||!ETH){setStatus('Fill token address and ETH amount','#f28b82');return;}
         buyBtn.disabled=true; buyBtn.textContent='Buying...'; setStatus('Confirm in MetaMask...','#b8956e');
-        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const signer=await provider.getSigner(); const contract=new ethLib.Contract(MANAGER2,managerAbi,signer); const fundsWei=ethLib.parseEther(bnb); const tx=await contract.buyTokenAMAP(addr,fundsWei,0n,{value:fundsWei}); setStatus('Waiting for confirmation...','#b8956e'); const receipt=await tx.wait(); quoteDiv.innerHTML=''; quoteDiv.appendChild(mkSuccess('Bought! Tx: '+receipt.hash)); setStatus('Buy successful!','#9ed9b8'); }catch(e){ quoteDiv.innerHTML=''; quoteDiv.appendChild(mkError(e.reason||e.message)); setStatus('Error','#f28b82'); }
+        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const signer=await provider.getSigner(); const contract=new ethLib.Contract(MANAGER2,managerAbi,signer); const fundsWei=ethLib.parseEther(ETH); const tx=await contract.buyTokenAMAP(addr,fundsWei,0n,{value:fundsWei}); setStatus('Waiting for confirmation...','#b8956e'); const receipt=await tx.wait(); quoteDiv.innerHTML=''; quoteDiv.appendChild(mkSuccess('Bought! Tx: '+receipt.hash)); setStatus('Buy successful!','#9ed9b8'); }catch(e){ quoteDiv.innerHTML=''; quoteDiv.appendChild(mkError(e.reason||e.message)); setStatus('Error','#f28b82'); }
         buyBtn.disabled=false; buyBtn.textContent='Buy';
       };
     };
@@ -3131,7 +3131,7 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
       quoteBtn.onclick=async()=>{
         const addr=addrInp.value.trim(), amt=amtInp.value.trim(); if(!addr||!amt)return;
         quoteBtn.disabled=true; quoteDiv.innerHTML=''; setStatus('Getting quote...');
-        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const helper=new ethLib.Contract(HELPER3,helperAbi,provider); const amtWei=ethLib.parseUnits(amt,18); const funds=await helper.trySell(addr,amtWei); quoteDiv.appendChild(mkSuccess('Expected: '+ethLib.formatEther(funds)+' BNB')); setStatus('Quote ready'); }catch(e){ quoteDiv.appendChild(mkError(e.message)); setStatus('Error','#f28b82'); }
+        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const helper=new ethLib.Contract(HELPER3,helperAbi,provider); const amtWei=ethLib.parseUnits(amt,18); const funds=await helper.trySell(addr,amtWei); quoteDiv.appendChild(mkSuccess('Expected: '+ethLib.formatEther(funds)+' ETH')); setStatus('Quote ready'); }catch(e){ quoteDiv.appendChild(mkError(e.message)); setStatus('Error','#f28b82'); }
         quoteBtn.disabled=false;
       };
       sellBtn.onclick=async()=>{

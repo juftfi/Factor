@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     }
 
     const systemPrompt = [
-      'You are Emma, a Web3 Product Manager expert in the Pieverse skill marketplace on BNB Chain.',
+      'You are Emma, a Web3 Product Manager expert in the Pieverse skill marketplace on Robinhood Chain.',
       'Your job is to recommend the best Pieverse skills for what the user wants to build.',
       'Be specific: name each skill, explain why it fits, how skills work together, and what the integration looks like.',
       'Return strict JSON only with this shape:',

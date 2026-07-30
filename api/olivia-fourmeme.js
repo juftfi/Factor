@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
       fourMemeBody = {
         accountAddress: String(body.address || '').trim(),
         verifyType: 'LOGIN',
-        networkCode: 'BSC',
+        networkCode: 'Robinhood',
       };
     } else if (action === 'auth-login') {
       fourMemeUrl = 'https://four.meme/meme-api/v1/private/user/login/dex';
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
         inviteCode: '',
         verifyInfo: {
           address: String(body.wallet || '').trim(),
-          networkCode: 'BSC',
+          networkCode: 'Robinhood',
           signature: String(body.signature || '').trim(),
           verifyType: 'LOGIN',
         },
@@ -75,14 +75,14 @@ module.exports = async (req, res) => {
     } else if (action === 'create-token-api') {
       fourMemeUrl = 'https://four.meme/meme-api/v1/private/token/create';
       const accessToken = String(body.accessToken || '').trim();
-      let raisedToken = { symbol: 'BNB', totalBAmount: '18', totalAmount: '1000000000', saleRate: '0.8', status: 'PUBLISH' };
+      let raisedToken = { symbol: 'ETH', totalBAmount: '18', totalAmount: '1000000000', saleRate: '0.8', status: 'PUBLISH' };
       try {
         const cfgRes = await fetch('https://four.meme/meme-api/v1/public/config');
         const cfgData = await cfgRes.json().catch(() => ({}));
         if (cfgData.code === 0 && Array.isArray(cfgData.data) && cfgData.data.length > 0) {
           const published = cfgData.data.filter(c => c.status === 'PUBLISH');
           const list = published.length > 0 ? published : cfgData.data;
-          raisedToken = list.find(c => c.symbol === 'BNB') || list[0];
+          raisedToken = list.find(c => c.symbol === 'ETH') || list[0];
         }
       } catch (_) {}
       const validLabels = ['Meme','AI','Defi','Games','Infra','De-Sci','Social','Depin','Charity','Others'];
@@ -102,7 +102,7 @@ module.exports = async (req, res) => {
         funGroup: false,
         label: labelCanonical,
         lpTradingFee: 0.0025,
-        preSale: String(body.devBuyBNB || '0'),
+        preSale: String(body.devBuyETH || '0'),
         clickFun: false,
         symbol: raisedToken.symbol,
         dexType: 'PANCAKE_SWAP',

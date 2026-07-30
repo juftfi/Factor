@@ -53,7 +53,7 @@ Instead of using tools separately, you **click a worker and execute**.
 ---
 
 ### 🟩 Forge Token Launcher (Core Feature)
-- Connects to **MetaMask (BNB Chain)**
+- Connects to **MetaMask (Robinhood Chain)**
 - Authenticates with **four.meme**
 - Launches tokens fully on-chain
 
@@ -101,7 +101,7 @@ Global controls affect all workers simultaneously:
 
 ## 🚀 Forge Flow (Token Launch)
 
-1. Connect MetaMask (BNB Chain)
+1. Connect MetaMask (Robinhood Chain)
 2. Sign authentication message (four.meme)
 3. Fill token details
 4. Upload image to CDN
@@ -113,7 +113,7 @@ Global controls affect all workers simultaneously:
 launchFee + devBuy + tradingFee
 ```
 
-- Launch fee: 0 BNB (currently)
+- Launch fee: 0 ETH (currently)
 - Trading fee: 1%
 - Dev Buy: optional initial buy
 
@@ -121,7 +121,7 @@ launchFee + devBuy + tradingFee
 
 ## 🔗 Blockchain
 
-- Network: **BNB Chain (BSC)**
+- Network: **Robinhood Chain (Robinhood)**
 - Chain ID: `56`
 - Wallet: MetaMask required
 
@@ -153,7 +153,7 @@ Inside the office there's an arcade game:
 **How do I launch a token?**  
 Use Forge → connect wallet → fill details → launch
 
-**Do I need BNB?**  
+**Do I need ETH?**  
 Only for dev buy + small gas fee
 
 **Why sign a message?**  
@@ -170,7 +170,7 @@ Yes, via localStorage
 - Web-based UI
 - ethers.js (on-chain interactions)
 - OpenAI APIs (content & agents)
-- BNB Chain (execution layer)
+- Robinhood Chain (execution layer)
 - four.meme (token infra)
 
 ---
