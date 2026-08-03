@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
       fourMemeBody = {
         accountAddress: String(body.address || '').trim(),
         verifyType: 'LOGIN',
-        networkCode: 'Binance Smart',
+        networkCode: 'BNB',
       };
     } else if (action === 'auth-login') {
       fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/user/login/dex';
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
         inviteCode: '',
         verifyInfo: {
           address: String(body.wallet || '').trim(),
-          networkCode: 'Binance Smart',
+          networkCode: 'BNB',
           signature: String(body.signature || '').trim(),
           verifyType: 'LOGIN',
         },

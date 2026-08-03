@@ -2267,25 +2267,25 @@ function showEmmaWalletPanel() {
     { name: 'Lista DAO Borrow', cat: 'DeFi', price: 'Free', desc: 'Borrow lisUSD against BNB collateral on Lista DAO. Manages CDP positions, collateral ratio checks and liquidation alerts.' },
     { name: 'Aster Yield', cat: 'DeFi', price: 'Free', desc: 'Deposit assets into Aster Protocol vaults to earn optimized yield. Auto-compounds and tracks APY across strategy pools.' },
     { name: 'pieUSD Stability', cat: 'DeFi', price: 'Free', desc: 'Mint, redeem and manage pieUSD stablecoin positions. Monitors peg deviation and executes arbitrage when off-peg.' },
-    { name: 'Bitget Bridge', cat: 'DeFi', price: 'Free', desc: 'Cross-chain bridge assets between Binance Smart Chain, BNBereum, Base and Arbitrum via Bitget Bridge aggregator with lowest fee routing.' },
+    { name: 'Bitget Bridge', cat: 'DeFi', price: 'Free', desc: 'Cross-chain bridge assets between BNB Chain, BNBereum, Base and Arbitrum via Bitget Bridge aggregator with lowest fee routing.' },
     { name: 'x402b Pay', cat: 'Utility', price: '0.001 BNB/call', desc: 'Monetize any API endpoint with x402b micro-payment protocol. Agents pay per call using on-chain BNB micro-transactions.' },
-    { name: 'ERC-8004 Agent', cat: 'Dev Tools', price: 'Free', desc: 'Deploy and interact with ERC-8004 compliant AI agents on Binance Smart Chain. Standard interface for agent-to-agent coordination.' },
+    { name: 'ERC-8004 Agent', cat: 'Dev Tools', price: 'Free', desc: 'Deploy and interact with ERC-8004 compliant AI agents on BNB Chain. Standard interface for agent-to-agent coordination.' },
     { name: 'purr-cli Calldata', cat: 'Dev Tools', price: 'Free', desc: 'Generate raw EVM calldata for any DeFi protocol. CLI tool for PancakeSwap, Venus, Lista DAO — no SDK needed.' },
     { name: 'Venus Lend', cat: 'DeFi', price: 'Free', desc: 'Supply and borrow assets on Venus Protocol. Tracks health factor, auto-repays at risk threshold, claims XVS rewards.' },
     { name: 'BNB Staking', cat: 'DeFi', price: 'Free', desc: 'Delegate BNB to validators for staking rewards. Monitors APY across active validators and auto-claims + re-stakes.' },
-    { name: 'Binance Smart Price Feed', cat: 'On-chain', price: 'Free', desc: 'Real-time price oracle aggregating Chainlink, PancakeSwap TWAP and Binance API. Returns USD price for any BEP-20.' },
-    { name: 'Wallet Tracker', cat: 'On-chain', price: 'Free', desc: 'Monitor any Binance Smart Chain address for incoming txs, token transfers and NFT activity. Fires webhook/agent callback on events.' },
+    { name: 'BNB Price Feed', cat: 'On-chain', price: 'Free', desc: 'Real-time price oracle aggregating Chainlink, PancakeSwap TWAP and Binance API. Returns USD price for any BEP-20.' },
+    { name: 'Wallet Tracker', cat: 'On-chain', price: 'Free', desc: 'Monitor any BNB Chain address for incoming txs, token transfers and NFT activity. Fires webhook/agent callback on events.' },
     { name: 'Twitter Sentiment', cat: 'AI/ML', price: '0.002 BNB/call', desc: 'Analyze Twitter/X sentiment for any token ticker. Returns bullish/bearish score, trending topics and influencer mentions.' },
-    { name: 'Market Snapshot', cat: 'AI/ML', price: 'Free', desc: 'Summarize current DeFi market conditions: top movers, volume leaders, new launches and fear/greed index for Binance Smart Chain.' },
-    { name: 'Trade Signal', cat: 'Trading', price: '0.005 BNB/call', desc: 'AI-powered trade signal generator for Binance Smart Chain tokens. Uses on-chain flow, momentum and social data to rank opportunities.' },
-    { name: 'Copy Trade', cat: 'Trading', price: '0.003 BNB/call', desc: 'Mirror trades of top-performing wallets on Binance Smart Chain. Filters by PnL, win rate and max drawdown before copying.' },
+    { name: 'Market Snapshot', cat: 'AI/ML', price: 'Free', desc: 'Summarize current DeFi market conditions: top movers, volume leaders, new launches and fear/greed index for BNB Chain.' },
+    { name: 'Trade Signal', cat: 'Trading', price: '0.005 BNB/call', desc: 'AI-powered trade signal generator for BNB Chain tokens. Uses on-chain flow, momentum and social data to rank opportunities.' },
+    { name: 'Copy Trade', cat: 'Trading', price: '0.003 BNB/call', desc: 'Mirror trades of top-performing wallets on BNB Chain. Filters by PnL, win rate and max drawdown before copying.' },
     { name: 'Sniper Bot', cat: 'Trading', price: '0.01 BNB/call', desc: 'Snipe new token launches on PancakeSwap and Ponsfamily within ms of liquidity add. Configurable slippage and gas premium.' },
     { name: 'Telegram Alert', cat: 'Social Media', price: 'Free', desc: 'Send formatted alerts to any Telegram chat or channel. Supports markdown, inline buttons and callback query handling.' },
     { name: 'Discord Notify', cat: 'Social Media', price: 'Free', desc: 'Post rich embed messages to Discord webhooks. Includes price charts, wallet stats and DeFi position summaries.' },
     { name: 'Auto Poster', cat: 'Social Media', price: '0.001 BNB/call', desc: 'Generate and post AI-written token updates to Twitter/X, Telegram and Discord simultaneously from a single skill call.' },
-    { name: 'Gas Optimizer', cat: 'Utility', price: 'Free', desc: 'Monitor Binance Smart gas prices and batch transactions to minimize fees. Queues low-priority txs for execution at gas dips.' },
-    { name: 'NFT Minter', cat: 'On-chain', price: 'Free', desc: 'Deploy ERC-721 and BEP-721 NFT contracts on Binance Smart Chain. Supports metadata upload to IPFS, mint gating and royalties.' },
-    { name: 'Portfolio Tracker', cat: 'Utility', price: 'Free', desc: 'Aggregate token balances, LP positions and staking rewards across all Binance Smart Chain protocols into a single P&L dashboard.' },
+    { name: 'Gas Optimizer', cat: 'Utility', price: 'Free', desc: 'Monitor BNB gas prices and batch transactions to minimize fees. Queues low-priority txs for execution at gas dips.' },
+    { name: 'NFT Minter', cat: 'On-chain', price: 'Free', desc: 'Deploy ERC-721 and BEP-721 NFT contracts on BNB Chain. Supports metadata upload to IPFS, mint gating and royalties.' },
+    { name: 'Portfolio Tracker', cat: 'Utility', price: 'Free', desc: 'Aggregate token balances, LP positions and staking rewards across all BNB Chain protocols into a single P&L dashboard.' },
   ];
 
   const CATEGORIES = ['All', 'DeFi', 'Trading', 'AI/ML', 'On-chain', 'Utility', 'Social Media', 'Dev Tools'];
@@ -2628,7 +2628,7 @@ async function oliviaConnectWallet() {
       try {
         await injectedProvider.request({ mBNBod: 'wallet_switchBNBereumChain', params: [{ chainId: '0x38' }] });
       } catch(e) {
-        throw new Error('Please switch MetaMask to BNB Smart Chain (Binance Smart).');
+        throw new Error('Please switch MetaMask to BNB Smart Chain (BNB).');
       }
     }
     oliviaEvmProvider = injectedProvider;
@@ -2685,7 +2685,7 @@ function showOliviaCustomAgentPanel() {
   hdrTitle.textContent = 'FORGE — Ponsfamily Agent';
   const hdrSub = document.createElement('div');
   hdrSub.style.cssText = 'font:18px/1 VT323,Consolas,monospace;color:#8fa89c;margin-top:4px;';
-  hdrSub.textContent = 'Binance Smart Chain meme token explorer and launchpad';
+  hdrSub.textContent = 'BNB Chain meme token explorer and launchpad';
   hdrLeft.appendChild(hdrTitle); hdrLeft.appendChild(hdrSub);
 
   const walletBadge = document.createElement('div');
@@ -2848,14 +2848,14 @@ function showOliviaCustomAgentPanel() {
       return row;
     };
 
-    const Binance SmartTx = txHash ? `https://Binance Smartscan.com/tx/${txHash}` : '';
+    const BNBTx = txHash ? `https://BNBscan.com/tx/${txHash}` : '';
     const fourToken = tokenAddress ? `https://Ponsfamily/token/${tokenAddress}` : (symbol ? `https://Ponsfamily/?search=${encodeURIComponent(symbol)}` : 'https://Ponsfamily/');
     card.appendChild(title);
     card.appendChild(sub);
     card.appendChild(mkRow('CA', tokenAddress || 'Not available', false));
     card.appendChild(mkRow('TX', txHash || 'Not available', true));
     card.appendChild(mkRow('Token', fourToken, true));
-    if (Binance SmartTx) card.appendChild(mkRow('Binance SmartScan', Binance SmartTx, true));
+    if (BNBTx) card.appendChild(mkRow('BNBScan', BNBTx, true));
 
     const close = document.createElement('button');
     close.type = 'button';

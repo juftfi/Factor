@@ -823,7 +823,7 @@ const server = http.createServer(async (req, res) => {
         fourMemeBody = {
           accountAddress: String(body.address || '').trim(),
           verifyType: 'LOGIN',
-          networkCode: 'Binance Smart',
+          networkCode: 'BNB',
         };
       } else if (action === 'auth-login') {
         fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/user/login/dex';
@@ -834,7 +834,7 @@ const server = http.createServer(async (req, res) => {
           inviteCode: '',
           verifyInfo: {
             address: String(body.wallet || '').trim(),
-            networkCode: 'Binance Smart',
+            networkCode: 'BNB',
             signature: String(body.signature || '').trim(),
             verifyType: 'LOGIN',
           },
@@ -986,7 +986,7 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       const systemPrompt = [
-        'You are Emma, a Web3 Product Manager expert in the Pieverse skill marketplace on Binance Smart Chain.',
+        'You are Emma, a Web3 Product Manager expert in the Pieverse skill marketplace on BNB Chain.',
         'Your job is to recommend the best Pieverse skills for what the user wants to build.',
         'Be specific: name each skill, explain why it fits, how skills work togBNBer, and what the integration looks like.',
         'Return strict JSON only with this shape:',

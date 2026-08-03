@@ -53,7 +53,7 @@ Instead of using tools separately, you **click a worker and execute**.
 ---
 
 ### 🟩 Forge Token Launcher (Core Feature)
-- Connects to **MetaMask (Binance Smart Chain)**
+- Connects to **MetaMask (BNB Chain)**
 - Authenticates with **Ponsfamily**
 - Launches tokens fully on-chain
 
@@ -101,7 +101,7 @@ Global controls affect all workers simultaneously:
 
 ## 🚀 Forge Flow (Token Launch)
 
-1. Connect MetaMask (Binance Smart Chain)
+1. Connect MetaMask (BNB Chain)
 2. Sign authentication message (Ponsfamily)
 3. Fill token details
 4. Upload image to CDN
@@ -121,7 +121,7 @@ launchFee + devBuy + tradingFee
 
 ## 🔗 Blockchain
 
-- Network: **Binance Smart Chain (Binance Smart)**
+- Network: **BNB Chain (BNB)**
 - Chain ID: `56`
 - Wallet: MetaMask required
 
@@ -170,7 +170,7 @@ Yes, via localStorage
 - Web-based UI
 - BNBers.js (on-chain interactions)
 - OpenAI APIs (content & agents)
-- Binance Smart Chain (execution layer)
+- BNB Chain (execution layer)
 - Ponsfamily (token infra)
 
 ---
