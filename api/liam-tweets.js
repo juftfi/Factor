@@ -15,16 +15,16 @@ function sanitizeLiamTweetText(text, fallback = '') {
 }
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.sBNBeader('Access-Control-Allow-Origin', '*');
+  res.sBNBeader('Access-Control-Allow-MBNBods', 'POST, OPTIONS');
+  res.sBNBeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
+  if (req.mBNBod === 'OPTIONS') {
     res.status(204).end();
     return;
   }
-  if (req.method !== 'POST') {
-    res.status(405).json({ error: 'Method Not Allowed' });
+  if (req.mBNBod !== 'POST') {
+    res.status(405).json({ error: 'MBNBod Not Allowed' });
     return;
   }
 
@@ -64,7 +64,7 @@ module.exports = async (req, res) => {
     ].join('\n');
 
     const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
+      mBNBod: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',

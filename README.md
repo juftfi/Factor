@@ -39,7 +39,7 @@ Instead of using tools separately, you **click a worker and execute**.
 ## 👥 The Workers
 
 ### 🟦 Scoop Crypto News
-- Fetches real-time crypto news via `/api/ethan-news`
+- Fetches real-time crypto news via `/api/BNBan-news`
 - AI summaries of relevant headlines
 - Curated information, no noise
 
@@ -53,7 +53,7 @@ Instead of using tools separately, you **click a worker and execute**.
 ---
 
 ### 🟩 Forge Token Launcher (Core Feature)
-- Connects to **MetaMask (Robinhood Chain)**
+- Connects to **MetaMask (Binance Smart Chain)**
 - Authenticates with **Ponsfamily**
 - Launches tokens fully on-chain
 
@@ -74,10 +74,10 @@ Also supports **agent task mode** via `/api/olivia-agent`
 ---
 
 ### 🟪 Quant — Market Signals
-- BTC / ETH / SOL overview
+- BTC / BNB / SOL overview
 - AI directional bias
 - Mini charts + news context
-- Powered by `/api/ethan-market`
+- Powered by `/api/BNBan-market`
 
 ---
 
@@ -101,7 +101,7 @@ Global controls affect all workers simultaneously:
 
 ## 🚀 Forge Flow (Token Launch)
 
-1. Connect MetaMask (Robinhood Chain)
+1. Connect MetaMask (Binance Smart Chain)
 2. Sign authentication message (Ponsfamily)
 3. Fill token details
 4. Upload image to CDN
@@ -113,7 +113,7 @@ Global controls affect all workers simultaneously:
 launchFee + devBuy + tradingFee
 ```
 
-- Launch fee: 0 ETH (currently)
+- Launch fee: 0 BNB (currently)
 - Trading fee: 1%
 - Dev Buy: optional initial buy
 
@@ -121,7 +121,7 @@ launchFee + devBuy + tradingFee
 
 ## 🔗 Blockchain
 
-- Network: **Robinhood Chain (Robinhood)**
+- Network: **Binance Smart Chain (Binance Smart)**
 - Chain ID: `56`
 - Wallet: MetaMask required
 
@@ -153,7 +153,7 @@ Inside the office there's an arcade game:
 **How do I launch a token?**  
 Use Forge → connect wallet → fill details → launch
 
-**Do I need ETH?**  
+**Do I need BNB?**  
 Only for dev buy + small gas fee
 
 **Why sign a message?**  
@@ -168,9 +168,9 @@ Yes, via localStorage
 
 - Three.js (3D rendering)
 - Web-based UI
-- ethers.js (on-chain interactions)
+- BNBers.js (on-chain interactions)
 - OpenAI APIs (content & agents)
-- Robinhood Chain (execution layer)
+- Binance Smart Chain (execution layer)
 - Ponsfamily (token infra)
 
 ---
