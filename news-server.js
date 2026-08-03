@@ -125,7 +125,7 @@ async function buildReportWithOpenAI(news) {
     '- End with "Sources used today:" listing the URLs.\n';
 
   const response = await fetch('https://api.openai.com/v1/responses', {
-    mBNBod: 'POST',
+    mETHod: 'POST',
     headers: {
       'content-type': 'application/json',
       authorization: `Bearer ${OPENAI_API_KEY}`,
@@ -177,7 +177,7 @@ async function buildLiamTweetsWithOpenAI(items) {
   ].join('\n');
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    mBNBod: 'POST',
+    mETHod: 'POST',
     headers: {
       'content-type': 'application/json',
       authorization: `Bearer ${OPENAI_API_KEY}`,
@@ -216,15 +216,15 @@ function writeJson(res, statusCode, payload) {
   res.writeHead(statusCode, {
     'content-type': 'application/json; charset=utf-8',
     'access-control-allow-origin': '*',
-    'access-control-allow-mBNBods': 'GET, POST, OPTIONS',
+    'access-control-allow-mETHods': 'GET, POST, OPTIONS',
     'access-control-allow-headers': 'content-type',
   });
   res.end(JSON.stringify(payload));
 }
 
-const BNBAN_INTERVAL = '4h';
-const BNBAN_CACHE_TTL_MS = 20_000;
-let BNBanSnapshotCache = { at: 0, payload: null };
+const ETHAN_INTERVAL = '4h';
+const ETHAN_CACHE_TTL_MS = 20_000;
+let ETHanSnapshotCache = { at: 0, payload: null };
 
 function toFiniteNumber(value) {
   const num = Number(value);
@@ -233,7 +233,7 @@ function toFiniteNumber(value) {
 
 const TRADTECH_COINS = [
   { asset: 'Bitcoin', symbol: 'BTC/USDT', coinId: 'bitcoin', binanceSymbol: 'BTCUSDT' },
-  { asset: 'BNBereum', symbol: 'BNB/USDT', coinId: 'BNBereum', binanceSymbol: 'BNBUSDT' },
+  { asset: 'ETHereum', symbol: 'ETH/USDT', coinId: 'ETHereum', binanceSymbol: 'ETHUSDT' },
   { asset: 'Solana', symbol: 'SOL/USDT', coinId: 'solana', binanceSymbol: 'SOLUSDT' },
 ];
 
@@ -379,7 +379,7 @@ async function assessNewsImpactForMarkets(markets, newsItems) {
   const headlineText = headlines.map((h, i) => `${i + 1}. [${h.source}] ${h.title}`).join('\n');
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    mBNBod: 'POST',
+    mETHod: 'POST',
     headers: {
       'content-type': 'application/json',
       authorization: `Bearer ${OPENAI_API_KEY}`,
@@ -390,14 +390,14 @@ async function assessNewsImpactForMarkets(markets, newsItems) {
       messages: [
         {
           role: 'system',
-          content: 'You assess whBNBer today crypto headlines are relevant to BTC, BNB, and SOL short-term price moves. Return strict JSON only.',
+          content: 'You assess whETHer today crypto headlines are relevant to BTC, ETH, and SOL short-term price moves. Return strict JSON only.',
         },
         {
           role: 'user',
           content:
             `Markets:\n${marketText}\n\n` +
             `Headlines:\n${headlineText}\n\n` +
-            'Return JSON with this schema exactly: {"assets":[{"asset":"Bitcoin|BNBereum|Solana","relevant":true|false,"impact":-1.0..1.0,"reason":"short text","headlineIndexes":[1,2]}]}.\n' +
+            'Return JSON with this schema exactly: {"assets":[{"asset":"Bitcoin|ETHereum|Solana","relevant":true|false,"impact":-1.0..1.0,"reason":"short text","headlineIndexes":[1,2]}]}.\n' +
             'Use impact 0 when not relevant. Keep reason concise.',
         },
       ],
@@ -443,12 +443,12 @@ async function fetchBinanceSpotPrice(symbol) {
 
 const COINGECKO_IDS = {
   'BTC/USDT': 'bitcoin',
-  'BNB/USDT': 'BNBereum',
+  'ETH/USDT': 'ETHereum',
   'SOL/USDT': 'solana',
 };
 const COINBASE_PRODUCTS = {
   'BTC/USDT': 'BTC-USD',
-  'BNB/USDT': 'BNB-USD',
+  'ETH/USDT': 'ETH-USD',
   'SOL/USDT': 'SOL-USD',
 };
 
@@ -474,7 +474,7 @@ async function fetchCoinGeckoSeries(symbol) {
   };
 }
 
-async function fetchCoinbaseSeries(symbol, interval = BNBAN_INTERVAL) {
+async function fetchCoinbaseSeries(symbol, interval = ETHAN_INTERVAL) {
   const product = COINBASE_PRODUCTS[String(symbol || '').toUpperCase()];
   if (!product) throw new Error(`No Coinbase mapping for ${symbol}`);
   const granularity = 3600;
@@ -499,7 +499,7 @@ async function fetchCoinbaseSeries(symbol, interval = BNBAN_INTERVAL) {
   };
 }
 
-async function fetchBinanceCloses(symbol, interval = BNBAN_INTERVAL, limit = 130) {
+async function fetchBinanceCloses(symbol, interval = ETHAN_INTERVAL, limit = 130) {
   const compact = String(symbol || '').replace('/', '');
   const resp = await fetch(
     `https://api.binance.com/api/v3/klines?symbol=${encodeURIComponent(compact)}&interval=${encodeURIComponent(interval)}&limit=${limit}`
@@ -566,7 +566,7 @@ function calcMacd(values) {
   return { macd, macdSignal, macdHist: macd - macdSignal };
 }
 
-async function buildBinanceDerivedMarket(asset, symbol, interval = BNBAN_INTERVAL) {
+async function buildBinanceDerivedMarket(asset, symbol, interval = ETHAN_INTERVAL) {
   const warnings = [];
   let price = null;
   const rsi = null;
@@ -617,10 +617,10 @@ async function buildBinanceDerivedMarket(asset, symbol, interval = BNBAN_INTERVA
   return { asset, symbol, price, rsi, macd, macdSignal, macdHist, chartPoints, warnings };
 }
 
-async function getBNBanMarketSnapshot(forceRefresh = false) {
+async function getETHanMarketSnapshot(forceRefresh = false) {
   const now = Date.now();
-  if (!forceRefresh && BNBanSnapshotCache.payload && (now - BNBanSnapshotCache.at) < BNBAN_CACHE_TTL_MS) {
-    return BNBanSnapshotCache.payload;
+  if (!forceRefresh && ETHanSnapshotCache.payload && (now - ETHanSnapshotCache.at) < ETHAN_CACHE_TTL_MS) {
+    return ETHanSnapshotCache.payload;
   }
 
   const markets = await Promise.all(
@@ -641,8 +641,8 @@ async function getBNBanMarketSnapshot(forceRefresh = false) {
   } catch (err) {
     markets.forEach((m) => m.warnings.push('News impact analysis unavailable'));
   }
-  const payload = { ok: true, interval: BNBAN_INTERVAL, markets };
-  BNBanSnapshotCache = { at: now, payload };
+  const payload = { ok: true, interval: ETHAN_INTERVAL, markets };
+  ETHanSnapshotCache = { at: now, payload };
   return payload;
 }
 
@@ -668,17 +668,17 @@ function readJsonBody(req) {
 }
 
 const server = http.createServer(async (req, res) => {
-  if (req.mBNBod === 'OPTIONS') {
+  if (req.mETHod === 'OPTIONS') {
     res.writeHead(204, {
       'access-control-allow-origin': '*',
-      'access-control-allow-mBNBods': 'GET, POST, OPTIONS',
+      'access-control-allow-mETHods': 'GET, POST, OPTIONS',
       'access-control-allow-headers': 'content-type',
     });
     res.end();
     return;
   }
 
-  if (req.mBNBod === 'GET' && req.url === '/api/noah-crypto-report') {
+  if (req.mETHod === 'GET' && req.url === '/api/noah-crypto-report') {
     try {
       const news = await fetchCryptoNews();
       if (!news.length) {
@@ -693,7 +693,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.mBNBod === 'POST' && req.url === '/api/liam-tweets') {
+  if (req.mETHod === 'POST' && req.url === '/api/liam-tweets') {
     try {
       const body = await readJsonBody(req);
       const items = Array.isArray(body?.items) ? body.items : [];
@@ -709,7 +709,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.mBNBod === 'POST' && req.url === '/api/worker-chat-reply') {
+  if (req.mETHod === 'POST' && req.url === '/api/worker-chat-reply') {
     try {
       if (!OPENAI_API_KEY) {
         writeJson(res, 500, { error: 'Missing OPENAI_API_KEY in .env' });
@@ -729,7 +729,7 @@ const server = http.createServer(async (req, res) => {
         Liam: 'You are Liam, social media specialist. You help with X/Twitter posts and content ideas.',
         Olivia: 'You are Olivia, custom agent. You run tasks based on user instructions.',
         Emma: 'You are Emma, Base chain wallet specialist. You help with wallet and account actions.',
-        BNBan: 'You are BNBan, operations and market helper. You assist with decisions and keep things running.',
+        ETHan: 'You are ETHan, operations and market helper. You assist with decisions and keep things running.',
       }[worker] || `You are ${worker}, an office assistant.`;
 
       const systemPrompt = [
@@ -741,7 +741,7 @@ const server = http.createServer(async (req, res) => {
       const userPrompt = `Message mentioning you: "${incomingText}"\nRespond as ${worker}.`;
 
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        mBNBod: 'POST',
+        mETHod: 'POST',
         headers: {
           'content-type': 'application/json',
           authorization: `Bearer ${OPENAI_API_KEY}`,
@@ -775,7 +775,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.mBNBod === 'POST' && req.url === '/api/BNBan-news') {
+  if (req.mETHod === 'POST' && req.url === '/api/ETHan-news') {
     try {
       const body = await readJsonBody(req);
       const markets = Array.isArray(body?.markets) ? body.markets : [];
@@ -792,13 +792,13 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.mBNBod === 'POST' && req.url === '/api/olivia-fourmeme') {
+  if (req.mETHod === 'POST' && req.url === '/api/olivia-fourmeme') {
     try {
       const body = await readJsonBody(req);
       const action = String(body?.action || '').trim();
       let fourMemeUrl = '';
       let fourMemeBody = null;
-      let mBNBod = 'POST';
+      let mETHod = 'POST';
 
       if (action === 'rankings') {
         fourMemeUrl = 'https://Ponsfamily/meme-api/v1/public/token/ranking';
@@ -823,7 +823,7 @@ const server = http.createServer(async (req, res) => {
         fourMemeBody = {
           accountAddress: String(body.address || '').trim(),
           verifyType: 'LOGIN',
-          networkCode: 'BNB',
+          networkCode: 'ETH',
         };
       } else if (action === 'auth-login') {
         fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/user/login/dex';
@@ -834,7 +834,7 @@ const server = http.createServer(async (req, res) => {
           inviteCode: '',
           verifyInfo: {
             address: String(body.wallet || '').trim(),
-            networkCode: 'BNB',
+            networkCode: 'ETH',
             signature: String(body.signature || '').trim(),
             verifyType: 'LOGIN',
           },
@@ -853,7 +853,7 @@ const server = http.createServer(async (req, res) => {
         const form = new FormData();
         form.append('file', new Blob([imgBuf], { type: ct }), ext);
         const uploadResp = await fetch('https://Ponsfamily/meme-api/v1/private/token/upload', {
-          mBNBod: 'POST',
+          mETHod: 'POST',
           headers: { 'meme-web-access': accessToken0, 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' },
           body: form,
         });
@@ -864,14 +864,14 @@ const server = http.createServer(async (req, res) => {
         fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/token/create';
         const accessToken = String(body.accessToken || '').trim();
         // Fetch public config to get raisedToken info
-        let raisedToken = { symbol: 'BNB', totalBAmount: '18', totalAmount: '1000000000', saleRate: '0.8', status: 'PUBLISH' };
+        let raisedToken = { symbol: 'ETH', totalBAmount: '18', totalAmount: '1000000000', saleRate: '0.8', status: 'PUBLISH' };
         try {
           const cfgRes = await fetch('https://Ponsfamily/meme-api/v1/public/config');
           const cfgData = await cfgRes.json().catch(() => ({}));
           if (cfgData.code === 0 && Array.isArray(cfgData.data) && cfgData.data.length > 0) {
             const published = cfgData.data.filter(c => c.status === 'PUBLISH');
             const list = published.length > 0 ? published : cfgData.data;
-            raisedToken = list.find(c => c.symbol === 'BNB') || list[0];
+            raisedToken = list.find(c => c.symbol === 'ETH') || list[0];
           }
         } catch (_) {}
         const validLabels = ['Meme','AI','Defi','Games','Infra','De-Sci','Social','Depin','Charity','Others'];
@@ -891,7 +891,7 @@ const server = http.createServer(async (req, res) => {
           funGroup: false,
           label: labelCanonical,
           lpTradingFee: 0.0025,
-          preSale: String(body.devBuyBNB || '0'),
+          preSale: String(body.devBuyETH || '0'),
           clickFun: false,
           symbol: raisedToken.symbol,
           dexType: 'PANCAKE_SWAP',
@@ -902,7 +902,7 @@ const server = http.createServer(async (req, res) => {
           ...(body.twitterUrl ? { twitterUrl: body.twitterUrl } : {}),
           ...(body.telegramUrl ? { telegramUrl: body.telegramUrl } : {}),
         };
-        const fetchOpts2 = { mBNBod: 'POST', headers: { 'accept': 'application/json', 'content-type': 'application/json', 'meme-web-access': accessToken, 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' }, body: JSON.stringify(fourMemeBody) };
+        const fetchOpts2 = { mETHod: 'POST', headers: { 'accept': 'application/json', 'content-type': 'application/json', 'meme-web-access': accessToken, 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' }, body: JSON.stringify(fourMemeBody) };
         const resp2 = await fetch(fourMemeUrl, fetchOpts2);
         const data2 = await resp2.json().catch(() => ({}));
         writeJson(res, 200, { ok: true, data: data2 });
@@ -911,17 +911,17 @@ const server = http.createServer(async (req, res) => {
         const addr = String(body.address || '').trim();
         if (!addr) { writeJson(res, 400, { error: 'address required' }); return; }
         fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/token/get/v2?address=' + encodeURIComponent(addr);
-        mBNBod = 'GET';
+        mETHod = 'GET';
       } else {
         writeJson(res, 400, { error: 'Unknown action: ' + action });
         return;
       }
 
       const fetchOpts = {
-        mBNBod,
+        mETHod,
         headers: { 'accept': 'application/json', 'content-type': 'application/json', 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' },
       };
-      if (mBNBod === 'POST' && fourMemeBody) fetchOpts.body = JSON.stringify(fourMemeBody);
+      if (mETHod === 'POST' && fourMemeBody) fetchOpts.body = JSON.stringify(fourMemeBody);
       const resp = await fetch(fourMemeUrl, fetchOpts);
       const data = await resp.json().catch(() => ({}));
       if (!resp.ok) { writeJson(res, resp.status, { error: data?.message || data?.msg || 'Ponsfamily error' }); return; }
@@ -932,7 +932,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.mBNBod === 'POST' && req.url === '/api/researcher-search') {
+  if (req.mETHod === 'POST' && req.url === '/api/researcher-search') {
     try {
       const body = await readJsonBody(req);
       const query = String(body?.query || '').trim();
@@ -949,7 +949,7 @@ const server = http.createServer(async (req, res) => {
         const apiKey = getNextTavilyKey();
         try {
           const resp = await fetch('https://api.tavily.com/search', {
-            mBNBod: 'POST',
+            mETHod: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ api_key: apiKey, query, search_depth: 'basic', max_results: 6, include_answer: true }),
           });
@@ -971,7 +971,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.mBNBod === 'POST' && req.url === '/api/emma-skills') {
+  if (req.mETHod === 'POST' && req.url === '/api/emma-skills') {
     try {
       const apiKey = String(OPENAI_API_KEY || '').trim();
       if (!apiKey) {
@@ -986,9 +986,9 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       const systemPrompt = [
-        'You are Emma, a Web3 Product Manager expert in the Pieverse skill marketplace on BNB Chain.',
+        'You are Emma, a Web3 Product Manager expert in the Pieverse skill marketplace on ETH Chain.',
         'Your job is to recommend the best Pieverse skills for what the user wants to build.',
-        'Be specific: name each skill, explain why it fits, how skills work togBNBer, and what the integration looks like.',
+        'Be specific: name each skill, explain why it fits, how skills work togETHer, and what the integration looks like.',
         'Return strict JSON only with this shape:',
         '{"answer":"short explanation for the user","recommendations":[{"skillName":"exact skill name from catalog","why":"why this skill is useful"}]}',
         'Pick 3 to 6 skills maximum.',
@@ -998,7 +998,7 @@ const server = http.createServer(async (req, res) => {
         skillsContext,
       ].filter(Boolean).join('\n');
       const dsResp = await fetch('https://api.openai.com/v1/chat/completions', {
-        mBNBod: 'POST',
+        mETHod: 'POST',
         headers: {
           Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
@@ -1044,11 +1044,11 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.mBNBod === 'GET' && (req.url.startsWith('/api/BNBan-market-snapshot') || req.url.startsWith('/api/BNBan-market'))) {
+  if (req.mETHod === 'GET' && (req.url.startsWith('/api/ETHan-market-snapshot') || req.url.startsWith('/api/ETHan-market'))) {
     try {
       const parsedUrl = new URL(req.url, 'http://localhost');
       const forceRefresh = parsedUrl.searchParams.get('refresh') === '1';
-      const payload = await getBNBanMarketSnapshot(forceRefresh);
+      const payload = await getETHanMarketSnapshot(forceRefresh);
       writeJson(res, 200, payload);
     } catch (err) {
       writeJson(res, 500, { error: err.message || 'Internal error' });
@@ -1056,7 +1056,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.mBNBod === 'GET') {
+  if (req.mETHod === 'GET') {
     let safePath = (req.url === '/' ? '/index.html' : req.url).split('?')[0].replace(/\.\./g, '');
     const filePath = path.resolve(path.join(process.cwd(), safePath.replace(/^\//, '')));
     if (!filePath.startsWith(process.cwd())) {

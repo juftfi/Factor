@@ -1,14 +1,14 @@
 module.exports = async (req, res) => {
-  res.sBNBeader('Access-Control-Allow-Origin', '*');
-  res.sBNBeader('Access-Control-Allow-MBNBods', 'POST, OPTIONS');
-  res.sBNBeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.sETHeader('Access-Control-Allow-Origin', '*');
+  res.sETHeader('Access-Control-Allow-METHods', 'POST, OPTIONS');
+  res.sETHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.mBNBod === 'OPTIONS') {
+  if (req.mETHod === 'OPTIONS') {
     res.status(204).end();
     return;
   }
-  if (req.mBNBod !== 'POST') {
-    res.status(405).json({ error: 'MBNBod Not Allowed' });
+  if (req.mETHod !== 'POST') {
+    res.status(405).json({ error: 'METHod Not Allowed' });
     return;
   }
 
@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
       Liam: 'You are Liam, social media specialist. You help with X/Twitter posts and content ideas.',
       Olivia: 'You are Olivia, custom agent. You run tasks based on user instructions.',
       Emma: 'You are Emma, Base chain wallet specialist. You help with wallet and account actions.',
-      BNBan: 'You are BNBan, operations and market helper. You assist with decisions and keep things running.',
+      ETHan: 'You are ETHan, operations and market helper. You assist with decisions and keep things running.',
     }[worker] || `You are ${worker}, an office assistant.`;
 
     const systemPrompt = [
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
     const userPrompt = `Message mentioning you: "${incomingText}"\nRespond as ${worker}.`;
 
     const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
-      mBNBod: 'POST',
+      mETHod: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',

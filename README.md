@@ -39,7 +39,7 @@ Instead of using tools separately, you **click a worker and execute**.
 ## 👥 The Workers
 
 ### 🟦 Scoop Crypto News
-- Fetches real-time crypto news via `/api/BNBan-news`
+- Fetches real-time crypto news via `/api/ETHan-news`
 - AI summaries of relevant headlines
 - Curated information, no noise
 
@@ -53,7 +53,7 @@ Instead of using tools separately, you **click a worker and execute**.
 ---
 
 ### 🟩 Forge Token Launcher (Core Feature)
-- Connects to **MetaMask (BNB Chain)**
+- Connects to **MetaMask (ETH Chain)**
 - Authenticates with **Ponsfamily**
 - Launches tokens fully on-chain
 
@@ -74,10 +74,10 @@ Also supports **agent task mode** via `/api/olivia-agent`
 ---
 
 ### 🟪 Quant — Market Signals
-- BTC / BNB / SOL overview
+- BTC / ETH / SOL overview
 - AI directional bias
 - Mini charts + news context
-- Powered by `/api/BNBan-market`
+- Powered by `/api/ETHan-market`
 
 ---
 
@@ -101,7 +101,7 @@ Global controls affect all workers simultaneously:
 
 ## 🚀 Forge Flow (Token Launch)
 
-1. Connect MetaMask (BNB Chain)
+1. Connect MetaMask (ETH Chain)
 2. Sign authentication message (Ponsfamily)
 3. Fill token details
 4. Upload image to CDN
@@ -113,7 +113,7 @@ Global controls affect all workers simultaneously:
 launchFee + devBuy + tradingFee
 ```
 
-- Launch fee: 0 BNB (currently)
+- Launch fee: 0 ETH (currently)
 - Trading fee: 1%
 - Dev Buy: optional initial buy
 
@@ -121,7 +121,7 @@ launchFee + devBuy + tradingFee
 
 ## 🔗 Blockchain
 
-- Network: **BNB Chain (BNB)**
+- Network: **ETH Chain (ETH)**
 - Chain ID: `56`
 - Wallet: MetaMask required
 
@@ -153,7 +153,7 @@ Inside the office there's an arcade game:
 **How do I launch a token?**  
 Use Forge → connect wallet → fill details → launch
 
-**Do I need BNB?**  
+**Do I need ETH?**  
 Only for dev buy + small gas fee
 
 **Why sign a message?**  
@@ -168,9 +168,9 @@ Yes, via localStorage
 
 - Three.js (3D rendering)
 - Web-based UI
-- BNBers.js (on-chain interactions)
+- ETHers.js (on-chain interactions)
 - OpenAI APIs (content & agents)
-- BNB Chain (execution layer)
+- ETH Chain (execution layer)
 - Ponsfamily (token infra)
 
 ---
