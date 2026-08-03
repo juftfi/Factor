@@ -1021,13 +1021,13 @@
         <div class="hero-ticker">theWorker</div>
         <p class="hero-desc">
           A fully interactive 3D office where six AI workers live at their desks with news, socials,
-          markets, Ponsfamily launches, and on-chain tools, so you can delegate the busywork and stay
+          markets, four.meme launches, and on-chain tools, so you can delegate the busywork and stay
           focused on the trade.
         </p>
         <div class="hero-chips">
           <span class="chip">Real-time 3D office</span>
           <span class="chip blue">BNB Chain · MetaMask</span>
-          <span class="chip green">Ponsfamily Launcher</span>
+          <span class="chip green">four.meme Launcher</span>
           <span class="chip purple">Perpetuals minigame</span>
           <span class="chip amber">Online research</span>
           <span class="chip cyan">Crypto news</span>
@@ -1051,10 +1051,10 @@
       <div class="stat-block">
         <div class="stat-num" style="font-size:26px; padding-top:8px;">BNB</div>
         <div class="stat-label">Chain</div>
-        <div class="stat-sub">Live on-chain · Chain ID 4663</div>
+        <div class="stat-sub">Live on-chain · Chain ID 56</div>
       </div>
       <div class="stat-block">
-        <div class="stat-num" style="font-size:22px; padding-top:10px;">Ponsfamily</div>
+        <div class="stat-num" style="font-size:22px; padding-top:10px;">four.meme</div>
         <div class="stat-label">Token Launcher</div>
         <div class="stat-sub">Real on-chain deploys</div>
       </div>
@@ -1103,7 +1103,7 @@
           </p>
           <h3>What Scoop does</h3>
           <ul>
-            <li>Fetches real-time crypto news via the <code>/api/BNBan-news</code> server endpoint.</li>
+            <li>Fetches real-time crypto news via the <code>/api/ethan-news</code> server endpoint.</li>
             <li>Formats each article with a headline, source, and AI-generated short summary.</li>
             <li>Stores recent news in the meeting summary for team report contributions.</li>
             <li>Acts as base container for Quant and Sage's overlay panel system.</li>
@@ -1158,12 +1158,12 @@
           <div class="worker-role">On-Chain Operator</div>
           <p>
             Forge is the most powerful worker in the office. She connects directly to your MetaMask wallet
-            on BNB Chain, authenticates with Ponsfamily, and executes a full meme token launch, from image
+            on BNB Chain, authenticates with four.meme, and executes a full meme token launch, from image
             upload to on-chain transaction, without you leaving the office.
           </p>
           <h3>Requirements</h3>
           <ul>
-            <li><strong>MetaMask installed</strong> with BNB Chain (Chain ID 4663) configured.</li>
+            <li><strong>MetaMask installed</strong> with BNB Chain (chain ID 56) configured.</li>
             <li><strong>BNB balance:</strong> Dev Buy amount + 1% trading fee, plus gas.</li>
             <li>A token image URL (PNG/JPG) accessible on the public internet.</li>
           </ul>
@@ -1198,7 +1198,7 @@
           </ul>
           <h3>Example queries</h3>
           <ul>
-            <li><em>"Snipe new tokens on Ponsfamily and post profits to Twitter"</em></li>
+            <li><em>"Snipe new tokens on four.meme and post profits to Twitter"</em></li>
             <li><em>"Build a DeFi yield optimizer on BNB Chain"</em></li>
             <li><em>"Track whale wallets and send Telegram notifications"</em></li>
           </ul>
@@ -1216,15 +1216,15 @@
           <div class="worker-role">Market Analyst</div>
           <p>
             Quant is the office market analyst. Click him for a real-time market panel designed for
-            fast decision-making: only the data you need to decide whBNBer to buy, hold, or wait.
+            fast decision-making: only the data you need to decide whether to buy, hold, or wait.
           </p>
           <h3>What's in the panel</h3>
           <ul>
-            <li><strong>Assets:</strong> BTC, BNB, and SOL side-by-side. Price + 24h change at a glance.</li>
+            <li><strong>Assets:</strong> BTC, ETH, and SOL side-by-side. Price + 24h change at a glance.</li>
             <li><strong>Trend charts:</strong> Mini momentum charts per asset, instantly spot uptrend or weakness.</li>
             <li><strong>AI signal:</strong> Actionable directional bias per asset. Considers recent price action.</li>
             <li><strong>News headlines:</strong> Market-moving headlines to correlate price moves with events.</li>
-            <li>Data via <code>/api/BNBan-market</code>: aggregated price feeds, formatted response.</li>
+            <li>Data via <code>/api/ethan-market</code>: aggregated price feeds, formatted response.</li>
             <li>Activity logged and included in team meeting reports.</li>
           </ul>
         </div>
@@ -1275,7 +1275,7 @@
           <div class="timeline-step">
             <div class="timeline-num">3</div>
             <div class="timeline-step-title">Launch a token</div>
-            <div class="timeline-step-desc">Click Forge, connect MetaMask on BNB Chain, fill token details, and fire the on-chain transaction to Ponsfamily.</div>
+            <div class="timeline-step-desc">Click Forge, connect MetaMask on BNB Chain, fill token details, and fire the on-chain transaction to four.meme.</div>
           </div>
           <div class="timeline-step">
             <div class="timeline-num">4</div>
@@ -1350,7 +1350,7 @@
       <div class="section-header">
         <span class="eyebrow">Technical Reference</span>
         <h2>Forge Flow</h2>
-        <p>The complete technical flow Forge executes when launching a meme token on Ponsfamily, from wallet auth through on-chain confirmation.</p>
+        <p>The complete technical flow Forge executes when launching a meme token on four.meme, from wallet auth through on-chain confirmation.</p>
       </div>
 
       <div class="forge-steps">
@@ -1370,8 +1370,8 @@
             <div class="forge-step-circle">2</div>
           </div>
           <div class="forge-step-right">
-            <h3>Authenticate with Ponsfamily</h3>
-            <p>Forge requests a login nonce from <code>Ponsfamily/meme-api/v1/private/user/nonce/generate</code>. MetaMask asks you to sign the message <code>"You are sign in Meme &lt;nonce&gt;"</code>. The signature is sent to the Ponsfamily login endpoint which returns a <code>meme-web-access</code> token used in all subsequent API calls.</p>
+            <h3>Authenticate with four.meme</h3>
+            <p>Forge requests a login nonce from <code>four.meme/meme-api/v1/private/user/nonce/generate</code>. MetaMask asks you to sign the message <code>"You are sign in Meme &lt;nonce&gt;"</code>. The signature is sent to the four.meme login endpoint which returns a <code>meme-web-access</code> token used in all subsequent API calls.</p>
           </div>
         </div>
         <div class="forge-step">
@@ -1390,8 +1390,8 @@
             <div class="forge-step-circle">4</div>
           </div>
           <div class="forge-step-right">
-            <h3>Image upload to Ponsfamily CDN</h3>
-            <p>Forge's server proxy downloads your image URL and re-uploads it to the Ponsfamily CDN via <code>/private/token/upload</code> as multipart FormData. Ponsfamily rejects external image URLs in the token creation body; only CDN-hosted images are accepted.</p>
+            <h3>Image upload to four.meme CDN</h3>
+            <p>Forge's server proxy downloads your image URL and re-uploads it to the four.meme CDN via <code>/private/token/upload</code> as multipart FormData. four.meme rejects external image URLs in the token creation body; only CDN-hosted images are accepted.</p>
           </div>
         </div>
         <div class="forge-step">
@@ -1401,7 +1401,7 @@
           </div>
           <div class="forge-step-right">
             <h3>Create token via API</h3>
-            <p>The server posts to <code>/private/token/create</code> with your token metadata. Ponsfamily responds with a <code>createArg</code> struct and a <code>signature</code> (the exact arguments the on-chain smart contract needs to verify the token). Key fields: <code>name</code>, <code>shortName</code>, <code>desc</code>, <code>imgUrl</code> (CDN), <code>preSale</code> (dev buy as string), <code>raisedToken</code>, <code>dexType: "PANCAKE_SWAP"</code>.</p>
+            <p>The server posts to <code>/private/token/create</code> with your token metadata. four.meme responds with a <code>createArg</code> struct and a <code>signature</code> (the exact arguments the on-chain smart contract needs to verify the token). Key fields: <code>name</code>, <code>shortName</code>, <code>desc</code>, <code>imgUrl</code> (CDN), <code>preSale</code> (dev buy as string), <code>raisedToken</code>, <code>dexType: "PANCAKE_SWAP"</code>.</p>
           </div>
         </div>
         <div class="forge-step">
@@ -1410,7 +1410,7 @@
           </div>
           <div class="forge-step-right">
             <h3>On-chain transaction</h3>
-            <p>Forge reads <code>_launchFee()</code> (selector <code>0x009523a2</code>) and <code>_tradingFeeRate()</code> (selector <code>0x3472aee7</code>) from the Ponsfamily manager contract using raw <code>provider.call()</code>. BNBers.js v6 Contract Proxy silently returns undefined for underscore-prefixed names. Value formula: <code>launchFee + devBuyWei + (devBuyWei × tradingFeeRate / 10000)</code>. Calls <code>createToken(CreateArg, bytes)</code> with <code>gasLimit: 500000n</code> to trigger the MetaMask popup immediately. You confirm and the token is live.</p>
+            <p>Forge reads <code>_launchFee()</code> (selector <code>0x009523a2</code>) and <code>_tradingFeeRate()</code> (selector <code>0x3472aee7</code>) from the four.meme manager contract using raw <code>provider.call()</code>. ethers.js v6 Contract Proxy silently returns undefined for underscore-prefixed names. Value formula: <code>launchFee + devBuyWei + (devBuyWei × tradingFeeRate / 10000)</code>. Calls <code>createToken(CreateArg, bytes)</code> with <code>gasLimit: 500000n</code> to trigger the MetaMask popup immediately. You confirm and the token is live.</p>
           </div>
         </div>
       </div>
@@ -1419,18 +1419,18 @@
         <div class="ref-panel">
           <h3>Smart contract details</h3>
           <ul>
-            <li><strong>Network:</strong> BNB Chain (BNB), Chain ID 4663</li>
+            <li><strong>Network:</strong> BNB Chain (BSC), chain ID 56</li>
             <li><strong>Manager:</strong> <code>0x5c952063c7fc8610FFDB798152D69F0B9550762b</code></li>
             <li><code>_launchFee()</code>: currently returns 0 (free to launch)</li>
             <li><code>_tradingFeeRate()</code>: currently returns 100 (1%)</li>
-            <li>Built with BNBers.js v6</li>
+            <li>Built with ethers.js v6</li>
           </ul>
         </div>
         <div class="ref-panel">
           <h3>Dev Buy explained</h3>
           <p>
             The amount of BNB the deploying wallet spends to purchase the new token at the moment of launch.
-            The Ponsfamily contract charges a 1% trading fee on top. If Dev Buy is <code>0.1 BNB</code>,
+            The four.meme contract charges a 1% trading fee on top. If Dev Buy is <code>0.1 BNB</code>,
             the total transaction value is <code>0.101 BNB</code> plus gas. Setting Dev Buy to 0 launches
             the token with no initial purchase. Only gas is required.
           </p>
@@ -1447,19 +1447,19 @@
       <div class="faq-grid">
         <div class="faq-card">
           <h3>How do I launch a token?</h3>
-          <p>Click Forge. Connect MetaMask on BNB Chain, sign the Ponsfamily login message, fill in your token details, and click Launch. Forge handles image upload, API creation, and the on-chain transaction.</p>
+          <p>Click Forge. Connect MetaMask on BNB Chain, sign the four.meme login message, fill in your token details, and click Launch. Forge handles image upload, API creation, and the on-chain transaction.</p>
         </div>
         <div class="faq-card">
           <h3>How much BNB do I need to launch?</h3>
-          <p>The Ponsfamily launch fee is currently 0 BNB. You only pay your Dev Buy amount plus 1% trading fee. If Dev Buy is 0.1 BNB you need 0.101 BNB plus a small amount for gas.</p>
+          <p>The four.meme launch fee is currently 0 BNB. You only pay your Dev Buy amount plus 1% trading fee. If Dev Buy is 0.1 BNB you need 0.101 BNB plus a small amount for gas.</p>
         </div>
         <div class="faq-card">
           <h3>Why does MetaMask ask me to sign a message?</h3>
-          <p>Ponsfamily requires wallet authentication before you can create tokens. The signed message proves you own the wallet. This is a gasless off-chain signature. No BNB is spent at this step.</p>
+          <p>four.meme requires wallet authentication before you can create tokens. The signed message proves you own the wallet. This is a gasless off-chain signature. No BNB is spent at this step.</p>
         </div>
         <div class="faq-card">
           <h3>My image URL is rejected. What do I do?</h3>
-          <p>Ponsfamily only accepts images from their own CDN. Forge automatically re-uploads your image to the Ponsfamily CDN before creating the token, so any publicly accessible image URL should work.</p>
+          <p>four.meme only accepts images from their own CDN. Forge automatically re-uploads your image to the four.meme CDN before creating the token, so any publicly accessible image URL should work.</p>
         </div>
         <div class="faq-card">
           <h3>What is Dev Buy (BNB)?</h3>
@@ -1483,7 +1483,7 @@
         </div>
         <div class="faq-card">
           <h3>What blockchain does the project use?</h3>
-          <p>All on-chain actions run on <strong>BNB Chain (BNB), Chain ID 4663</strong>. MetaMask must be configured with BNB to use Forge's token launcher.</p>
+          <p>All on-chain actions run on <strong>BNB Chain (BSC), chain ID 56</strong>. MetaMask must be configured with BSC to use Forge's token launcher.</p>
         </div>
         <div class="faq-card">
           <h3>What is theWorker?</h3>
@@ -1563,7 +1563,7 @@
           child.material = child.material.clone();
           if (child.material.color) {
             const hsl = {};
-            child.material.color.gBNBSL(hsl);
+            child.material.color.getHSL(hsl);
             if (hsl.h >= 0.05 && hsl.h <= 0.22 && hsl.s > 0.45) {
               child.material.color.copy(yellow);
               if (child.material.emissive) child.material.emissive.copy(yellow).multiplyScalar(0.12);
@@ -1646,9 +1646,9 @@
     const WORKERS = [
       { name: 'Scoop', emote: 'Jump', color: 0x3498db, role: 'Information Officer · Crypto News', tag: 'Curated crypto headlines and AI summaries through the office news panel.', idle: 'Quietly polls feeds and ranks what matters before you ever open the panel, with the same idle loop as the main office preview.' },
       { name: 'Buzz', emote: 'Yes', color: 0xf5c518, role: 'Content Strategist · Social', tag: 'Tweet drafts and angles tuned to market context and the theWorker voice.', idle: 'Replays recent narratives and pre-wires punchy hooks so when you click him, ideas are already warm.' },
-      { name: 'Forge', emote: 'No', color: 0x2ecc71, role: 'On-Chain Operator · Ponsfamily', tag: 'MetaMask on BNB Chain: full meme token launch with CDN image upload and on-chain create.', idle: 'Keeps the Ponsfamily auth path ready; idle pose until you deploy.' },
+      { name: 'Forge', emote: 'No', color: 0x2ecc71, role: 'On-Chain Operator · four.meme', tag: 'MetaMask on BNB Chain: full meme token launch with CDN image upload and on-chain create.', idle: 'Keeps the four.meme auth path ready; idle pose until you deploy.' },
       { name: 'Sage', emote: 'Wave', color: 0xe91e63, role: 'Product Manager · Skills', tag: 'Browse categorized skills and chat with Sage to plan your stack.', idle: 'Soft-loops through the skill catalog; when you open her, recommendations snap into place.' },
-      { name: 'Quant', emote: 'Punch', color: 0x9b59b6, role: 'Market Analyst · Signals', tag: 'BTC, BNB, SOL at a glance: mini charts, AI bias, and headline context.', idle: 'Maintains a snapshot of tape and news so the market panel opens hot, not cold.' },
+      { name: 'Quant', emote: 'Punch', color: 0x9b59b6, role: 'Market Analyst · Signals', tag: 'BTC, ETH, SOL at a glance: mini charts, AI bias, and headline context.', idle: 'Maintains a snapshot of tape and news so the market panel opens hot, not cold.' },
       { name: 'Scout', emote: 'ThumbsUp', color: 0xff5722, role: 'Research Scout · Web Search', tag: 'In-office research panel: query the web and skim results without alt-tabbing out of the office.', idle: 'Keeps the search shell ready so when you click, the Chloe research modal is one tap away.' },
     ];
 

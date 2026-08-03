@@ -108,9 +108,9 @@ const NOAH_RSS_ENDPOINTS = [
   'https://api.rss2json.com/v1/api.json?rss_url=https://decrypt.co/feed',
 ];
 let noahReportPanel = null;
-let BNBanSummaryPanel = null;
+let ethanSummaryPanel = null;
 let researcherPanel = null;
-let BNBanLiveRefs = null;
+let ethanLiveRefs = null;
 let noahReportStylesInjected = false;
 let meetingSummaryContainer = null;
 const meetingFocus = {
@@ -175,8 +175,8 @@ function ensureNoahReportPanel() {
   return panel;
 }
 
-function ensureBNBanSummaryPanel() {
-  if (BNBanSummaryPanel) return BNBanSummaryPanel;
+function ensureEthanSummaryPanel() {
+  if (ethanSummaryPanel) return ethanSummaryPanel;
   ensureNoahReportStyles();
   const panel = document.createElement('div');
   panel.className = 'noah-report-panel rt-terminal-surface';
@@ -191,14 +191,14 @@ function ensureBNBanSummaryPanel() {
   panel.style.display = 'none';
   panel.style.pointerEvents = 'auto';
   document.body.appendChild(panel);
-  BNBanSummaryPanel = panel;
+  ethanSummaryPanel = panel;
   return panel;
 }
 
-function hideBNBanSummaryPanel() {
-  if (!BNBanSummaryPanel) return;
-  BNBanSummaryPanel.style.display = 'none';
-  BNBanSummaryPanel.innerHTML = '';
+function hideEthanSummaryPanel() {
+  if (!ethanSummaryPanel) return;
+  ethanSummaryPanel.style.display = 'none';
+  ethanSummaryPanel.innerHTML = '';
 }
 
 let chloeModalInjected = false;
@@ -407,7 +407,7 @@ function showChloeResearchModal() {
       const isLocal = /^(localhost|127.0.0.1)$/i.test(window.location.hostname);
       const base = isLocal ? 'http://localhost:8787' : window.location.origin;
       const resp = await fetch(base + '/api/researcher-search', {
-        mBNBod: 'POST', headers: { 'content-type': 'application/json' },
+        method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ query: q }),
       });
       const data = await resp.json().catch(() => ({}));
@@ -560,7 +560,7 @@ function showResearcherPanel() {
       const isLocal = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
       const base = isLocal ? 'http://localhost:8787' : window.location.origin;
       const resp = await fetch(`${base}/api/researcher-search`, {
-        mBNBod: 'POST',
+        method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ query: q }),
       });
@@ -633,7 +633,7 @@ function showResearcherPanel() {
   setTimeout(() => input.focus(), 80);
 }
 
-function buildBNBanSignal(item) {
+function buildEthanSignal(item) {
   const price = Number(item?.price);
   const rsi = Number(item?.rsi);
   const macd = Number(item?.macd);
@@ -1009,10 +1009,10 @@ function showMeetingSummary(workers) {
       activities.push('Created Base wallet');
     }
     if (name === 'Quant') {
-      const within24h = Number.isFinite(w.BNBanSignalsLastAt)
-        && (Date.now() - w.BNBanSignalsLastAt) <= (24 * 60 * 60 * 1000);
+      const within24h = Number.isFinite(w.ethanSignalsLastAt)
+        && (Date.now() - w.ethanSignalsLastAt) <= (24 * 60 * 60 * 1000);
       if (within24h) {
-        activities.push('Shared market signals (BTC/BNB/SOL)');
+        activities.push('Shared market signals (BTC/ETH/SOL)');
       } else {
         activities.push('Did not share market signals today');
       }
@@ -1056,7 +1056,7 @@ function showMeetingSummary(workers) {
 }
 
 function showNoahReport(title, text, isError = false) {
-  hideBNBanSummaryPanel();
+  hideEthanSummaryPanel();
   const panel = ensureNoahReportPanel();
   panel.style.display = 'block';
   panel.classList.toggle('rt-terminal-surface--error', !!isError);
@@ -1089,7 +1089,7 @@ function showNoahReport(title, text, isError = false) {
 }
 
 function showNoahReportNews(items) {
-  hideBNBanSummaryPanel();
+  hideEthanSummaryPanel();
   const panel = ensureNoahReportPanel();
   panel.style.display = 'block';
   panel.classList.remove('rt-terminal-surface--error');
@@ -1333,7 +1333,7 @@ function saveTwitterCreds(creds) {
 async function buildBearerFromApiKeys(apiKey, apiSecret) {
   const basic = btoa(`${apiKey}:${apiSecret}`);
   const res = await fetch('https://api.twitter.com/oauth2/token', {
-    mBNBod: 'POST',
+    method: 'POST',
     headers: {
       authorization: `Basic ${basic}`,
       'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -1352,7 +1352,7 @@ async function postSelectedTweetToTwitter(tweetText, creds) {
   const customProxy = (creds.proxyUrl || '').trim();
   const proxyUrl = customProxy || `${window.location.origin}/api/post-tweet`;
   const res = await fetch(proxyUrl, {
-    mBNBod: 'POST',
+    method: 'POST',
     headers: {
       'content-type': 'application/json',
     },
@@ -1389,7 +1389,7 @@ async function fetchCryptoNewsItems() {
     NOAH_RSS_ENDPOINTS.map((url) => {
       const sep = url.includes('?') ? '&' : '?';
       const noCacheUrl = `${url}${sep}_ts=${nonce}`;
-      return fetch(noCacheUrl, { mBNBod: 'GET', cache: 'no-store' });
+      return fetch(noCacheUrl, { method: 'GET', cache: 'no-store' });
     })
   );
   const allPosts = [];
@@ -1443,7 +1443,7 @@ async function buildLiamTweetsWithAI(items) {
   for (const endpoint of endpoints) {
     try {
       const resp = await fetch(endpoint, {
-        mBNBod: 'POST',
+        method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ items: payloadItems }),
       });
@@ -1463,7 +1463,7 @@ async function buildLiamTweetsWithAI(items) {
 }
 
 function showLiamTweetIdeas(items) {
-  hideBNBanSummaryPanel();
+  hideEthanSummaryPanel();
   const panel = ensureNoahReportPanel();
   panel.style.width = 'min(980px, calc(100vw - 36px))';
   panel.style.maxHeight = '82vh';
@@ -1717,7 +1717,7 @@ async function fetchLiamSocialTweets() {
   }
 }
 
-function showBNBanMarketPanel(payload) {
+function showEthanMarketPanel(payload) {
   const panel = ensureNoahReportPanel();
   panel.style.width = 'min(760px, calc(100vw - 36px))';
   panel.style.maxHeight = '82vh';
@@ -1748,7 +1748,7 @@ function showBNBanMarketPanel(payload) {
   refreshBtn.style.padding = '4px 10px';
   refreshBtn.style.fontSize = '16px';
   refreshBtn.onclick = () => {
-    fetchBNBanMarketSnapshot(true);
+    fetchEthanMarketSnapshot(true);
   };
   headerActions.appendChild(refreshBtn);
 
@@ -1758,12 +1758,12 @@ function showBNBanMarketPanel(payload) {
   closeBtn.className = 'rt-modal-close';
   closeBtn.onclick = () => {
     panel.style.display = 'none';
-    hideBNBanSummaryPanel();
-    if (BNBanLiveRefs?.ws) {
-      BNBanLiveRefs.ws.close();
-      BNBanLiveRefs.ws = null;
+    hideEthanSummaryPanel();
+    if (ethanLiveRefs?.ws) {
+      ethanLiveRefs.ws.close();
+      ethanLiveRefs.ws = null;
     }
-    BNBanLiveRefs = null;
+    ethanLiveRefs = null;
   };
   headerActions.appendChild(closeBtn);
   header.appendChild(headerActions);
@@ -1776,11 +1776,11 @@ function showBNBanMarketPanel(payload) {
 
   const markets = Array.isArray(payload?.markets) ? payload.markets : [];
   const intervalLabel = String(payload?.interval || '4h');
-  if (BNBanLiveRefs?.ws) {
-    BNBanLiveRefs.ws.close();
-    BNBanLiveRefs.ws = null;
+  if (ethanLiveRefs?.ws) {
+    ethanLiveRefs.ws.close();
+    ethanLiveRefs.ws = null;
   }
-  BNBanLiveRefs = { bySymbol: {}, ws: null, panel };
+  ethanLiveRefs = { bySymbol: {}, ws: null, panel };
 
   if (!markets.length) {
     const empty = document.createElement('div');
@@ -1828,7 +1828,7 @@ function showBNBanMarketPanel(payload) {
       card.appendChild(price);
 
       if (binanceSym && Array.isArray(m.klines) && m.klines.length) {
-        BNBanLiveRefs.bySymbol[binanceSym] = {
+        ethanLiveRefs.bySymbol[binanceSym] = {
           klines: [...m.klines],
           chartWrap,
           priceEl: price,
@@ -1875,20 +1875,20 @@ function showBNBanMarketPanel(payload) {
 
   panel.appendChild(body);
 
-  const hasLiveRefs = Object.keys(BNBanLiveRefs.bySymbol).length > 0;
+  const hasLiveRefs = Object.keys(ethanLiveRefs.bySymbol).length > 0;
   if (hasLiveRefs) {
-    const streams = Object.keys(BNBanLiveRefs.bySymbol).map((s) => `${s}@kline_1m`).join('/');
+    const streams = Object.keys(ethanLiveRefs.bySymbol).map((s) => `${s}@kline_1m`).join('/');
     const wsUrl = `wss://stream.binance.com:9443/stream?streams=${streams}`;
     try {
       const ws = new WebSocket(wsUrl);
       ws.onmessage = (ev) => {
-        if (!BNBanLiveRefs?.bySymbol) return;
-        if (BNBanLiveRefs.panel?.style?.display === 'none') return;
+        if (!ethanLiveRefs?.bySymbol) return;
+        if (ethanLiveRefs.panel?.style?.display === 'none') return;
         try {
           const msg = JSON.parse(ev.data);
           const stream = msg?.stream || '';
           const sym = stream.replace('@kline_1m', '').toLowerCase();
-          const ref = BNBanLiveRefs?.bySymbol?.[sym];
+          const ref = ethanLiveRefs?.bySymbol?.[sym];
           if (!ref || !msg?.data?.k) return;
           const k = msg.data.k;
           const candle = [Number(k.t), k.o, k.h, k.l, k.c, k.v, Number(k.T)];
@@ -1913,11 +1913,11 @@ function showBNBanMarketPanel(payload) {
         } catch (_) {}
       };
       ws.onerror = () => {};
-      BNBanLiveRefs.ws = ws;
+      ethanLiveRefs.ws = ws;
     } catch (_) {}
   }
 
-  const advicePanel = ensureBNBanSummaryPanel();
+  const advicePanel = ensureEthanSummaryPanel();
   advicePanel.style.display = 'block';
   advicePanel.innerHTML = '';
 
@@ -1948,7 +1948,7 @@ function showBNBanMarketPanel(payload) {
   adviceBody.style.rowGap = '10px';
 
   markets.forEach((m) => {
-    const signal = buildBNBanSignal(m);
+    const signal = buildEthanSignal(m);
     const isBuy = signal.action === 'Buy';
     const card = document.createElement('div');
     card.style.padding = '10px';
@@ -2052,9 +2052,9 @@ function showBNBanMarketPanel(payload) {
   advicePanel.appendChild(adviceBody);
 }
 
-const BNBAN_TRADETECH_COINS = [
+const ETHAN_TRADETECH_COINS = [
   { asset: 'Bitcoin', symbol: 'BTC/USDT', coinId: 'bitcoin', binanceSymbol: 'BTCUSDT' },
-  { asset: 'BNBereum', symbol: 'BNB/USDT', coinId: 'BNBereum', binanceSymbol: 'BNBUSDT' },
+  { asset: 'Ethereum', symbol: 'ETH/USDT', coinId: 'ethereum', binanceSymbol: 'ETHUSDT' },
   { asset: 'Solana', symbol: 'SOL/USDT', coinId: 'solana', binanceSymbol: 'SOLUSDT' },
 ];
 
@@ -2097,7 +2097,7 @@ async function fetchTradeTechDirect() {
   const parseTs = (ts) => (ts && typeof ts === 'string' ? Date.parse(ts.replace(' ', 'T')) : NaN);
 
   const markets = [];
-  for (const coin of BNBAN_TRADETECH_COINS) {
+  for (const coin of ETHAN_TRADETECH_COINS) {
     try {
       params.set('coin_id', coin.coinId);
       const apiUrl = `https://apitradetech.com/crypto?${params.toString()}`;
@@ -2166,13 +2166,13 @@ async function fetchTradeTechDirect() {
     }
   }
   const newsEndpoints = [
-    () => fetch('http://localhost:8787/api/BNBan-news', {
-      mBNBod: 'POST',
+    () => fetch('http://localhost:8787/api/ethan-news', {
+      method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ markets }),
     }).then((r) => r.json()),
-    () => fetch('/api/BNBan-news', {
-      mBNBod: 'POST',
+    () => fetch('/api/ethan-news', {
+      method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ markets }),
     }).then((r) => r.json()),
@@ -2198,8 +2198,8 @@ async function fetchTradeTechDirect() {
 
 async function fetchIndicatorsOnly() {
   const sources = [
-    () => fetch('http://localhost:8787/api/BNBan-market-snapshot').then((r) => r.json()),
-    () => fetch('/api/BNBan-market').then((r) => r.json()),
+    () => fetch('http://localhost:8787/api/ethan-market-snapshot').then((r) => r.json()),
+    () => fetch('/api/ethan-market').then((r) => r.json()),
     () => fetchTradeTechDirect(),
   ];
   for (const fn of sources) {
@@ -2212,10 +2212,10 @@ async function fetchIndicatorsOnly() {
   return null;
 }
 
-async function fetchBNBanMarketSnapshot(forceRefresh = false) {
+async function fetchEthanMarketSnapshot(forceRefresh = false) {
   showNoahReport(
     'Quant Market Snapshot',
-    forceRefresh ? 'Refreshing live BTC/BNB/SOL data...' : 'Loading BTC/BNB/SOL price, RSI and MACD...'
+    forceRefresh ? 'Refreshing live BTC/ETH/SOL data...' : 'Loading BTC/ETH/SOL price, RSI and MACD...'
   );
   let data = null;
   try {
@@ -2235,11 +2235,11 @@ async function fetchBNBanMarketSnapshot(forceRefresh = false) {
         if (Number.isFinite(close)) m.price = close;
       }
     });
-    showBNBanMarketPanel(data);
-    const BNBanIndex = NAMES.indexOf('Quant');
-    const BNBanWorker = workers.find((w) => w?.mesh?.userData?.nameIndex === BNBanIndex);
-    if (BNBanWorker) addWorkerActivity(BNBanWorker, 'Shared BTC/BNB/SOL market snapshot');
-    if (BNBanWorker) BNBanWorker.BNBanSignalsLastAt = Date.now();
+    showEthanMarketPanel(data);
+    const ethanIndex = NAMES.indexOf('Quant');
+    const ethanWorker = workers.find((w) => w?.mesh?.userData?.nameIndex === ethanIndex);
+    if (ethanWorker) addWorkerActivity(ethanWorker, 'Shared BTC/ETH/SOL market snapshot');
+    if (ethanWorker) ethanWorker.ethanSignalsLastAt = Date.now();
   } catch (err) {
     showNoahReport(
       'Quant Market Snapshot (error)',
@@ -2250,7 +2250,7 @@ async function fetchBNBanMarketSnapshot(forceRefresh = false) {
 }
 
 function showEmmaWalletPanel() {
-  hideBNBanSummaryPanel();
+  hideEthanSummaryPanel();
   const panel = ensureNoahReportPanel();
   panel.style.width = 'min(1160px, calc(100vw - 28px))';
   panel.style.maxHeight = '84vh';
@@ -2263,27 +2263,27 @@ function showEmmaWalletPanel() {
   // ── Pieverse skill data ───────────────────────────────────────────────────
   const PIEVERSE_SKILLS = [
     { name: 'PancakeSwap Swap', cat: 'DeFi', price: 'Free', desc: 'Execute token swaps on PancakeSwap V3 with best-route calldata generation. Supports BNB, CAKE, and all BEP-20 tokens.' },
-    { name: 'Ponsfamily Launch', cat: 'DeFi', price: 'Free', desc: 'Create and launch meme tokens on Ponsfamily launchpad. Handles auth, image upload, token config and on-chain tx via purr-cli.' },
+    { name: 'Four.Meme Launch', cat: 'DeFi', price: 'Free', desc: 'Create and launch meme tokens on four.meme launchpad. Handles auth, image upload, token config and on-chain tx via purr-cli.' },
     { name: 'Lista DAO Borrow', cat: 'DeFi', price: 'Free', desc: 'Borrow lisUSD against BNB collateral on Lista DAO. Manages CDP positions, collateral ratio checks and liquidation alerts.' },
     { name: 'Aster Yield', cat: 'DeFi', price: 'Free', desc: 'Deposit assets into Aster Protocol vaults to earn optimized yield. Auto-compounds and tracks APY across strategy pools.' },
     { name: 'pieUSD Stability', cat: 'DeFi', price: 'Free', desc: 'Mint, redeem and manage pieUSD stablecoin positions. Monitors peg deviation and executes arbitrage when off-peg.' },
-    { name: 'Bitget Bridge', cat: 'DeFi', price: 'Free', desc: 'Cross-chain bridge assets between BNB Chain, BNBereum, Base and Arbitrum via Bitget Bridge aggregator with lowest fee routing.' },
+    { name: 'Bitget Bridge', cat: 'DeFi', price: 'Free', desc: 'Cross-chain bridge assets between BNB Chain, Ethereum, Base and Arbitrum via Bitget Bridge aggregator with lowest fee routing.' },
     { name: 'x402b Pay', cat: 'Utility', price: '0.001 BNB/call', desc: 'Monetize any API endpoint with x402b micro-payment protocol. Agents pay per call using on-chain BNB micro-transactions.' },
     { name: 'ERC-8004 Agent', cat: 'Dev Tools', price: 'Free', desc: 'Deploy and interact with ERC-8004 compliant AI agents on BNB Chain. Standard interface for agent-to-agent coordination.' },
     { name: 'purr-cli Calldata', cat: 'Dev Tools', price: 'Free', desc: 'Generate raw EVM calldata for any DeFi protocol. CLI tool for PancakeSwap, Venus, Lista DAO — no SDK needed.' },
     { name: 'Venus Lend', cat: 'DeFi', price: 'Free', desc: 'Supply and borrow assets on Venus Protocol. Tracks health factor, auto-repays at risk threshold, claims XVS rewards.' },
     { name: 'BNB Staking', cat: 'DeFi', price: 'Free', desc: 'Delegate BNB to validators for staking rewards. Monitors APY across active validators and auto-claims + re-stakes.' },
-    { name: 'BNB Price Feed', cat: 'On-chain', price: 'Free', desc: 'Real-time price oracle aggregating Chainlink, PancakeSwap TWAP and Binance API. Returns USD price for any BEP-20.' },
+    { name: 'BSC Price Feed', cat: 'On-chain', price: 'Free', desc: 'Real-time price oracle aggregating Chainlink, PancakeSwap TWAP and Binance API. Returns USD price for any BEP-20.' },
     { name: 'Wallet Tracker', cat: 'On-chain', price: 'Free', desc: 'Monitor any BNB Chain address for incoming txs, token transfers and NFT activity. Fires webhook/agent callback on events.' },
     { name: 'Twitter Sentiment', cat: 'AI/ML', price: '0.002 BNB/call', desc: 'Analyze Twitter/X sentiment for any token ticker. Returns bullish/bearish score, trending topics and influencer mentions.' },
     { name: 'Market Snapshot', cat: 'AI/ML', price: 'Free', desc: 'Summarize current DeFi market conditions: top movers, volume leaders, new launches and fear/greed index for BNB Chain.' },
     { name: 'Trade Signal', cat: 'Trading', price: '0.005 BNB/call', desc: 'AI-powered trade signal generator for BNB Chain tokens. Uses on-chain flow, momentum and social data to rank opportunities.' },
     { name: 'Copy Trade', cat: 'Trading', price: '0.003 BNB/call', desc: 'Mirror trades of top-performing wallets on BNB Chain. Filters by PnL, win rate and max drawdown before copying.' },
-    { name: 'Sniper Bot', cat: 'Trading', price: '0.01 BNB/call', desc: 'Snipe new token launches on PancakeSwap and Ponsfamily within ms of liquidity add. Configurable slippage and gas premium.' },
+    { name: 'Sniper Bot', cat: 'Trading', price: '0.01 BNB/call', desc: 'Snipe new token launches on PancakeSwap and four.meme within ms of liquidity add. Configurable slippage and gas premium.' },
     { name: 'Telegram Alert', cat: 'Social Media', price: 'Free', desc: 'Send formatted alerts to any Telegram chat or channel. Supports markdown, inline buttons and callback query handling.' },
     { name: 'Discord Notify', cat: 'Social Media', price: 'Free', desc: 'Post rich embed messages to Discord webhooks. Includes price charts, wallet stats and DeFi position summaries.' },
     { name: 'Auto Poster', cat: 'Social Media', price: '0.001 BNB/call', desc: 'Generate and post AI-written token updates to Twitter/X, Telegram and Discord simultaneously from a single skill call.' },
-    { name: 'Gas Optimizer', cat: 'Utility', price: 'Free', desc: 'Monitor BNB gas prices and batch transactions to minimize fees. Queues low-priority txs for execution at gas dips.' },
+    { name: 'Gas Optimizer', cat: 'Utility', price: 'Free', desc: 'Monitor BSC gas prices and batch transactions to minimize fees. Queues low-priority txs for execution at gas dips.' },
     { name: 'NFT Minter', cat: 'On-chain', price: 'Free', desc: 'Deploy ERC-721 and BEP-721 NFT contracts on BNB Chain. Supports metadata upload to IPFS, mint gating and royalties.' },
     { name: 'Portfolio Tracker', cat: 'Utility', price: 'Free', desc: 'Aggregate token balances, LP positions and staking rewards across all BNB Chain protocols into a single P&L dashboard.' },
   ];
@@ -2300,11 +2300,11 @@ function showEmmaWalletPanel() {
   ).join('\n');
   const PIEVERSE_SKILL_STORE_URL = 'https://www.pieverse.io/skill-store';
   const PIEVERSE_SKILL_LINKS = {
-    'Ponsfamily launch': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=24927',
-    'pancakeswap swap': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=24927',
-    'lista dao borrow': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=27477',
-    'copy trade': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=24111',
-    'BNB staking': 'https://www.pieverse.io/skill-store?search=Ponsfamily+Launch&skill=4555',
+    'four.meme launch': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=24927',
+    'pancakeswap swap': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=24927',
+    'lista dao borrow': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=27477',
+    'copy trade': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=24111',
+    'bnb staking': 'https://www.pieverse.io/skill-store?search=Four.Meme+Launch&skill=4555',
   };
   const getPieverseSkillUrl = (skillName) => {
     const key = String(skillName || '').trim().toLowerCase();
@@ -2532,7 +2532,7 @@ function showEmmaWalletPanel() {
       const isLocal = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
       const base = isLocal ? 'http://localhost:8787' : window.location.origin;
       const resp = await fetch(base + '/api/emma-skills', {
-        mBNBod: 'POST',
+        method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ query, skillsContext: SKILLS_PROMPT }),
       });
@@ -2583,7 +2583,7 @@ function showEmmaWalletPanel() {
   panel.appendChild(layout);
 }
 
-// ─── Olivia Ponsfamily state ───────────────────────────────────────────────────
+// ─── Olivia four.meme state ───────────────────────────────────────────────────
 let oliviaWalletAddress = '';
 let oliviaAccessToken = '';
 let oliviaConnectInFlight = false;
@@ -2591,7 +2591,7 @@ let oliviaConnectPromise = null;
 let oliviaEvmProvider = null;
 
 function getPreferredMetaMaskProvider() {
-  const injected = window.BNBereum;
+  const injected = window.ethereum;
   if (!injected) return null;
   const providers = Array.isArray(injected.providers) ? injected.providers : [injected];
   const metaMask = providers.find((p) => p && p.isMetaMask);
@@ -2602,7 +2602,7 @@ async function oliviaCallApi(payload) {
   const isLocal = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
   const base = isLocal ? 'http://localhost:8787' : window.location.origin;
   const resp = await fetch(base + '/api/olivia-fourmeme', {
-    mBNBod: 'POST', headers: { 'content-type': 'application/json' },
+    method: 'POST', headers: { 'content-type': 'application/json' },
     body: JSON.stringify(payload),
   });
   const json = await resp.json().catch(() => ({}));
@@ -2615,24 +2615,24 @@ async function oliviaConnectWallet() {
   if (!injectedProvider) throw new Error('MetaMask not found. Please install MetaMask.');
   if (oliviaConnectPromise) return oliviaConnectPromise;
   oliviaConnectPromise = (async () => {
-    const existingAccounts = await injectedProvider.request({ mBNBod: 'BNB_accounts' }).catch(() => []);
+    const existingAccounts = await injectedProvider.request({ method: 'eth_accounts' }).catch(() => []);
     let accounts = Array.isArray(existingAccounts) ? existingAccounts : [];
     if (accounts.length === 0) {
-      const requested = await injectedProvider.request({ mBNBod: 'BNB_requestAccounts' });
+      const requested = await injectedProvider.request({ method: 'eth_requestAccounts' });
       accounts = Array.isArray(requested) ? requested : [];
     }
     if (!accounts.length) throw new Error('No wallet account authorized.');
-    const BNBLib = window.BNBers;
-    const chainId = await injectedProvider.request({ mBNBod: 'BNB_chainId' });
+    const ethLib = window.ethers;
+    const chainId = await injectedProvider.request({ method: 'eth_chainId' });
     if (Number(chainId) !== 56) {
       try {
-        await injectedProvider.request({ mBNBod: 'wallet_switchBNBereumChain', params: [{ chainId: '0x38' }] });
+        await injectedProvider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
       } catch(e) {
-        throw new Error('Please switch MetaMask to BNB Smart Chain (BNB).');
+        throw new Error('Please switch MetaMask to BNB Smart Chain (BSC).');
       }
     }
     oliviaEvmProvider = injectedProvider;
-    const provider = new BNBLib.BrowserProvider(injectedProvider);
+    const provider = new ethLib.BrowserProvider(injectedProvider);
     const signer = await provider.getSigner();
     return { provider, signer, address: await signer.getAddress() };
   })();
@@ -2648,7 +2648,7 @@ async function oliviaAuthenticate(signer, address) {
   // New API: data is the nonce string directly
   const nonce = typeof nonceData?.data === 'string' ? nonceData.data
     : nonceData?.data?.nonce || nonceData?.nonce || nonceData;
-  if (!nonce) throw new Error('Could not get nonce from Ponsfamily');
+  if (!nonce) throw new Error('Could not get nonce from four.meme');
   const message = 'You are sign in Meme ' + nonce;
   const signature = await signer.signMessage(message);
   const loginData = await oliviaCallApi({ action: 'auth-login', signature, wallet: address.toLowerCase() });
@@ -2660,7 +2660,7 @@ async function oliviaAuthenticate(signer, address) {
 }
 
 function showOliviaCustomAgentPanel() {
-  hideBNBanSummaryPanel();
+  hideEthanSummaryPanel();
   const panel = ensureNoahReportPanel();
   panel.style.position = 'fixed';
   panel.style.left = '18px';
@@ -2682,7 +2682,7 @@ function showOliviaCustomAgentPanel() {
   const hdrLeft = document.createElement('div');
   const hdrTitle = document.createElement('div');
   hdrTitle.style.cssText = 'font:22px/1 VT323,Consolas,monospace;color:#b8956e;letter-spacing:0.06em;text-transform:uppercase;';
-  hdrTitle.textContent = 'FORGE — Ponsfamily Agent';
+  hdrTitle.textContent = 'FORGE — Four.meme Agent';
   const hdrSub = document.createElement('div');
   hdrSub.style.cssText = 'font:18px/1 VT323,Consolas,monospace;color:#8fa89c;margin-top:4px;';
   hdrSub.textContent = 'BNB Chain meme token explorer and launchpad';
@@ -2848,14 +2848,14 @@ function showOliviaCustomAgentPanel() {
       return row;
     };
 
-    const BNBTx = txHash ? `https://BNBscan.com/tx/${txHash}` : '';
-    const fourToken = tokenAddress ? `https://Ponsfamily/token/${tokenAddress}` : (symbol ? `https://Ponsfamily/?search=${encodeURIComponent(symbol)}` : 'https://Ponsfamily/');
+    const bscTx = txHash ? `https://bscscan.com/tx/${txHash}` : '';
+    const fourToken = tokenAddress ? `https://four.meme/token/${tokenAddress}` : (symbol ? `https://four.meme/?search=${encodeURIComponent(symbol)}` : 'https://four.meme/');
     card.appendChild(title);
     card.appendChild(sub);
     card.appendChild(mkRow('CA', tokenAddress || 'Not available', false));
     card.appendChild(mkRow('TX', txHash || 'Not available', true));
     card.appendChild(mkRow('Token', fourToken, true));
-    if (BNBTx) card.appendChild(mkRow('BNBScan', BNBTx, true));
+    if (bscTx) card.appendChild(mkRow('BscScan', bscTx, true));
 
     const close = document.createElement('button');
     close.type = 'button';
@@ -2877,7 +2877,7 @@ function showOliviaCustomAgentPanel() {
     const img=document.createElement('div');
     img.style.cssText='width:44px;height:44px;border-radius:0;background:rgba(184,149,110,0.15);border:1px solid #3d5260;display:flex;align-items:center;justify-content:center;font:700 20px VT323,Consolas,monospace;color:#b8956e;overflow:hidden;flex-shrink:0;';
     const rawImg=token.img||token.imageUrl||token.image||token.logo||token.logoUrl||token.icon||'';
-    const imgSrc=rawImg?(rawImg.startsWith('http')?rawImg:'https://Ponsfamily'+rawImg):'';
+    const imgSrc=rawImg?(rawImg.startsWith('http')?rawImg:'https://four.meme'+rawImg):'';
     if (imgSrc){ const im=document.createElement('img'); im.src=imgSrc; im.referrerPolicy='no-referrer'; im.crossOrigin='anonymous'; im.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:0;'; im.onerror=()=>{ img.removeChild(im); img.textContent=(token.shortName||token.symbol||token.name||'?')[0].toUpperCase(); }; img.appendChild(im); } else img.textContent=(token.shortName||token.symbol||token.name||'?')[0].toUpperCase();
     const info=document.createElement('div');
     const nm=document.createElement('div'); nm.style.cssText='font:20px/1.2 VT323,Consolas,monospace;color:#e8e4d4;'; nm.textContent=token.name||token.tokenName||'Unknown';
@@ -2891,7 +2891,7 @@ function showOliviaCustomAgentPanel() {
     const mc=document.createElement('div'); mc.style.cssText='font:16px/1 VT323,Consolas,monospace;color:#6b9b7a;margin-top:4px;'; mc.textContent=rm?'LIQ '+Number(rm).toFixed(2)+' BNB':'LIQ --';
     stats.appendChild(pr); stats.appendChild(mc);
     card.appendChild(img); card.appendChild(info); card.appendChild(stats);
-    if (addr) card.onclick=()=>window.open('https://Ponsfamily/token/'+addr,'_blank','noopener,noreferrer');
+    if (addr) card.onclick=()=>window.open('https://four.meme/token/'+addr,'_blank','noopener,noreferrer');
     return card;
   };
 
@@ -2906,7 +2906,7 @@ function showOliviaCustomAgentPanel() {
     connectBtn.disabled=true; connectBtn.textContent='Connecting...';
     try {
       const { signer, address } = await oliviaConnectWallet();
-      setStatus('Signing in with Ponsfamily...','#b8956e');
+      setStatus('Signing in with four.meme...','#b8956e');
       const token = await oliviaAuthenticate(signer, address);
       oliviaWalletAddress=address; oliviaAccessToken=token;
       walletTxt.textContent=address.slice(0,6)+'...'+address.slice(-4);
@@ -3007,13 +3007,13 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
     body.innerHTML='';
     if (!oliviaWalletAddress) {
       const note=document.createElement('div'); note.style.cssText='background:rgba(248,194,0,0.08);border:1px solid rgba(248,194,0,0.18);border-radius:10px;padding:18px;font:14px/1.7 system-ui;color:#c8c8cb;';
-      note.innerHTML='<b style="color:#b8956e;display:block;margin-bottom:6px;">Wallet not connected</b>Click <b>Connect Wallet</b> at the top right to link your MetaMask and sign in to Ponsfamily. Make sure you are on BNB Smart Chain.';
+      note.innerHTML='<b style="color:#b8956e;display:block;margin-bottom:6px;">Wallet not connected</b>Click <b>Connect Wallet</b> at the top right to link your MetaMask and sign in to four.meme. Make sure you are on BNB Smart Chain.';
       body.appendChild(note); return;
     }
     const fields=[['Token Name *','name',''],['Symbol *','symbol',''],['Description *','description',''],['Image URL *','imageUrl','https://...'],['Category','label','Meme, AI, Defi, Games, Infra, Social, Others'],['Website','webUrl','https://...'],['Twitter','twitterUrl','https://x.com/...'],['Telegram','telegramUrl','https://t.me/...'],['Dev Buy (BNB)','devBuyBNB','0']];
     const inputs={};
     fields.forEach(([label,key,placeholder])=>{ body.appendChild(mkLabel(label)); const inp=mkInput(placeholder); inputs[key]=inp; body.appendChild(inp); });
-    const launchBtn=mkBtn('Launch Token on Ponsfamily');
+    const launchBtn=mkBtn('Launch Token on four.meme');
     launchBtn.style.cssText+=';width:100%;margin-top:16px;padding:12px 18px;';
     body.appendChild(launchBtn);
     const resultDiv=document.createElement('div'); body.appendChild(resultDiv);
@@ -3022,15 +3022,15 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
       const name=inputs.name.value.trim(), symbol=inputs.symbol.value.trim().toUpperCase(), description=inputs.description.value.trim(), imageUrl=inputs.imageUrl.value.trim();
       if(!name||!symbol||!description||!imageUrl){ resultDiv.innerHTML=''; resultDiv.appendChild(mkError('Name, symbol, description and image URL are required.')); return; }
       if(!oliviaAccessToken){ resultDiv.innerHTML=''; resultDiv.appendChild(mkError('Connect wallet first.')); return; }
-      launchBtn.disabled=true; launchBtn.textContent='Uploading image...'; resultDiv.innerHTML=''; resultDiv.appendChild(mkSpinner()); setStatus('Uploading image to Ponsfamily...','#b8956e');
+      launchBtn.disabled=true; launchBtn.textContent='Uploading image...'; resultDiv.innerHTML=''; resultDiv.appendChild(mkSpinner()); setStatus('Uploading image to four.meme...','#b8956e');
       try{
-        // Step 1: Upload image to Ponsfamily CDN
+        // Step 1: Upload image to four.meme CDN
         const uploadResult=await oliviaCallApi({ action:'upload-image', imageUrl, accessToken:oliviaAccessToken });
         const cdnImgUrl=uploadResult?.data||uploadResult;
         if(!cdnImgUrl||typeof cdnImgUrl!=='string') throw new Error('Image upload failed. Response: '+JSON.stringify(uploadResult));
 
         // Step 2: Create token via API
-        launchBtn.textContent='Creating token...'; setStatus('Creating token via Ponsfamily API...','#b8956e');
+        launchBtn.textContent='Creating token...'; setStatus('Creating token via four.meme API...','#b8956e');
         const devBuyBNB=inputs.devBuyBNB.value.trim()||'0';
         const apiResult=await oliviaCallApi({ action:'create-token-api', accessToken:oliviaAccessToken, name, symbol, description, imageUrl:cdnImgUrl, label:inputs.label.value.trim()||'Meme', webUrl:inputs.webUrl.value.trim()||undefined, twitterUrl:inputs.twitterUrl.value.trim()||undefined, telegramUrl:inputs.telegramUrl.value.trim()||undefined, devBuyBNB });
         const createArg=apiResult?.data?.createArg||apiResult?.createArg;
@@ -3039,8 +3039,8 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
 
         // Step 3: On-chain createToken
         launchBtn.textContent='Reading fees...'; setStatus('Reading contract fees...','#b8956e');
-        const BNBLib=window.BNBers;
-        const provider=new BNBLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider());
+        const ethLib=window.ethers;
+        const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider());
         const signer=await provider.getSigner();
         // Read _launchFee() and _tradingFeeRate() via direct provider.call (avoids underscore proxy issues)
         const readUint = async (sel) => {
@@ -3048,16 +3048,16 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
           return r && r !== '0x' ? BigInt(r) : 0n;
         };
         const launchFee = await readUint('0x009523a2');       // _launchFee()
-        const devBNB = parseFloat(devBuyBNB) || 0;
+        const devBnb = parseFloat(devBuyBNB) || 0;
         let requiredValue = launchFee;
-        if (devBNB > 0) {
+        if (devBnb > 0) {
           const tradingFeeRate = await readUint('0x3472aee7'); // _tradingFeeRate()
-          const presaleWei = BNBLib.parseBNBer(String(devBNB));
+          const presaleWei = ethLib.parseEther(String(devBnb));
           const tradingFee = (presaleWei * tradingFeeRate) / 10000n;
           requiredValue = launchFee + presaleWei + tradingFee;
         }
         const managerAbi=['function createToken(bytes calldata createArg, bytes calldata signature) external payable'];
-        const contractWithSigner=new BNBLib.Contract(MANAGER2, managerAbi, signer);
+        const contractWithSigner=new ethLib.Contract(MANAGER2, managerAbi, signer);
         launchBtn.textContent='Confirm in wallet...'; setStatus('Confirm transaction in MetaMask... (value: '+(Number(requiredValue)/1e18).toFixed(4)+' BNB)','#b8956e');
         const tx=await contractWithSigner.createToken(createArg, sig, { value: requiredValue, gasLimit: 500000n });
         launchBtn.textContent='Confirming...'; resultDiv.innerHTML=''; setStatus('Waiting for confirmation...','#b8956e');
@@ -3067,7 +3067,7 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
         showLaunchSuccessPopup({ txHash: receipt.hash, tokenAddress, symbol });
         setStatus('Token created successfully!','#9ed9b8');
       }catch(e){ resultDiv.innerHTML=''; resultDiv.appendChild(mkError(e.reason||e.message||String(e))); setStatus('Launch failed','#f28b82'); }
-      launchBtn.disabled=false; launchBtn.textContent='Launch Token on Ponsfamily';
+      launchBtn.disabled=false; launchBtn.textContent='Launch Token on four.meme';
     };
   };
 
@@ -3079,7 +3079,7 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
       note.innerHTML='<b style="color:#b8956e;display:block;margin-bottom:6px;">Wallet not connected</b>Click <b>Connect Wallet</b> at the top right.';
       body.appendChild(note); return;
     }
-    const BNBLib=window.BNBers;
+    const ethLib=window.ethers;
     const helperAbi=['function tryBuy(address token, uint256 amount, uint256 funds) external view returns (uint256)','function trySell(address token, uint256 amount) external view returns (uint256)'];
     const managerAbi=['function buyTokenAMAP(address token, uint256 funds, uint256 minAmount) external payable','function sellToken(address token, uint256 amount) external'];
 
@@ -3097,22 +3097,22 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
       tradeArea.appendChild(mkLabel('Token Address'));
       const addrInp=mkInput('0x...',true); tradeArea.appendChild(addrInp);
       tradeArea.appendChild(mkLabel('BNB Amount to spend'));
-      const BNBInp=mkInput('e.g. 0.01'); tradeArea.appendChild(BNBInp);
+      const bnbInp=mkInput('e.g. 0.01'); tradeArea.appendChild(bnbInp);
       const quoteDiv=document.createElement('div'); quoteDiv.style.marginTop='8px'; tradeArea.appendChild(quoteDiv);
       const row=document.createElement('div'); row.style.cssText='display:flex;gap:8px;margin-top:12px;';
       const quoteBtn=document.createElement('button'); quoteBtn.type='button'; quoteBtn.textContent='Get Quote'; quoteBtn.style.cssText='flex:1;padding:9px;border-radius:8px;border:1px solid rgba(34,197,94,0.3);background:rgba(34,197,94,0.1);color:#22c55e;font:700 13px system-ui;cursor:pointer;';
       const buyBtn=mkBtn('Buy','green'); buyBtn.style.flex='1';
       row.appendChild(quoteBtn); row.appendChild(buyBtn); tradeArea.appendChild(row);
       quoteBtn.onclick=async()=>{
-        const addr=addrInp.value.trim(), BNB=BNBInp.value.trim(); if(!addr||!BNB)return;
+        const addr=addrInp.value.trim(), bnb=bnbInp.value.trim(); if(!addr||!bnb)return;
         quoteBtn.disabled=true; quoteDiv.innerHTML=''; setStatus('Getting quote...');
-        try{ const provider=new BNBLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const helper=new BNBLib.Contract(HELPER3,helperAbi,provider); const fundsWei=BNBLib.parseBNBer(BNB); const amount=await helper.tryBuy(addr,0n,fundsWei); quoteDiv.appendChild(mkSuccess('Expected: '+BNBLib.formatUnits(amount,18)+' tokens')); setStatus('Quote ready'); }catch(e){ quoteDiv.appendChild(mkError(e.message)); setStatus('Error','#f28b82'); }
+        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const helper=new ethLib.Contract(HELPER3,helperAbi,provider); const fundsWei=ethLib.parseEther(bnb); const amount=await helper.tryBuy(addr,0n,fundsWei); quoteDiv.appendChild(mkSuccess('Expected: '+ethLib.formatUnits(amount,18)+' tokens')); setStatus('Quote ready'); }catch(e){ quoteDiv.appendChild(mkError(e.message)); setStatus('Error','#f28b82'); }
         quoteBtn.disabled=false;
       };
       buyBtn.onclick=async()=>{
-        const addr=addrInp.value.trim(), BNB=BNBInp.value.trim(); if(!addr||!BNB){setStatus('Fill token address and BNB amount','#f28b82');return;}
+        const addr=addrInp.value.trim(), bnb=bnbInp.value.trim(); if(!addr||!bnb){setStatus('Fill token address and BNB amount','#f28b82');return;}
         buyBtn.disabled=true; buyBtn.textContent='Buying...'; setStatus('Confirm in MetaMask...','#b8956e');
-        try{ const provider=new BNBLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const signer=await provider.getSigner(); const contract=new BNBLib.Contract(MANAGER2,managerAbi,signer); const fundsWei=BNBLib.parseBNBer(BNB); const tx=await contract.buyTokenAMAP(addr,fundsWei,0n,{value:fundsWei}); setStatus('Waiting for confirmation...','#b8956e'); const receipt=await tx.wait(); quoteDiv.innerHTML=''; quoteDiv.appendChild(mkSuccess('Bought! Tx: '+receipt.hash)); setStatus('Buy successful!','#9ed9b8'); }catch(e){ quoteDiv.innerHTML=''; quoteDiv.appendChild(mkError(e.reason||e.message)); setStatus('Error','#f28b82'); }
+        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const signer=await provider.getSigner(); const contract=new ethLib.Contract(MANAGER2,managerAbi,signer); const fundsWei=ethLib.parseEther(bnb); const tx=await contract.buyTokenAMAP(addr,fundsWei,0n,{value:fundsWei}); setStatus('Waiting for confirmation...','#b8956e'); const receipt=await tx.wait(); quoteDiv.innerHTML=''; quoteDiv.appendChild(mkSuccess('Bought! Tx: '+receipt.hash)); setStatus('Buy successful!','#9ed9b8'); }catch(e){ quoteDiv.innerHTML=''; quoteDiv.appendChild(mkError(e.reason||e.message)); setStatus('Error','#f28b82'); }
         buyBtn.disabled=false; buyBtn.textContent='Buy';
       };
     };
@@ -3131,13 +3131,13 @@ list.forEach(t=>containerEl.appendChild(buildTokenCard(t))); setStatus(list.leng
       quoteBtn.onclick=async()=>{
         const addr=addrInp.value.trim(), amt=amtInp.value.trim(); if(!addr||!amt)return;
         quoteBtn.disabled=true; quoteDiv.innerHTML=''; setStatus('Getting quote...');
-        try{ const provider=new BNBLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const helper=new BNBLib.Contract(HELPER3,helperAbi,provider); const amtWei=BNBLib.parseUnits(amt,18); const funds=await helper.trySell(addr,amtWei); quoteDiv.appendChild(mkSuccess('Expected: '+BNBLib.formatBNBer(funds)+' BNB')); setStatus('Quote ready'); }catch(e){ quoteDiv.appendChild(mkError(e.message)); setStatus('Error','#f28b82'); }
+        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const helper=new ethLib.Contract(HELPER3,helperAbi,provider); const amtWei=ethLib.parseUnits(amt,18); const funds=await helper.trySell(addr,amtWei); quoteDiv.appendChild(mkSuccess('Expected: '+ethLib.formatEther(funds)+' BNB')); setStatus('Quote ready'); }catch(e){ quoteDiv.appendChild(mkError(e.message)); setStatus('Error','#f28b82'); }
         quoteBtn.disabled=false;
       };
       sellBtn.onclick=async()=>{
         const addr=addrInp.value.trim(), amt=amtInp.value.trim(); if(!addr||!amt){setStatus('Fill token address and amount','#f28b82');return;}
         sellBtn.disabled=true; sellBtn.textContent='Selling...'; setStatus('Confirm in MetaMask...','#b8956e');
-        try{ const provider=new BNBLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const signer=await provider.getSigner(); const contract=new BNBLib.Contract(MANAGER2,managerAbi,signer); const amtWei=BNBLib.parseUnits(amt,18); const tx=await contract.sellToken(addr,amtWei); setStatus('Waiting for confirmation...','#b8956e'); const receipt=await tx.wait(); quoteDiv.innerHTML=''; quoteDiv.appendChild(mkSuccess('Sold! Tx: '+receipt.hash)); setStatus('Sell successful!','#9ed9b8'); }catch(e){ quoteDiv.innerHTML=''; quoteDiv.appendChild(mkError(e.reason||e.message)); setStatus('Error','#f28b82'); }
+        try{ const provider=new ethLib.BrowserProvider(oliviaEvmProvider || getPreferredMetaMaskProvider()); const signer=await provider.getSigner(); const contract=new ethLib.Contract(MANAGER2,managerAbi,signer); const amtWei=ethLib.parseUnits(amt,18); const tx=await contract.sellToken(addr,amtWei); setStatus('Waiting for confirmation...','#b8956e'); const receipt=await tx.wait(); quoteDiv.innerHTML=''; quoteDiv.appendChild(mkSuccess('Sold! Tx: '+receipt.hash)); setStatus('Sell successful!','#9ed9b8'); }catch(e){ quoteDiv.innerHTML=''; quoteDiv.appendChild(mkError(e.reason||e.message)); setStatus('Error','#f28b82'); }
         sellBtn.disabled=false; sellBtn.textContent='Sell';
       };
     };
@@ -4532,7 +4532,7 @@ function createWorker(nameIndex, startX, startZ, gltfData) {
         // Recolor yellow/warm-colored parts; keep grey, white and black as-is
         if (child.material.color) {
           const hsl = {};
-          child.material.color.gBNBSL(hsl);
+          child.material.color.getHSL(hsl);
           // Yellow range: hue 0.05–0.22, saturation > 0.45
           if (hsl.h >= 0.05 && hsl.h <= 0.22 && hsl.s > 0.45) {
             child.material.color.copy(workerColor);
@@ -4627,7 +4627,7 @@ function createWorker(nameIndex, startX, startZ, gltfData) {
                 ? 'Click to search the internet in real time'
                 : workerName === 'Researcher'
                   ? 'Click to search the internet'
-                  : 'Click for BTC/BNB/SOL indicators';
+                  : 'Click for BTC/ETH/SOL indicators';
       nameLabel.addEventListener('mouseenter', () => {
         nameLabel.classList.add('rt-worker-tag--active');
       });
@@ -4641,7 +4641,7 @@ function createWorker(nameIndex, startX, startZ, gltfData) {
         if (workerName === 'Buzz') fetchLiamSocialTweets();
         if (workerName === 'Forge') showOliviaCustomAgentPanel();
         if (workerName === 'Sage') showEmmaWalletPanel();
-        if (workerName === 'Quant') fetchBNBanMarketSnapshot();
+        if (workerName === 'Quant') fetchEthanMarketSnapshot();
         if (workerName === 'Scout') showChloeResearchModal();
         if (workerName === 'Researcher') showResearcherPanel();
       });
@@ -5209,7 +5209,7 @@ function saveWorkersState() {
         Array.isArray(w.dailyActivities) ? w.dailyActivities : []
       ),
       noahNewsLastAt: w.noahNewsLastAt,
-      BNBanSignalsLastAt: w.BNBanSignalsLastAt,
+      ethanSignalsLastAt: w.ethanSignalsLastAt,
       liamPostedTweets: Array.isArray(w.liamPostedTweets) ? w.liamPostedTweets : [],
       emmaWalletAddress: w.emmaWalletAddress || '',
       phase: w.mesh.userData.phase,
@@ -5251,8 +5251,8 @@ function loadWorkersState() {
         w.dailyActivities = sanitizeWorkerActivities(w.mesh?.userData?.nameIndex, saved.dailyActivities);
       }
       if (saved.noahNewsLastAt == null || Number.isFinite(saved.noahNewsLastAt)) w.noahNewsLastAt = saved.noahNewsLastAt;
-      if (saved.BNBanSignalsLastAt == null || Number.isFinite(saved.BNBanSignalsLastAt)) {
-        w.BNBanSignalsLastAt = saved.BNBanSignalsLastAt;
+      if (saved.ethanSignalsLastAt == null || Number.isFinite(saved.ethanSignalsLastAt)) {
+        w.ethanSignalsLastAt = saved.ethanSignalsLastAt;
       }
       if (Array.isArray(saved.liamPostedTweets)) w.liamPostedTweets = saved.liamPostedTweets;
       if (typeof saved.emmaWalletAddress === 'string') w.emmaWalletAddress = saved.emmaWalletAddress;
@@ -5278,7 +5278,7 @@ for (let i = 0; i < 6; i++) {
     dailyActivities: [],
     liamPostedTweets: [],
     emmaWalletAddress: '',
-    BNBanSignalsLastAt: null,
+    ethanSignalsLastAt: null,
   });
 }
 loadWorkersState();
@@ -5514,7 +5514,7 @@ canvas.addEventListener('click', (e) => {
     if (idx === NAMES.indexOf('Buzz')) fetchLiamSocialTweets();
     if (idx === NAMES.indexOf('Forge')) showOliviaCustomAgentPanel();
     if (idx === NAMES.indexOf('Sage')) showEmmaWalletPanel();
-    if (idx === NAMES.indexOf('Quant')) fetchBNBanMarketSnapshot();
+    if (idx === NAMES.indexOf('Quant')) fetchEthanMarketSnapshot();
     if (idx === NAMES.indexOf('Scout')) showChloeResearchModal();
     if (idx === NAMES.indexOf('Researcher')) showResearcherPanel();
     return;

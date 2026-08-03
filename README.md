@@ -39,7 +39,7 @@ Instead of using tools separately, you **click a worker and execute**.
 ## 👥 The Workers
 
 ### 🟦 Scoop Crypto News
-- Fetches real-time crypto news via `/api/BNBan-news`
+- Fetches real-time crypto news via `/api/ethan-news`
 - AI summaries of relevant headlines
 - Curated information, no noise
 
@@ -54,7 +54,7 @@ Instead of using tools separately, you **click a worker and execute**.
 
 ### 🟩 Forge Token Launcher (Core Feature)
 - Connects to **MetaMask (BNB Chain)**
-- Authenticates with **Ponsfamily**
+- Authenticates with **four.meme**
 - Launches tokens fully on-chain
 
 Includes:
@@ -74,10 +74,10 @@ Also supports **agent task mode** via `/api/olivia-agent`
 ---
 
 ### 🟪 Quant — Market Signals
-- BTC / BNB / SOL overview
+- BTC / ETH / SOL overview
 - AI directional bias
 - Mini charts + news context
-- Powered by `/api/BNBan-market`
+- Powered by `/api/ethan-market`
 
 ---
 
@@ -102,7 +102,7 @@ Global controls affect all workers simultaneously:
 ## 🚀 Forge Flow (Token Launch)
 
 1. Connect MetaMask (BNB Chain)
-2. Sign authentication message (Ponsfamily)
+2. Sign authentication message (four.meme)
 3. Fill token details
 4. Upload image to CDN
 5. Create token via API
@@ -121,7 +121,7 @@ launchFee + devBuy + tradingFee
 
 ## 🔗 Blockchain
 
-- Network: **BNB Chain (BNB)**
+- Network: **BNB Chain (BSC)**
 - Chain ID: `56`
 - Wallet: MetaMask required
 
@@ -157,7 +157,7 @@ Use Forge → connect wallet → fill details → launch
 Only for dev buy + small gas fee
 
 **Why sign a message?**  
-Authentication with Ponsfamily (no gas)
+Authentication with four.meme (no gas)
 
 **Does it save progress?**  
 Yes, via localStorage
@@ -168,10 +168,10 @@ Yes, via localStorage
 
 - Three.js (3D rendering)
 - Web-based UI
-- BNBers.js (on-chain interactions)
+- ethers.js (on-chain interactions)
 - OpenAI APIs (content & agents)
 - BNB Chain (execution layer)
-- Ponsfamily (token infra)
+- four.meme (token infra)
 
 ---
 

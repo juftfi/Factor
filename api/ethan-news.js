@@ -1,14 +1,14 @@
 module.exports = async (req, res) => {
-  res.sBNBeader('Access-Control-Allow-Origin', '*');
-  res.sBNBeader('Access-Control-Allow-MBNBods', 'GET, POST, OPTIONS');
-  res.sBNBeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.mBNBod === 'OPTIONS') {
+  if (req.method === 'OPTIONS') {
     res.status(204).end();
     return;
   }
-  if (req.mBNBod !== 'POST') {
-    res.status(405).json({ error: 'MBNBod Not Allowed' });
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method Not Allowed' });
     return;
   }
 
@@ -105,7 +105,7 @@ module.exports = async (req, res) => {
       )).join('\n');
       const headlineText = headlines.map((h, i) => `${i + 1}. [${h.source}] ${h.title}`).join('\n');
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        mBNBod: 'POST',
+        method: 'POST',
         headers: {
           'content-type': 'application/json',
           authorization: `Bearer ${OPENAI_API_KEY}`,
@@ -116,13 +116,13 @@ module.exports = async (req, res) => {
           messages: [
             {
               role: 'system',
-              content: 'You assess whBNBer today crypto headlines are relevant to BTC, BNB, and SOL short-term price moves. Return strict JSON only.',
+              content: 'You assess whether today crypto headlines are relevant to BTC, ETH, and SOL short-term price moves. Return strict JSON only.',
             },
             {
               role: 'user',
               content:
                 `Markets:\n${marketText}\n\nHeadlines:\n${headlineText}\n\n` +
-                'Return JSON: {"assets":[{"asset":"Bitcoin|BNBereum|Solana","relevant":true|false,"impact":-1.0..1.0,"reason":"short text","headlineIndexes":[1,2]}]}. Use impact 0 when not relevant.',
+                'Return JSON: {"assets":[{"asset":"Bitcoin|Ethereum|Solana","relevant":true|false,"impact":-1.0..1.0,"reason":"short text","headlineIndexes":[1,2]}]}. Use impact 0 when not relevant.',
             },
           ],
         }),
