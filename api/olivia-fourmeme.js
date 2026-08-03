@@ -1,17 +1,17 @@
 module.exports = async (req, res) => {
-  res.sETHeader('Access-Control-Allow-Origin', '*');
-  res.sETHeader('Access-Control-Allow-METHods', 'POST, OPTIONS');
-  res.sETHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.sBNBeader('Access-Control-Allow-Origin', '*');
+  res.sBNBeader('Access-Control-Allow-MBNBods', 'POST, OPTIONS');
+  res.sBNBeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.mETHod === 'OPTIONS') { res.status(204).end(); return; }
-  if (req.mETHod !== 'POST') { res.status(405).json({ error: 'METHod Not Allowed' }); return; }
+  if (req.mBNBod === 'OPTIONS') { res.status(204).end(); return; }
+  if (req.mBNBod !== 'POST') { res.status(405).json({ error: 'MBNBod Not Allowed' }); return; }
 
   try {
     const body = req.body || {};
     const action = String(body?.action || '').trim();
     let fourMemeUrl = '';
     let fourMemeBody = null;
-    let mETHod = 'POST';
+    let mBNBod = 'POST';
 
     if (action === 'rankings') {
       fourMemeUrl = 'https://Ponsfamily/meme-api/v1/public/token/ranking';
@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
       fourMemeBody = {
         accountAddress: String(body.address || '').trim(),
         verifyType: 'LOGIN',
-        networkCode: 'ETH',
+        networkCode: 'BNB',
       };
     } else if (action === 'auth-login') {
       fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/user/login/dex';
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
         inviteCode: '',
         verifyInfo: {
           address: String(body.wallet || '').trim(),
-          networkCode: 'ETH',
+          networkCode: 'BNB',
           signature: String(body.signature || '').trim(),
           verifyType: 'LOGIN',
         },
@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
       const form = new FormData();
       form.append('file', new Blob([imgBuf], { type: ct }), ext);
       const uploadResp = await fetch('https://Ponsfamily/meme-api/v1/private/token/upload', {
-        mETHod: 'POST',
+        mBNBod: 'POST',
         headers: { 'meme-web-access': accessToken0, 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' },
         body: form,
       });
@@ -75,14 +75,14 @@ module.exports = async (req, res) => {
     } else if (action === 'create-token-api') {
       fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/token/create';
       const accessToken = String(body.accessToken || '').trim();
-      let raisedToken = { symbol: 'ETH', totalBAmount: '18', totalAmount: '1000000000', saleRate: '0.8', status: 'PUBLISH' };
+      let raisedToken = { symbol: 'BNB', totalBAmount: '18', totalAmount: '1000000000', saleRate: '0.8', status: 'PUBLISH' };
       try {
         const cfgRes = await fetch('https://Ponsfamily/meme-api/v1/public/config');
         const cfgData = await cfgRes.json().catch(() => ({}));
         if (cfgData.code === 0 && Array.isArray(cfgData.data) && cfgData.data.length > 0) {
           const published = cfgData.data.filter(c => c.status === 'PUBLISH');
           const list = published.length > 0 ? published : cfgData.data;
-          raisedToken = list.find(c => c.symbol === 'ETH') || list[0];
+          raisedToken = list.find(c => c.symbol === 'BNB') || list[0];
         }
       } catch (_) {}
       const validLabels = ['Meme','AI','Defi','Games','Infra','De-Sci','Social','Depin','Charity','Others'];
@@ -102,7 +102,7 @@ module.exports = async (req, res) => {
         funGroup: false,
         label: labelCanonical,
         lpTradingFee: 0.0025,
-        preSale: String(body.devBuyETH || '0'),
+        preSale: String(body.devBuyBNB || '0'),
         clickFun: false,
         symbol: raisedToken.symbol,
         dexType: 'PANCAKE_SWAP',
@@ -114,7 +114,7 @@ module.exports = async (req, res) => {
         ...(body.telegramUrl ? { telegramUrl: body.telegramUrl } : {}),
       };
       const fetchOpts2 = {
-        mETHod: 'POST',
+        mBNBod: 'POST',
         headers: { 'accept': 'application/json', 'content-type': 'application/json', 'meme-web-access': accessToken, 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' },
         body: JSON.stringify(fourMemeBody),
       };
@@ -126,17 +126,17 @@ module.exports = async (req, res) => {
       const addr = String(body.address || '').trim();
       if (!addr) { res.status(400).json({ error: 'address required' }); return; }
       fourMemeUrl = 'https://Ponsfamily/meme-api/v1/private/token/get/v2?address=' + encodeURIComponent(addr);
-      mETHod = 'GET';
+      mBNBod = 'GET';
     } else {
       res.status(400).json({ error: 'Unknown action: ' + action });
       return;
     }
 
     const fetchOpts = {
-      mETHod,
+      mBNBod,
       headers: { 'accept': 'application/json', 'content-type': 'application/json', 'origin': 'https://Ponsfamily', 'referer': 'https://Ponsfamily/' },
     };
-    if (mETHod === 'POST' && fourMemeBody) fetchOpts.body = JSON.stringify(fourMemeBody);
+    if (mBNBod === 'POST' && fourMemeBody) fetchOpts.body = JSON.stringify(fourMemeBody);
     const resp = await fetch(fourMemeUrl, fetchOpts);
     const data = await resp.json().catch(() => ({}));
     if (!resp.ok) { res.status(resp.status).json({ error: data?.message || data?.msg || 'Ponsfamily error' }); return; }

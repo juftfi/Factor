@@ -5,13 +5,13 @@ function pctEncode(str) {
     .replace(/[!'()*]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
 }
 
-function buildOAuthHeader(mETHod, url, body, creds) {
+function buildOAuthHeader(mBNBod, url, body, creds) {
   const oauth = {
     oauth_consumer_key: creds.apiKey,
     oauth_token: creds.accessToken,
     oauth_nonce: crypto.randomBytes(16).toString('hex'),
     oauth_timestamp: String(Math.floor(Date.now() / 1000)),
-    oauth_signature_mETHod: 'HMAC-SHA1',
+    oauth_signature_mBNBod: 'HMAC-SHA1',
     oauth_version: '1.0',
   };
 
@@ -22,7 +22,7 @@ function buildOAuthHeader(mETHod, url, body, creds) {
     .join('&');
 
   const baseString = [
-    mETHod.toUpperCase(),
+    mBNBod.toUpperCase(),
     pctEncode(url),
     pctEncode(paramString),
   ].join('&');
@@ -45,7 +45,7 @@ async function postTweetOAuth1(text, creds) {
   const body = { status: text };
   const auth = buildOAuthHeader('POST', endpoint, body, creds);
   const res = await fetch(endpoint, {
-    mETHod: 'POST',
+    mBNBod: 'POST',
     headers: {
       authorization: auth,
       'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -63,16 +63,16 @@ async function postTweetOAuth1(text, creds) {
 }
 
 module.exports = async (req, res) => {
-  res.sETHeader('Access-Control-Allow-Origin', '*');
-  res.sETHeader('Access-Control-Allow-METHods', 'POST, OPTIONS');
-  res.sETHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.sBNBeader('Access-Control-Allow-Origin', '*');
+  res.sBNBeader('Access-Control-Allow-MBNBods', 'POST, OPTIONS');
+  res.sBNBeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.mETHod === 'OPTIONS') {
+  if (req.mBNBod === 'OPTIONS') {
     res.status(204).end();
     return;
   }
-  if (req.mETHod !== 'POST') {
-    res.status(405).json({ error: 'METHod Not Allowed' });
+  if (req.mBNBod !== 'POST') {
+    res.status(405).json({ error: 'MBNBod Not Allowed' });
     return;
   }
 

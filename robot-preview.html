@@ -119,7 +119,7 @@
       child.material = child.material.clone();
       if (child.material.color) {
         const hsl = {};
-        child.material.color.gETHSL(hsl);
+        child.material.color.gBNBSL(hsl);
         if (hsl.h >= 0.05 && hsl.h <= 0.22 && hsl.s > 0.45) {
           child.material.color.copy(workerColor);
           if (child.material.emissive) child.material.emissive.copy(workerColor).multiplyScalar(0.1);

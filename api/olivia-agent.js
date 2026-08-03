@@ -1,14 +1,14 @@
 module.exports = async (req, res) => {
-  res.sETHeader('Access-Control-Allow-Origin', '*');
-  res.sETHeader('Access-Control-Allow-METHods', 'POST, OPTIONS');
-  res.sETHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.sBNBeader('Access-Control-Allow-Origin', '*');
+  res.sBNBeader('Access-Control-Allow-MBNBods', 'POST, OPTIONS');
+  res.sBNBeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.mETHod === 'OPTIONS') {
+  if (req.mBNBod === 'OPTIONS') {
     res.status(204).end();
     return;
   }
-  if (req.mETHod !== 'POST') {
-    res.status(405).json({ error: 'METHod Not Allowed' });
+  if (req.mBNBod !== 'POST') {
+    res.status(405).json({ error: 'MBNBod Not Allowed' });
     return;
   }
 
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
     ].join('\n');
 
     const openaiResp = await fetch('https://api.openai.com/v1/responses', {
-      mETHod: 'POST',
+      mBNBod: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',

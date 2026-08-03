@@ -1,14 +1,14 @@
 module.exports = async (req, res) => {
-  res.sETHeader('Access-Control-Allow-Origin', '*');
-  res.sETHeader('Access-Control-Allow-METHods', 'GET, OPTIONS');
-  res.sETHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.sBNBeader('Access-Control-Allow-Origin', '*');
+  res.sBNBeader('Access-Control-Allow-MBNBods', 'GET, OPTIONS');
+  res.sBNBeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.mETHod === 'OPTIONS') {
+  if (req.mBNBod === 'OPTIONS') {
     res.status(204).end();
     return;
   }
-  if (req.mETHod !== 'GET') {
-    res.status(405).json({ error: 'METHod Not Allowed' });
+  if (req.mBNBod !== 'GET') {
+    res.status(405).json({ error: 'MBNBod Not Allowed' });
     return;
   }
 
@@ -17,13 +17,13 @@ module.exports = async (req, res) => {
     const cacheTtlMs = 20_000;
     const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
     const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4.1-mini';
-    if (!globalThis.__ETHanSnapshotCache) globalThis.__ETHanSnapshotCache = { at: 0, payload: null };
+    if (!globalThis.__BNBanSnapshotCache) globalThis.__BNBanSnapshotCache = { at: 0, payload: null };
 
-    const parsedUrl = new URL(req.url || '/api/ETHan-market', 'http://localhost');
+    const parsedUrl = new URL(req.url || '/api/BNBan-market', 'http://localhost');
     const forceRefresh = parsedUrl.searchParams.get('refresh') === '1';
     const now = Date.now();
-    if (!forceRefresh && globalThis.__ETHanSnapshotCache.payload && (now - globalThis.__ETHanSnapshotCache.at) < cacheTtlMs) {
-      res.status(200).json(globalThis.__ETHanSnapshotCache.payload);
+    if (!forceRefresh && globalThis.__BNBanSnapshotCache.payload && (now - globalThis.__BNBanSnapshotCache.at) < cacheTtlMs) {
+      res.status(200).json(globalThis.__BNBanSnapshotCache.payload);
       return;
     }
 
@@ -119,7 +119,7 @@ module.exports = async (req, res) => {
       const headlineText = headlines.map((h, i) => `${i + 1}. [${h.source}] ${h.title}`).join('\n');
 
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        mETHod: 'POST',
+        mBNBod: 'POST',
         headers: {
           'content-type': 'application/json',
           authorization: `Bearer ${OPENAI_API_KEY}`,
@@ -130,14 +130,14 @@ module.exports = async (req, res) => {
           messages: [
             {
               role: 'system',
-              content: 'You assess whETHer today crypto headlines are relevant to BTC, ETH, and SOL short-term price moves. Return strict JSON only.',
+              content: 'You assess whBNBer today crypto headlines are relevant to BTC, BNB, and SOL short-term price moves. Return strict JSON only.',
             },
             {
               role: 'user',
               content:
                 `Markets:\n${marketText}\n\n` +
                 `Headlines:\n${headlineText}\n\n` +
-                'Return JSON with this schema exactly: {"assets":[{"asset":"Bitcoin|ETHereum|Solana","relevant":true|false,"impact":-1.0..1.0,"reason":"short text","headlineIndexes":[1,2]}]}.\n' +
+                'Return JSON with this schema exactly: {"assets":[{"asset":"Bitcoin|BNBereum|Solana","relevant":true|false,"impact":-1.0..1.0,"reason":"short text","headlineIndexes":[1,2]}]}.\n' +
                 'Use impact 0 when not relevant. Keep reason concise.',
             },
           ],
@@ -173,7 +173,7 @@ module.exports = async (req, res) => {
 
     const coins = [
       { asset: 'Bitcoin', symbol: 'BTC/USDT', coinId: 'bitcoin', binanceSymbol: 'BTCUSDT' },
-      { asset: 'ETHereum', symbol: 'ETH/USDT', coinId: 'ETHereum', binanceSymbol: 'ETHUSDT' },
+      { asset: 'BNBereum', symbol: 'BNB/USDT', coinId: 'BNBereum', binanceSymbol: 'BNBUSDT' },
       { asset: 'Solana', symbol: 'SOL/USDT', coinId: 'solana', binanceSymbol: 'SOLUSDT' },
     ];
 
@@ -319,7 +319,7 @@ module.exports = async (req, res) => {
       markets.forEach((m) => m.warnings.push('News impact analysis unavailable'));
     }
     const payload = { ok: true, interval, markets };
-    globalThis.__ETHanSnapshotCache = { at: now, payload };
+    globalThis.__BNBanSnapshotCache = { at: now, payload };
     res.status(200).json(payload);
   } catch (err) {
     res.status(500).json({ error: err.message || 'Internal server error' });
